@@ -3,10 +3,10 @@
 
 using namespace std;
 using namespace antlrcpp;
+using namespace corto::script::ast;
 
 Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
-    ast_Declaration declaration = ast_Declaration(
-        corto_declare(NULL, NULL, ast_Declaration_o));
+    Declaration declaration = corto::declare<Declaration_t>();
 
     // Parse type of the declaration
     CortoParser::Object_expressionContext *typeCtx = ctx->object_expression();
@@ -23,7 +23,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
             declarationCtx->object_expression();
         if (idCtx.size()) {
             for (unsigned int i = 0; i < idCtx.size(); i ++) {
-                ast_Id *id = visit(idCtx[i]);
+                Id *id = visit(idCtx[i]);
                 corto_ll_append(declaration->ids, id);
             }
         }
@@ -35,7 +35,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
             vector<CortoParser::ArgumentContext*> argumentCtx =
                 argumentsCtx->argument();
             for (unsigned int i = 0; i < argumentCtx.size(); i ++) {
-                ast_FunctionArgument *argument = visit(argumentCtx[i]);
+                FunctionArgument *argument = visit(argumentCtx[i]);
                 corto_ll_append(declaration->argumentspec, argument);
             }
         }
@@ -54,7 +54,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
 }
 
 Any CortoAstVisitor::visitObject_expression(CortoParser::Object_expressionContext *ctx) {
-    ast_Id type = ast_Id( corto_declare(NULL, NULL, ast_Id_o) );
+    Id type = corto::declare<Id_t>();
 
     CortoParser::Object_identifierContext *idCtx = ctx->object_identifier();
     corto_set_str(&type->id, idCtx->getText().c_str());
@@ -78,8 +78,7 @@ Any CortoAstVisitor::visitObject_identifier(CortoParser::Object_identifierContex
 }
 
 Any CortoAstVisitor::visitInitializer_composite(CortoParser::Initializer_compositeContext *ctx) {
-    ast_Initializer initializer = ast_Initializer(
-        corto_declare(NULL, NULL, ast_Initializer_o) );
+    Initializer initializer = corto::declare<Initializer_t>();
 
     initializer->collection = false;
 
@@ -98,8 +97,7 @@ Any CortoAstVisitor::visitInitializer_composite(CortoParser::Initializer_composi
 }
 
 Any CortoAstVisitor::visitInitializer_collection(CortoParser::Initializer_collectionContext *ctx) {
-    ast_Initializer initializer = ast_Initializer(
-        corto_declare(NULL, NULL, ast_Initializer_o) );
+    Initializer initializer = corto::declare<Initializer_t>();
 
     initializer->collection = true;
 
@@ -125,7 +123,7 @@ Any CortoAstVisitor::visitInitializer_list(CortoParser::Initializer_listContext 
 
     if (valueCtx.size()) {
         for (unsigned int i = 0; i < valueCtx.size(); i ++) {
-            ast_InitializerValue value = visit(valueCtx[i]);
+            InitializerValue value = visit(valueCtx[i]);
             corto_ll_append(values, value);
         }
     }
@@ -134,8 +132,7 @@ Any CortoAstVisitor::visitInitializer_list(CortoParser::Initializer_listContext 
 }
 
 Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContext *ctx) {
-    ast_InitializerValue value = ast_InitializerValue(
-        corto_declare(NULL, NULL, ast_InitializerValue_o) );
+    InitializerValue value = corto::declare<InitializerValue_t>();
 
     // Get key of initializer value
     CortoParser::Initializer_keyContext *keyCtx = ctx->initializer_key();
@@ -159,8 +156,7 @@ Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContex
 }
 
 Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
-    ast_FunctionArgument argument = ast_FunctionArgument(
-        corto_declare(NULL, NULL, ast_FunctionArgument_o) );
+    FunctionArgument argument = corto::declare<FunctionArgument_t>();
 
     // Get argument type
     argument->type = visit ( ctx->object_expression() );
