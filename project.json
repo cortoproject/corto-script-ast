@@ -1,0 +1,12 @@
+{
+    "id": "corto/script/ast",
+    "type": "package",
+    "value": {
+        "description": "Create cortoscript AST from script-parser tree",
+        "author": "Sander Mertens",
+        "version": "1.0.0",
+        "language": "c",
+        "c4cpp": true,
+        "use": ["corto/script/parser", "antlr4/cpp"]
+    }
+}
