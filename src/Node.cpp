@@ -8,3 +8,18 @@ int16_t ast_Node_visit_v(
 {
     return safe_ast_Visitor_visit(visitor, _this);
 }
+
+corto_object ast_Node_getData(
+    ast_Node _this,
+    const char *key)
+{
+    return corto_rb_find(_this->data, key);
+}
+
+void ast_Node_setData(
+    ast_Node _this,
+    const char *key,
+    corto_object value)
+{
+    corto_rb_set(_this->data, key, value);
+}

@@ -16,7 +16,7 @@ corto_word ast_InitializerHelper_offset(
 
     base = baseFrame->ptr[variable];
     if (!base) {
-        ast_Context_error(ast_ctx(), "parser error: base is zero in offset calculation");
+        corto_error("parser error: base is zero in offset calculation");
         goto error;
     }
 
@@ -75,7 +75,7 @@ corto_word ast_InitializerHelper_offset(
                         if (_this->frames[fp].keyPtr[variable]) {
                             result = (corto_word)corto_rb_findPtr(*(corto_rb*)base, (void*)_this->frames[fp].keyPtr[variable]);
                         } else {
-                            ast_Context_error(ast_ctx(), "cannot set element without keyvalue");
+                            corto_error("cannot set element without keyvalue");
                             goto error;
                         }
 
@@ -101,7 +101,8 @@ corto_word ast_InitializerHelper_offset(
 
     default: {
         corto_id id;
-        ast_Context_error(ast_ctx(), "invalid initializer type '%s'", ast_Context_id(frame->type, id));
+        corto_error("invalid initializer type '%s'",
+            corto_fullpath(id, frame->type));
         break;
     }
 
@@ -123,7 +124,7 @@ int16_t ast_StaticInitializerHelper_construct(
         ast_Expression expr = (ast_Expression)corto_iter_next(&it);
         _this->frames[0].ptr[variable] = (corto_word)ast_Object(expr)->value;
         if (!_this->frames[0].ptr[variable]) {
-            ast_Context_error(ast_ctx(), "non-static variable in static initializer");
+            corto_error("non-static variable in static initializer");
             goto error;
         }
 
@@ -155,14 +156,13 @@ int16_t ast_StaticInitializerHelper_define_object(
         {
             if (corto_define(o)) {
                 corto_id id1;
-                ast_Context_error(ast_ctx(), "failed to define '%s': %s",
-                        ast_Context_id(o, id1),
-                        corto_lasterr());
+                corto_error("failed to define '%s'", corto_fullpath(id1, o));
                 goto error;
             }
 
         } else {
-            corto_objectList__append(ast_ctx()->defineAtFinalize, o);
+            /* TODO
+            corto_objectList__append(ast_ctx()->defineAtFinalize, o); */
         }
 
     }
@@ -208,8 +208,8 @@ int16_t ast_StaticInitializerHelper_value(
 
     if (!type) {
         corto_id id;
-        ast_Context_error(ast_ctx(), "excess elements in initializer of type '%s'",
-            ast_Context_id(ast_Expression(_this)->type, id));
+        corto_error("excess elements in initializer of type '%s'",
+            corto_fullpath(id, ast_Expression(_this)->type));
         goto error;
     }
 
@@ -220,8 +220,8 @@ int16_t ast_StaticInitializerHelper_value(
     /* Validate whether expression type matches current type of initializer */
     if (vType && !corto_type_castable(type, vType)) {
         corto_id id, id2;
-        ast_Context_error(ast_ctx(), "expected '%s', got '%s'",
-            ast_Context_id(type, id), ast_Context_id(vType, id2));
+        corto_error("expected '%s', got '%s'",
+            corto_fullpath(id, type), corto_fullpath(id2, vType));
         goto error;
     }
 

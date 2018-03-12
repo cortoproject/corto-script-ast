@@ -7,6 +7,6 @@
         "version": "1.0.0",
         "language": "c",
         "c4cpp": true,
-        "use": ["corto/script/parser", "antlr4/cpp"]
+        "use": ["corto/script/parser", "corto/script/ast/cpp", "antlr4/cpp"]
     }
 }

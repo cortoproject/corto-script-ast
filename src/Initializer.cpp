@@ -30,7 +30,7 @@ int16_t ast_Initializer_populateHelper(
                 goto error;
             }
         } else {
-            ast_Node data = safe_ast_Statement_getData(arg->value);
+            /*ast_Node data = safe_ast_Statement_getData(arg->value);
             if (!data) {
                 corto_throw("%s unexpected in initializer",
                   corto_idof(corto_typeof(arg->value)));
@@ -45,7 +45,7 @@ int16_t ast_Initializer_populateHelper(
                 corto_throw("invalid %s element in initializer",
                   corto_idof(corto_typeof(arg->value)));
                 goto error;
-            }
+            }*/
         }
     }
 
