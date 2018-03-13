@@ -40,4 +40,5 @@ public:
     antlrcpp::Any visitUnary_operator(CortoParser::Unary_operatorContext *ctx) override;
     antlrcpp::Any visitPostfix_expression(CortoParser::Postfix_expressionContext *ctx) override;
     antlrcpp::Any visitInc_operator(CortoParser::Inc_operatorContext *ctx) override;
+    antlrcpp::Any visitPrimary_expression(CortoParser::Primary_expressionContext *ctx) override;
 };

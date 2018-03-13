@@ -18,7 +18,10 @@ test/suite literal:/
 
 test/suite object:/
     void identifier()
+    void full_identifier()
     void nested_identifier()
+    void full_nested_identifier()
+    void root_identifier()
 
 test/suite unary:/
     void literal()
@@ -26,16 +29,18 @@ test/suite unary:/
     void precedence()
 
 test/suite binary:/
-    void literal()
-    void literal_nested()
-    void object()
-    void object_nested()
-    void composite()
-    void composite_nested()
-    void collection()
-    void collection_nested()
-    void precedence()
-    void precedence_paren()
+    void add()
+    void add_nested()
+    void sub()
+    void sub_nested()
+    void mul()
+    void mul_nested()
+    void div()
+    void div_nested()
+    void mod()
+    void mod_nested()
+    void add_mul()
+    void add_mul_paren()
 
 test/suite ternary:/
     void literal()
