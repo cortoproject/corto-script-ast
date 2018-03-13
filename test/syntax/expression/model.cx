@@ -1,0 +1,69 @@
+in package test
+
+test/suite literal:/
+    void boolean_true()
+    void boolean_false()
+    void integer()
+    void signed_integer_plus()
+    void signed_integer_minus()
+    void floating_point()
+    void hexadecimal()
+    void string_single_quote()
+    void string_double_quote()
+    void integer_measurement()
+    void signed_integer_plus_measurement()
+    void signed_integer_minus_measurement()
+    void floating_point_measurement()
+    void null_literal()
+
+test/suite object:/
+    void identifier()
+    void nested_identifier()
+
+test/suite unary:/
+    void literal()
+    void literal_nested()
+    void precedence()
+
+test/suite binary:/
+    void literal()
+    void literal_nested()
+    void object()
+    void object_nested()
+    void composite()
+    void composite_nested()
+    void collection()
+    void collection_nested()
+    void precedence()
+    void precedence_paren()
+
+test/suite ternary:/
+    void literal()
+    void literal_nested()
+    void object()
+    void object_nested()
+    void composite()
+    void composite_nested()
+    void collection()
+    void collection_nested()
+    void precedence()
+    void precedence_paren()
+
+test/suite cast:/
+    void identifier()
+    void nested_identifier()
+    void anonymous()
+    void nested_anonymous()
+    void precedence()
+    void precedence_paren()
+
+test/suite postfix:/
+    void call_arg_0()
+    void call_arg_1()
+    void call_arg_n()
+    void member()
+    void element()
+    void inc()
+    void dec()
+    void precedence()
+    void precedence_paren()

@@ -164,7 +164,6 @@ int16_t ast_StaticInitializerHelper_define_object(
             /* TODO
             corto_objectList__append(ast_ctx()->defineAtFinalize, o); */
         }
-
     }
 
     ast_InitializerHelper_define_object_v(ast_InitializerHelper(_this));

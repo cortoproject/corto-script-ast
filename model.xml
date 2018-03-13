@@ -2,9 +2,9 @@
     <corto:package name="corto/script/ast" url="http://corto.io/doc/corto">
         <corto:object name="Visitor" type="class"/>
         <corto:object name="Initializer" type="class"/>
-        <corto:object name="Scope" type="class"/>
+        <corto:object name="Block" type="class"/>
         <corto:object name="InitializerHelper" type="class"/>
-        <corto:object name="Id" type="class"/>
+        <corto:object name="Object" type="class"/>
         <corto:object name="Expression" type="class"/>
 
         <class name="Node">
@@ -21,24 +21,93 @@
         <class name="FunctionArgument" base="Node">
             <corto:scope>
                 <member name="name" type="lang/string"/>
-                <member name="type" type="script/ast/Id"/>
+                <member name="type" type="script/ast/Object"/>
             </corto:scope>
         </class>
 
         <class name="DeclarationIdentifier" base="Node" baseAccess="hidden">
             <corto:scope>
-                <member name="identifiers" type="list{Id}" modifiers="not_null"/>
+                <member name="identifiers" type="list{script/ast/Object}" modifiers="not_null"/>
                 <member name="arguments" type="list{FunctionArgument}"  modifiers="not_null"/>
             </corto:scope>
         </class>
 
         <class name="Declaration" base="Statement" baseAccess="hidden">
             <corto:scope>
-                <member name="type" type="script/ast/Id"/>
+                <member name="type" type="script/ast/Object"/>
                 <member name="identifier" type="DeclarationIdentifier"/>
                 <member name="isVar" type="lang/bool"/>
                 <member name="initializer" type="script/ast/Initializer"/>
-                <member name="scope" type="script/ast/Scope"/>
+                <member name="scope" type="script/ast/Block"/>
+            </corto:scope>
+        </class>
+
+        <class name="FunctionDeclaration" base="Declaration">
+            <corto:scope>
+                <member name="returnsReference" type="lang/bool"/>
+                <member name="parameters" type="list{Declaration}" modifiers="not_null"/>
+            </corto:scope>
+        </class>
+
+        <class name="Expression" base="Statement">
+            <corto:scope>
+                <member name="type" type="lang/type" modifiers="private"/>
+                <method name="getType()" returnType="lang/type"/>
+                <method name="getTypeForTarget(lang/type target)" returnType="lang/type"/>
+                <method name="serialize(lang/type target,word ptr)" returnType="int16"/>
+                <overridable name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="UnaryExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="expr" type="Expression"/>
+                <member name="operator" type="operatorKind"/>
+                <member name="postfix" type="bool"/>
+            </corto:scope>
+        </class>
+
+        <class name="BinaryExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="left" type="Expression"/>
+                <member name="right" type="Expression"/>
+                <member name="operator" type="operatorKind"/>
+            </corto:scope>
+        </class>
+
+        <class name="TernaryExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="cond" type="Expression"/>
+                <member name="true" type="Expression"/>
+                <member name="false" type="Expression"/>
+            </corto:scope>
+        </class>
+
+        <class name="CastExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="type" type="script/ast/Object"/>
+                <member name="expr" type="Expression"/>
+            </corto:scope>
+        </class>
+
+        <class name="MemberExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="expr" type="Expression"/>
+                <member name="member_id" type="string"/>
+            </corto:scope>
+        </class>
+
+        <class name="ElementExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="expr" type="Expression"/>
+                <member name="key" type="Expression"/>
+            </corto:scope>
+        </class>
+
+        <class name="CallExpression" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="expr" type="Expression"/>
+                <member name="arguments" type="Initializer"/>
             </corto:scope>
         </class>
 
@@ -46,6 +115,102 @@
             <corto:scope>
                 <member name="key" type="string"/>
                 <member name="value" type="Expression"/>
+            </corto:scope>
+        </class>
+
+        <class name="Initializer" base="Expression" baseAccess="hidden">
+            <corto:scope>
+                <member name="collection" type="bool"/>
+                <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
+                <method name="populateHelper(InitializerHelper helper)" returnType="int16"/>
+                <overridable name="visit(Visitor visitor)" returnType="int16"/>
+            </corto:scope>
+        </class>
+
+        <class name="Object" base="Expression">
+            <corto:scope>
+                <member name="id" type="string"/>
+                <member name="initializer" type="script/ast/Initializer"/>
+                <member name="value" type="object"/>
+            </corto:scope>
+        </class>
+
+        <class name="Literal" base="Expression" baseAccess="hidden"/>
+
+        <class name="Number" base="Literal" baseAccess="hidden">
+            <corto:scope>
+                <member name="unit" type="string"/>
+            </corto:scope>
+        </class>
+
+        <class name="Boolean" base="Literal" baseAccess="hidden">
+            <corto:scope>
+                <member name="value" type="bool"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="Character" base="Literal" baseAccess="hidden">
+            <corto:scope>
+                <member name="value" type="char"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="Integer" base="Number">
+            <corto:scope>
+                <member name="value" type="uint64"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="SignedInteger" base="Number">
+            <corto:scope>
+                <member name="value" type="int64"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="FloatingPoint" base="Number">
+            <corto:scope>
+                <member name="value" type="float64"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="String" base="Literal" baseAccess="readonly">
+            <corto:scope>
+                <member name="value" type="string"/>
+                <member name="delim" type="char"/>
+                <method name="init()" returnType="int16"/>
+                <override name="getPtr()" returnType="lang/word"/>
+            </corto:scope>
+        </class>
+
+        <class name="Null" base="Literal" baseAccess="hidden"/>
+
+        <class name="Block" base="Node">
+            <corto:scope>
+                <member name="parent" type="Block"/>
+                <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
+                <method name="addStatement(Statement node)"/>
+                <overridable name="visit(Visitor visitor)" returnType="int16"/>
+            </corto:scope>
+        </class>
+
+        <class name="Visitor">
+            <corto:scope>
+                <method name="visit(Node node)" returnType="int16"/>
+                <overridable name="visitBlock(Block node)" returnType="int16"/>
+                <overridable name="visitStatement(Statement node)" returnType="int16"/>
+                <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
+                <overridable name="visitExpression(Expression node)" returnType="int16"/>
+                <overridable name="visitObject(script/ast/Object node)" returnType="int16"/>
             </corto:scope>
         </class>
 
@@ -101,126 +266,6 @@
                 <method name="push()" returnType="int16"/>
                 <method name="value(Expression v)" returnType="int16"/>
                 <method name="define_object()" returnType="int16"/>
-            </corto:scope>
-        </class>
-
-        <class name="Initializer" base="Node" baseAccess="hidden">
-            <corto:scope>
-                <member name="collection" type="bool"/>
-                <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
-                <method name="populateHelper(InitializerHelper helper)" returnType="int16"/>
-                <overridable name="visit(Visitor visitor)" returnType="int16"/>
-            </corto:scope>
-        </class>
-
-        <class name="FunctionDeclaration" base="Declaration">
-            <corto:scope>
-                <member name="returnsReference" type="lang/bool"/>
-                <member name="parameters" type="list{Declaration}" modifiers="not_null"/>
-            </corto:scope>
-        </class>
-
-        <class name="Expression" base="Statement">
-            <corto:scope>
-                <member name="type" type="lang/type" modifiers="private"/>
-                <method name="getType()" returnType="lang/type"/>
-                <method name="getTypeForTarget(lang/type target)" returnType="lang/type"/>
-                <method name="serialize(lang/type target,word ptr)" returnType="int16"/>
-                <overridable name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="Value" base="Expression"/>
-
-        <class name="Id" base="Value">
-            <corto:scope>
-                <member name="id" type="lang/string"/>
-                <member name="initializer" type="script/ast/Initializer"/>
-            </corto:scope>
-        </class>
-
-        <class name="Literal" base="Expression" baseAccess="hidden"/>
-
-        <class name="Boolean" base="Literal" baseAccess="hidden">
-            <corto:scope>
-                <member name="value" type="bool"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="Character" base="Literal" baseAccess="hidden">
-            <corto:scope>
-                <member name="value" type="char"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="Integer" base="Literal" baseAccess="hidden">
-            <corto:scope>
-                <member name="value" type="uint64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="SignedInteger" base="Literal" baseAccess="hidden">
-            <corto:scope>
-                <member name="value" type="int64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="FloatingPoint" base="Literal" baseAccess="hidden">
-            <corto:scope>
-                <member name="value" type="float64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="String" base="Literal" baseAccess="readonly">
-            <corto:scope>
-                <member name="value" type="string"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="Null" base="Literal" baseAccess="hidden"/>
-
-        <class name="Storage" base="Expression" baseAccess="readonly"/>
-
-        <class name="Object" base="Storage" baseAccess="readonly">
-            <corto:scope>
-                <member name="value" type="object"/>
-                <method name="construct()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
-            </corto:scope>
-        </class>
-
-        <class name="Block" base="Node">
-            <corto:scope>
-                <member name="parent" type="Block"/>
-                <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
-                <method name="addStatement(Statement node)"/>
-                <overridable name="visit(Visitor visitor)" returnType="int16"/>
-            </corto:scope>
-        </class>
-
-        <class name="Scope" base="Block"/>
-
-        <class name="Visitor">
-            <corto:scope>
-                <method name="visit(Node node)" returnType="int16"/>
-                <overridable name="visitBlock(Block node)" returnType="int16"/>
-                <overridable name="visitScope(Scope node)" returnType="int16"/>
-                <overridable name="visitStatement(Statement node)" returnType="int16"/>
-                <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
-                <overridable name="visitExpression(Expression node)" returnType="int16"/>
-                <overridable name="visitId(Id node)" returnType="int16"/>
             </corto:scope>
         </class>
 
