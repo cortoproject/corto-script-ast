@@ -728,12 +728,16 @@ Any CortoAstVisitor::visitPostfix_expression(CortoParser::Postfix_expressionCont
     CortoParser::Primary_expressionContext *primary_ctx = ctx->primary_expression();
     CortoParser::Storage_expressionContext *storage_ctx = ctx->storage_expression();
     CortoParser::Postfix_expressionContext *postfix_ctx = ctx->postfix_expression();
+    CortoParser::Initializer_expressionContext *initializer_ctx = ctx->initializer_expression();
 
     if (primary_ctx) {
         result = safe_visit<Expression_t>(this, primary_ctx);
     } else
     if (storage_ctx) {
         result = safe_visit<Expression_t>(this, storage_ctx);
+    } else
+    if (initializer_ctx) {
+        result = safe_visit<Expression_t>(this, initializer_ctx);
     } else
     if (postfix_ctx) {
         CortoParser::Inc_operatorContext *inc_oper = ctx->inc_operator();

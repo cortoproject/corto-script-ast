@@ -34,6 +34,66 @@ test/suite shorthand_1:/
     void anonymous_type_full_nested_id()
     void anonymous_type_root_id()
 
+test/suite shorthand_1_composite:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_1_collection:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_1_key:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_1_key_composite:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_1_key_collection:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
 test/suite shorthand_1_multi:/
     void named_type_id()
     void named_type_nested_id()
@@ -53,6 +113,54 @@ test/suite shorthand_1_multi_init:/
     void anonymous_type_nested_id()
     void anonymous_type_full_id()
     void anonymous_type_full_nested_id()
+
+test/suite shorthand_2:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_2_key:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_2_key_composite:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_2_key_collection:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
 
 // test/suite shorthand_anonymous_type:/
 
