@@ -229,7 +229,9 @@ Any CortoAstVisitor::visitInitializer_list(CortoParser::Initializer_listContext 
     if (valueCtx.size()) {
         for (unsigned int i = 0; i < valueCtx.size(); i ++) {
             InitializerValue value = safe_visit<InitializerValue_t>(this, valueCtx[i]);
-            corto_ll_append(result->values, value);
+            if (value) {
+                corto_ll_append(result->values, value);
+            }
         }
     }
 
@@ -239,27 +241,29 @@ Any CortoAstVisitor::visitInitializer_list(CortoParser::Initializer_listContext 
 }
 
 Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContext *ctx) {
-    InitializerValue value = corto::declare<InitializerValue_t>();
-
-    // Get key of initializer value
-    CortoParser::Initializer_keyContext *keyCtx = ctx->initializer_key();
-    if (keyCtx) {
-        corto_set_str(&value->key, keyCtx->getText().c_str());
-    }
+    InitializerValue value = NULL;
 
     // Get value, which can be either an expression or an initializer
     CortoParser::ExpressionContext *exprCtx = ctx->expression();
-    if (exprCtx) {
-        value->value = safe_visit<Expression_t>(this, exprCtx);
-    } else {
-        CortoParser::Initializer_expressionContext *initializerCtx =
-            ctx->initializer_expression();
-        if (initializerCtx) {
+    CortoParser::Initializer_expressionContext *initializerCtx =
+        ctx->initializer_expression();
+
+    if (exprCtx || initializerCtx) {
+        value = corto::declare<InitializerValue_t>();
+
+        // Get key of initializer value
+        CortoParser::Initializer_keyContext *keyCtx = ctx->initializer_key();
+        if (keyCtx) {
+            corto_set_str(&value->key, keyCtx->getText().c_str());
+        }
+        if (exprCtx) {
+            value->value = safe_visit<Expression_t>(this, exprCtx);
+        } else {
             value->value = safe_visit<Expression_t>(this, initializerCtx);
         }
-    }
 
-    corto_define(value);
+        corto_define(value);
+    }
 
     return (Node)value;
 }

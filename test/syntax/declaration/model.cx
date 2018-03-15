@@ -12,7 +12,47 @@ test/suite forward:/
     void anonymous_type_full_nested_id()
     void anonymous_type_root_id()
 
-// test/suite shorthand_named_type:/
+test/suite forward_multi:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+
+test/suite shorthand_1:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+test/suite shorthand_1_multi:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+
+test/suite shorthand_1_multi_init:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
 
 // test/suite shorthand_anonymous_type:/
 

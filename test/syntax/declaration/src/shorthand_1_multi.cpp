@@ -2,10 +2,12 @@
 
 #include <include/test.h>
 
-void test_forward_anonymous_type_full_id(
-    test_forward _this)
+
+
+void test_shorthand_1_multi_anonymous_type_full_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo(bar) /hello";
+    char *result, *input = "foo(bar) /hello, /world: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -21,6 +23,13 @@ void test_forward_anonymous_type_full_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: '/hello'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: '/world'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -29,10 +38,11 @@ void test_forward_anonymous_type_full_id(
     free(result);
 }
 
-void test_forward_anonymous_type_full_nested_id(
-    test_forward _this)
+
+void test_shorthand_1_multi_anonymous_type_full_nested_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo(bar) /hello/world";
+    char *result, *input = "foo(bar) /hello/world, /world/hello: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -48,6 +58,13 @@ void test_forward_anonymous_type_full_nested_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: '/hello/world'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: '/world/hello'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -57,10 +74,10 @@ void test_forward_anonymous_type_full_nested_id(
 }
 
 
-void test_forward_anonymous_type_id(
-    test_forward _this)
+void test_shorthand_1_multi_anonymous_type_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo(bar) hello";
+    char *result, *input = "foo(bar) hello, world: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -76,6 +93,13 @@ void test_forward_anonymous_type_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: 'hello'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: 'world'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -85,10 +109,10 @@ void test_forward_anonymous_type_id(
 }
 
 
-void test_forward_anonymous_type_nested_id(
-    test_forward _this)
+void test_shorthand_1_multi_anonymous_type_nested_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo(bar) hello/world";
+    char *result, *input = "foo(bar) hello/world, world/hello: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -104,34 +128,13 @@ void test_forward_anonymous_type_nested_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: 'hello/world'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
-void test_forward_anonymous_type_root_id(
-    test_forward _this)
-{
-    char *result, *input = "foo(bar) root/";
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: StorageInitializer\n"
-        "|   |   |   expr: Identifier\n"
-        "|   |   |   |   id: 'foo'\n"
-        "|   |   |   initializer: Initializer\n"
-        "|   |   |   |   values:\n"
-        "|   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   value: Identifier\n"
-        "|   |   |   |   |   |   |   id: 'bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: 'world/hello'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -140,10 +143,10 @@ void test_forward_anonymous_type_root_id(
     free(result);
 }
 
-void test_forward_named_type_full_id(
-    test_forward _this)
+void test_shorthand_1_multi_named_type_full_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo /hello";
+    char *result, *input = "foo /hello, /world: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -153,6 +156,13 @@ void test_forward_named_type_full_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: '/hello'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: '/world'\n"        
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -161,11 +171,10 @@ void test_forward_named_type_full_id(
     free(result);
 }
 
-
-void test_forward_named_type_full_nested_id(
-    test_forward _this)
+void test_shorthand_1_multi_named_type_full_nested_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo /hello/world";
+    char *result, *input = "foo /hello/world, /world/hello: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -175,6 +184,13 @@ void test_forward_named_type_full_nested_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: '/hello/world'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: '/world/hello'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -184,10 +200,10 @@ void test_forward_named_type_full_nested_id(
 }
 
 
-void test_forward_named_type_id(
-    test_forward _this)
+void test_shorthand_1_multi_named_type_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo hello";
+    char *result, *input = "foo hello, world: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -197,6 +213,13 @@ void test_forward_named_type_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: 'hello'\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: 'world'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -206,10 +229,10 @@ void test_forward_named_type_id(
 }
 
 
-void test_forward_named_type_nested_id(
-    test_forward _this)
+void test_shorthand_1_multi_named_type_nested_id(
+    test_shorthand_1_multi _this)
 {
-    char *result, *input = "foo hello/world";
+    char *result, *input = "foo hello/world, world/hello: 10";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -219,28 +242,13 @@ void test_forward_named_type_nested_id(
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: 'hello/world'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
-void test_forward_named_type_root_id(
-    test_forward _this)
-{
-    char *result, *input = "foo root/";
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: 'world/hello'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: Integer\n"
+        "|   |   |   |   |   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);
