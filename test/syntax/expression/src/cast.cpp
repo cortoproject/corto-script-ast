@@ -2,45 +2,43 @@
 
 #include <include/test.h>
 
-
-
-void test_cast_anonymous(
-    test_cast _this)
-{
-    /* Insert implementation */
-}
-
-
 void test_cast_identifier(
     test_cast _this)
 {
-    /* Insert implementation */
+    char *result, *input = "(foo)bar";
+    char *expect =
+        "statements:\n"
+        "|   Cast\n"
+        "|   |   type: Identifier\n"
+        "|   |   |   id: 'foo'\n"
+        "|   |   expr: Identifier\n"
+        "|   |   |   id: 'bar'\n"
+        ;
+
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
 }
-
-
-void test_cast_nested_anonymous(
-    test_cast _this)
-{
-    /* Insert implementation */
-}
-
 
 void test_cast_nested_identifier(
     test_cast _this)
 {
-    /* Insert implementation */
-}
+    char *result, *input = "(foo)(bar)helloworld";
+    char *expect =
+        "statements:\n"
+        "|   Cast\n"
+        "|   |   type: Identifier\n"
+        "|   |   |   id: 'foo'\n"
+        "|   |   expr: Cast\n"
+        "|   |   |   type: Identifier\n"
+        "|   |   |   |   id: 'bar'\n"
+        "|   |   |   expr: Identifier\n"
+        "|   |   |   |   id: 'helloworld'\n"
+        ;
 
-
-void test_cast_precedence(
-    test_cast _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_cast_precedence_paren(
-    test_cast _this)
-{
-    /* Insert implementation */
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
 }

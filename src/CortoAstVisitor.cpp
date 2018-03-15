@@ -69,9 +69,9 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     ast_Declaration declaration = corto::declare<Declaration_t>();
 
     // Parse type of the declaration
-    CortoParser::Object_expressionContext *typeCtx = ctx->object_expression();
+    CortoParser::Storage_expressionContext *typeCtx = ctx->storage_expression();
     if (typeCtx) {
-        declaration->type = safe_visit<Object_t>(this, typeCtx);
+        declaration->type = safe_visit<Storage_t>(this, typeCtx);
     }
 
     // Parse identifiers of declaration
@@ -79,7 +79,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
         ctx->declaration_identifier();
 
     if (declarationCtx) {
-        declaration->identifier = safe_visit<DeclarationIdentifier_t>(
+        declaration->id = safe_visit<DeclarationIdentifier_t>(
             this,
             declarationCtx);
     }
@@ -107,29 +107,29 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
     DeclarationIdentifier result = corto::declare<DeclarationIdentifier_t>();
 
     // Identifiers are identifiers without a local initializer
-    vector<CortoParser::Object_identifierContext *> idCtx =
-        ctx->object_identifier();
+    vector<CortoParser::Storage_identifierContext *> idCtx =
+        ctx->storage_identifier();
     if (idCtx.size()) {
         for (unsigned int i = 0; i < idCtx.size(); i ++) {
             std::string id = visit(idCtx[i]);
-            Object id_node = corto::declare<Object_t>();
+            Identifier id_node = corto::declare<Identifier_t>();
             if (id == "/root") {
                 id_node->id = corto_strdup("/");
             } else {
                 id_node->id = corto_strdup(id.c_str());
             }
             corto_define(id_node);
-            corto_ll_append(result->identifiers, id_node);
+            corto_ll_append(result->ids, id_node);
         }
     }
 
     // Expressions are identifiers with a local initializer
-    vector<CortoParser::Object_expressionContext *> exprCtx =
-        ctx->object_expression();
+    vector<CortoParser::Storage_expressionContext *> exprCtx =
+        ctx->storage_expression();
     if (exprCtx.size()) {
         for (unsigned int i = 0; i < exprCtx.size(); i ++) {
-            Object id = safe_visit<Object_t>(this, exprCtx[i]);
-            corto_ll_append(result->identifiers, id);
+            Storage id = safe_visit<Storage_t>(this, exprCtx[i]);
+            corto_ll_append(result->ids, id);
         }
     }
 
@@ -150,32 +150,45 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
     return (Node)result;
 }
 
-Any CortoAstVisitor::visitObject_expression(CortoParser::Object_expressionContext *ctx) {
-    Object type = corto::declare<Object_t>();
+Any CortoAstVisitor::visitStorage_expression(CortoParser::Storage_expressionContext *ctx) {
+    Node result = NULL;
 
-    CortoParser::Object_identifierContext *idCtx = ctx->object_identifier();
-    std::string id_str = idCtx->getText();
-    if (id_str == "root/") {
-        corto_set_str(&type->id, "/");
-    } else {
-        corto_set_str(&type->id, idCtx->getText().c_str());
-    }
-
-    // If type is an anonymous type, obtain initializer
-    vector<CortoParser::Initializer_expressionContext*> initCtx =
+    CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
+    CortoParser::Storage_expressionContext *storageCtx =
+        ctx->storage_expression();
+    CortoParser::Initializer_expressionContext* initCtx =
         ctx->initializer_expression();
-    if (initCtx.size() == 1) {
-        type->initializer = safe_visit<Initializer_t>(this, initCtx[0]);
-    } else if (initCtx.size() != 0) {
-        // TODO: handle expressions with multiple initializers
+    antlr4::tree::TerminalNode *memberCtx = ctx->IDENTIFIER();
+
+    if (idCtx) {
+        Identifier id = corto::declare<Identifier_t>();
+        std::string id_str = idCtx->getText();
+        if (id_str == "root/") {
+            corto_set_str(&id->id, "/");
+        } else {
+            corto_set_str(&id->id, idCtx->getText().c_str());
+        }
+        result = (Node)id;
+    } else
+    if (memberCtx) {
+        Member member = corto::declare<Member_t>();
+        member->expr = safe_visit<Storage_t>(this, storageCtx);
+        member->key = corto_strdup(memberCtx->getText().c_str());
+        result = (Node)member;
+    } else
+    if (initCtx) {
+        StorageInitializer member = corto::declare<StorageInitializer_t>();
+        member->expr = safe_visit<Storage_t>(this, storageCtx);
+        member->initializer = safe_visit<Initializer_t>(this, initCtx);
+        result = (Node)member;
     }
 
-    corto_define(type);
+    corto_define(result);
 
-    return (Node)type;
+    return result;
 }
 
-Any CortoAstVisitor::visitObject_identifier(CortoParser::Object_identifierContext *ctx) {
+Any CortoAstVisitor::visitStorage_identifier(CortoParser::Storage_identifierContext *ctx) {
     return ctx->getText();
 }
 
@@ -185,6 +198,8 @@ Any CortoAstVisitor::visitInitializer_composite(CortoParser::Initializer_composi
     CortoParser::Initializer_listContext *valueCtx = ctx->initializer_list();
     if (valueCtx) {
         result = safe_visit<Initializer_t>(this, valueCtx);
+    } else {
+        result = corto::declare<Initializer_t>();
     }
 
     return (Node)result;
@@ -196,8 +211,11 @@ Any CortoAstVisitor::visitInitializer_collection(CortoParser::Initializer_collec
     CortoParser::Initializer_listContext *valueCtx = ctx->initializer_list();
     if (valueCtx) {
         result = safe_visit<Initializer_t>(this, valueCtx);
-        result->collection = true;
+    } else {
+        result = corto::declare<Initializer_t>();
     }
+
+    result->collection = true;
 
     return (Node)result;
 }
@@ -250,7 +268,7 @@ Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
     FunctionArgument argument = corto::declare<FunctionArgument_t>();
 
     // Get argument type
-    argument->type = safe_visit<Object_t>(this, ctx->object_expression());
+    argument->type = safe_visit<Storage_t>(this, ctx->storage_expression());
 
     // Get argument name
     corto_set_str(&argument->name, ctx->IDENTIFIER()->getText().c_str());
@@ -270,11 +288,11 @@ Any CortoAstVisitor::visitAssignment_expression(CortoParser::Assignment_expressi
     }
 
     /* Binary expression */
-    CortoParser::Unary_expressionContext *unary_ctx = ctx->unary_expression();
+    CortoParser::Storage_expressionContext *storage_ctx = ctx->storage_expression();
     CortoParser::Assignment_expressionContext *assign_ctx = ctx->assignment_expression();
-    if (unary_ctx && assign_ctx) {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
-        bExpr->left = safe_visit<Expression_t>(this, unary_ctx);
+    if (storage_ctx && assign_ctx) {
+        Binary bExpr = corto::declare<Binary_t>();
+        bExpr->left = safe_visit<Expression_t>(this, storage_ctx);
         bExpr->right = safe_visit<Expression_t>(this, assign_ctx);
         bExpr->_operator = visit(ctx->assignment_operator());
         corto_define(bExpr);
@@ -337,7 +355,7 @@ Any CortoAstVisitor::visitConditional_expression(CortoParser::Conditional_expres
     if (!true_ctx || !false_ctx) {
         result = safe_visit<Expression_t>(this, cond_ctx);
     } else {
-        TernaryExpression tern = corto::declare<TernaryExpression_t>();
+        Ternary tern = corto::declare<Ternary_t>();
         tern->cond = safe_visit<Expression_t>(this, cond_ctx);
         tern->_true = safe_visit<Expression_t>(this, true_ctx);
         tern->_false = safe_visit<Expression_t>(this, false_ctx);
@@ -357,7 +375,7 @@ Any CortoAstVisitor::visitLogical_or_expression(CortoParser::Logical_or_expressi
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = CORTO_COND_OR;
@@ -377,7 +395,7 @@ Any CortoAstVisitor::visitLogical_and_expression(CortoParser::Logical_and_expres
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = CORTO_COND_AND;
@@ -397,7 +415,7 @@ Any CortoAstVisitor::visitOr_expression(CortoParser::Or_expressionContext *ctx) 
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = CORTO_OR;
@@ -417,7 +435,7 @@ Any CortoAstVisitor::visitXor_expression(CortoParser::Xor_expressionContext *ctx
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = CORTO_XOR;
@@ -437,7 +455,7 @@ Any CortoAstVisitor::visitAnd_expression(CortoParser::And_expressionContext *ctx
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = CORTO_AND;
@@ -456,7 +474,7 @@ Any CortoAstVisitor::visitEquality_expression(CortoParser::Equality_expressionCo
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = visit(ctx->equality_operator());
@@ -490,7 +508,7 @@ Any CortoAstVisitor::visitRelational_expression(CortoParser::Relational_expressi
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = visit(ctx->relational_operator());
@@ -530,7 +548,7 @@ Any CortoAstVisitor::visitShift_expression(CortoParser::Shift_expressionContext 
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = visit(ctx->shift_operator());
@@ -564,7 +582,7 @@ Any CortoAstVisitor::visitAdditive_expression(CortoParser::Additive_expressionCo
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = visit(ctx->additive_operator());
@@ -598,7 +616,7 @@ Any CortoAstVisitor::visitMultiplicative_expression(CortoParser::Multiplicative_
     if (right_ctx && !left_ctx) {
         result = safe_visit<Expression_t>(this, right_ctx);
     } else {
-        BinaryExpression bExpr = corto::declare<BinaryExpression_t>();
+        Binary bExpr = corto::declare<Binary_t>();
         bExpr->left = safe_visit<Expression_t>(this, left_ctx);
         bExpr->right = safe_visit<Expression_t>(this, right_ctx);
         bExpr->_operator = visit(ctx->multiplicative_operator());
@@ -630,14 +648,14 @@ Any CortoAstVisitor::visitCast_expression(CortoParser::Cast_expressionContext *c
     Expression result = NULL;
 
     CortoParser::Unary_expressionContext *unary_ctx = ctx->unary_expression();
-    CortoParser::Object_expressionContext *type_ctx = ctx->object_expression();
+    CortoParser::Storage_expressionContext *type_ctx = ctx->storage_expression();
     CortoParser::Cast_expressionContext *cast_ctx = ctx->cast_expression();
 
     if (unary_ctx) {
         result = safe_visit<Expression_t>(this, unary_ctx);
     } else {
-        CastExpression cExpr = corto::declare<CastExpression_t>();
-        cExpr->type = safe_visit<Object_t>(this, type_ctx);
+        Cast cExpr = corto::declare<Cast_t>();
+        cExpr->type = safe_visit<Storage_t>(this, type_ctx);
         cExpr->expr = safe_visit<Expression_t>(this, cast_ctx);
         corto_define(cExpr);
         result = (Expression)cExpr;
@@ -657,14 +675,14 @@ Any CortoAstVisitor::visitUnary_expression(CortoParser::Unary_expressionContext 
         result = safe_visit<Expression_t>(this, postfix_ctx);
     } else
     if (unary_ctx) {
-        UnaryExpression uExpr = corto::declare<UnaryExpression_t>();
+        Unary uExpr = corto::declare<Unary_t>();
         uExpr->expr = safe_visit<Expression_t>(this, unary_ctx);
         uExpr->_operator = visit(ctx->inc_operator());
         corto_define(uExpr);
         result = (Expression)uExpr;
     } else
     if (cast_ctx) {
-        UnaryExpression uExpr = corto::declare<UnaryExpression_t>();
+        Unary uExpr = corto::declare<Unary_t>();
         uExpr->expr = safe_visit<Expression_t>(this, cast_ctx);
         uExpr->_operator = visit(ctx->unary_operator());
         corto_define(uExpr);
@@ -704,45 +722,25 @@ Any CortoAstVisitor::visitPostfix_expression(CortoParser::Postfix_expressionCont
     Expression result = NULL;
 
     CortoParser::Primary_expressionContext *primary_ctx = ctx->primary_expression();
+    CortoParser::Storage_expressionContext *storage_ctx = ctx->storage_expression();
     CortoParser::Postfix_expressionContext *postfix_ctx = ctx->postfix_expression();
 
     if (primary_ctx) {
         result = safe_visit<Expression_t>(this, primary_ctx);
     } else
+    if (storage_ctx) {
+        result = safe_visit<Expression_t>(this, storage_ctx);
+    } else
     if (postfix_ctx) {
         CortoParser::Inc_operatorContext *inc_oper = ctx->inc_operator();
-        antlr4::tree::TerminalNode *member_id = ctx->IDENTIFIER();
-        CortoParser::ExpressionContext *key_ctx = ctx->expression();
-        CortoParser::Initializer_compositeContext *arguments_ctx = ctx->initializer_composite();
 
         if (inc_oper) {
-            UnaryExpression uExpr = corto::declare<UnaryExpression_t>();
+            Unary uExpr = corto::declare<Unary_t>();
             uExpr->expr = safe_visit<Expression_t>(this, postfix_ctx);
             uExpr->_operator = visit(inc_oper);
             uExpr->postfix = true;
             corto_define(uExpr);
             result = (Expression)uExpr;
-        } else
-        if (member_id) {
-            MemberExpression mExpr = corto::declare<MemberExpression_t>();
-            corto_set_str(&mExpr->member_id, member_id->getText().c_str());
-            mExpr->expr = safe_visit<Expression_t>(this, postfix_ctx);
-            corto_define(mExpr);
-            result = (Expression)mExpr;
-        } else
-        if (key_ctx) {
-            ElementExpression eExpr = corto::declare<ElementExpression_t>();
-            eExpr->key = safe_visit<Expression_t>(this, key_ctx);
-            eExpr->expr = safe_visit<Expression_t>(this, postfix_ctx);
-            corto_define(eExpr);
-            result = (Expression)eExpr;
-        } else
-        if (arguments_ctx) {
-            CallExpression cExpr = corto::declare<CallExpression_t>();
-            cExpr->expr = safe_visit<Expression_t>(this, postfix_ctx);
-            cExpr->arguments = safe_visit<Initializer_t>(this, arguments_ctx);
-            corto_define(cExpr);
-            result = (Expression)cExpr;
         }
     }
 
@@ -766,13 +764,9 @@ Any CortoAstVisitor::visitInc_operator(CortoParser::Inc_operatorContext *ctx) {
 Any CortoAstVisitor::visitPrimary_expression(CortoParser::Primary_expressionContext *ctx) {
     Expression result = NULL;
 
-    CortoParser::LiteralContext * literal_ctx = ctx->literal();
-    CortoParser::Object_expressionContext *obj_ctx = ctx->object_expression();
+    CortoParser::LiteralContext *literal_ctx = ctx->literal();
     CortoParser::ExpressionContext *expr_ctx = ctx->expression();
 
-    if (obj_ctx) {
-        result = safe_visit<Expression_t>(this, obj_ctx);
-    } else
     if (expr_ctx) {
         result = safe_visit<Expression_t>(this, expr_ctx);
     } else

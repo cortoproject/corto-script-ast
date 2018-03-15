@@ -4,7 +4,7 @@
         <corto:object name="Initializer" type="class"/>
         <corto:object name="Block" type="class"/>
         <corto:object name="InitializerHelper" type="class"/>
-        <corto:object name="Object" type="class"/>
+        <corto:object name="Storage" type="class"/>
         <corto:object name="Expression" type="class"/>
 
         <class name="Node">
@@ -21,21 +21,21 @@
         <class name="FunctionArgument" base="Node">
             <corto:scope>
                 <member name="name" type="lang/string"/>
-                <member name="type" type="script/ast/Object"/>
+                <member name="type" type="script/ast/Storage"/>
             </corto:scope>
         </class>
 
         <class name="DeclarationIdentifier" base="Node" baseAccess="hidden">
             <corto:scope>
-                <member name="identifiers" type="list{script/ast/Object}" modifiers="not_null"/>
+                <member name="ids" type="list{script/ast/Storage}" modifiers="not_null"/>
                 <member name="arguments" type="list{FunctionArgument}"  modifiers="not_null"/>
             </corto:scope>
         </class>
 
         <class name="Declaration" base="Statement" baseAccess="hidden">
             <corto:scope>
-                <member name="type" type="script/ast/Object"/>
-                <member name="identifier" type="DeclarationIdentifier"/>
+                <member name="type" type="script/ast/Storage"/>
+                <member name="id" type="DeclarationIdentifier"/>
                 <member name="isVar" type="lang/bool"/>
                 <member name="initializer" type="script/ast/Initializer"/>
                 <member name="scope" type="script/ast/Block"/>
@@ -59,7 +59,7 @@
             </corto:scope>
         </class>
 
-        <class name="UnaryExpression" base="Expression" baseAccess="hidden">
+        <class name="Unary" base="Expression" baseAccess="hidden">
             <corto:scope>
                 <member name="expr" type="Expression"/>
                 <member name="operator" type="operatorKind"/>
@@ -67,7 +67,7 @@
             </corto:scope>
         </class>
 
-        <class name="BinaryExpression" base="Expression" baseAccess="hidden">
+        <class name="Binary" base="Expression" baseAccess="hidden">
             <corto:scope>
                 <member name="left" type="Expression"/>
                 <member name="right" type="Expression"/>
@@ -75,7 +75,7 @@
             </corto:scope>
         </class>
 
-        <class name="TernaryExpression" base="Expression" baseAccess="hidden">
+        <class name="Ternary" base="Expression" baseAccess="hidden">
             <corto:scope>
                 <member name="cond" type="Expression"/>
                 <member name="true" type="Expression"/>
@@ -83,31 +83,10 @@
             </corto:scope>
         </class>
 
-        <class name="CastExpression" base="Expression" baseAccess="hidden">
+        <class name="Cast" base="Expression" baseAccess="hidden">
             <corto:scope>
-                <member name="type" type="script/ast/Object"/>
+                <member name="type" type="script/ast/Storage"/>
                 <member name="expr" type="Expression"/>
-            </corto:scope>
-        </class>
-
-        <class name="MemberExpression" base="Expression" baseAccess="hidden">
-            <corto:scope>
-                <member name="expr" type="Expression"/>
-                <member name="member_id" type="string"/>
-            </corto:scope>
-        </class>
-
-        <class name="ElementExpression" base="Expression" baseAccess="hidden">
-            <corto:scope>
-                <member name="expr" type="Expression"/>
-                <member name="key" type="Expression"/>
-            </corto:scope>
-        </class>
-
-        <class name="CallExpression" base="Expression" baseAccess="hidden">
-            <corto:scope>
-                <member name="expr" type="Expression"/>
-                <member name="arguments" type="Initializer"/>
             </corto:scope>
         </class>
 
@@ -127,11 +106,29 @@
             </corto:scope>
         </class>
 
-        <class name="Object" base="Expression">
+        <class name="Storage" base="Expression">
+            <corto:scope>
+                <member name="value" type="object"/>
+            </corto:scope>
+        </class>
+
+        <class name="Identifier" base="Storage">
             <corto:scope>
                 <member name="id" type="string"/>
+            </corto:scope>
+        </class>
+
+        <class name="StorageInitializer" base="Storage">
+            <corto:scope>
+                <member name="expr" type="Storage"/>
                 <member name="initializer" type="script/ast/Initializer"/>
-                <member name="value" type="object"/>
+            </corto:scope>
+        </class>
+
+        <class name="Member" base="Storage" baseAccess="hidden">
+            <corto:scope>
+                <member name="expr" type="Storage"/>
+                <member name="key" type="string"/>
             </corto:scope>
         </class>
 
@@ -210,7 +207,7 @@
                 <overridable name="visitStatement(Statement node)" returnType="int16"/>
                 <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
                 <overridable name="visitExpression(Expression node)" returnType="int16"/>
-                <overridable name="visitObject(script/ast/Object node)" returnType="int16"/>
+                <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
             </corto:scope>
         </class>
 

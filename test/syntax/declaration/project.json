@@ -1,0 +1,19 @@
+{
+    "id": "test",
+    "type": "package",
+    "value": {
+        "description": "Expression testing for cortoscript",
+        "author": "Sander Mertens",
+        "version": "1.0.0",
+        "language": "c",
+        "public": false,
+        "coverage": false,
+        "c4cpp": true,
+        "use": [
+            "corto/test",
+            "corto/script/ast",
+            "corto/script/ast/print",
+            "antlr4/cpp"
+        ]
+    }
+}

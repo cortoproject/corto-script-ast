@@ -1,0 +1,25 @@
+in package test
+
+test/suite forward:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
+// test/suite shorthand_named_type:/
+
+// test/suite shorthand_anonymous_type:/
+
+// test/suite composite_named_type:/
+
+// test/suite composite_anonymous_type:/
+
+// test/suite collection_named_type:/
+
+// test/suite collection_anonymous_type:/

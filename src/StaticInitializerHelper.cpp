@@ -122,7 +122,7 @@ int16_t ast_StaticInitializerHelper_construct(
     corto_iter it = corto_ll_iter(ast_InitializerHelper(_this)->expressions);
     while (corto_iter_hasNext(&it)) {
         ast_Expression expr = (ast_Expression)corto_iter_next(&it);
-        _this->frames[0].ptr[variable] = (corto_word)ast_Object(expr)->value;
+        _this->frames[0].ptr[variable] = (corto_word)ast_Storage(expr)->value;
         if (!_this->frames[0].ptr[variable]) {
             corto_error("non-static variable in static initializer");
             goto error;
@@ -149,7 +149,7 @@ int16_t ast_StaticInitializerHelper_define_object(
     corto_iter it = corto_ll_iter(ast_InitializerHelper(_this)->expressions);
     while (corto_iter_hasNext(&it)) {
         ast_Expression expr = (ast_Expression)corto_iter_next(&it);
-        o = (corto_object)ast_Object(expr)->value;
+        o = (corto_object)ast_Storage(expr)->value;
         if (corto_instanceof(corto_type(corto_type_o), o)
                 || (corto_check_attr(o, CORTO_ATTR_NAMED) &&
                     corto_instanceof(corto_type(corto_type_o), corto_parentof(o))))

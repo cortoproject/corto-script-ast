@@ -6,8 +6,8 @@ public:
     antlrcpp::Any visitScope(CortoParser::ScopeContext *ctx) override;
     antlrcpp::Any visitDeclaration(CortoParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) override;
-    antlrcpp::Any visitObject_expression(CortoParser::Object_expressionContext *ctx) override;
-    antlrcpp::Any visitObject_identifier(CortoParser::Object_identifierContext *ctx) override;
+    antlrcpp::Any visitStorage_expression(CortoParser::Storage_expressionContext *ctx) override;
+    antlrcpp::Any visitStorage_identifier(CortoParser::Storage_identifierContext *ctx) override;
     antlrcpp::Any visitInitializer_composite(CortoParser::Initializer_compositeContext *ctx) override;
     antlrcpp::Any visitInitializer_collection(CortoParser::Initializer_collectionContext *ctx) override;
     antlrcpp::Any visitInitializer_list(CortoParser::Initializer_listContext *ctx) override;

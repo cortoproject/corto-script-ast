@@ -10,7 +10,6 @@
 #include <corto/script/ast/_project.h>
 #include <corto/c/c.h>
 #include <antlr4/cpp/cpp.h>
-#include <corto/script/ast/cpp/cpp.h>
 #include <corto/script/parser/parser.h>
 
 /* $header() */
@@ -21,6 +20,7 @@
 #include <corto/script/ast/_load.h>
 #include <corto/script/ast/_binding.h>
 #include <corto/script/ast/c/_api.h>
+#include <corto/script/ast/cpp/cpp.h>
 
 /* $body() */
 ast_Node cortoscript_ast_parse(

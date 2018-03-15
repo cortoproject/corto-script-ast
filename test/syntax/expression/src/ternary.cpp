@@ -2,73 +2,76 @@
 
 #include <include/test.h>
 
-
-
-void test_ternary_collection(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_ternary_collection_nested(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_ternary_composite(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_ternary_composite_nested(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
 void test_ternary_literal(
     test_ternary _this)
 {
-    /* Insert implementation */
+    char *result, *input = "10 ? 20 : 30";
+    char *expect =
+        "statements:\n"
+        "|   Ternary\n"
+        "|   |   cond: Integer\n"
+        "|   |   |   value: '10'\n"
+        "|   |   true: Integer\n"
+        "|   |   |   value: '20'\n"
+        "|   |   false: Integer\n"
+        "|   |   |   value: '30'\n"
+        ;
+
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
 }
 
 
-void test_ternary_literal_nested(
+void test_ternary_literal_nested_true(
     test_ternary _this)
 {
-    /* Insert implementation */
+    char *result, *input = "10 ? 20 ? 30 : 40 : 50";
+    char *expect =
+        "statements:\n"
+        "|   Ternary\n"
+        "|   |   cond: Integer\n"
+        "|   |   |   value: '10'\n"
+        "|   |   true: Ternary\n"
+        "|   |   |   cond: Integer\n"
+        "|   |   |   |   value: '20'\n"
+        "|   |   |   true: Integer\n"
+        "|   |   |   |   value: '30'\n"
+        "|   |   |   false: Integer\n"
+        "|   |   |   |   value: '40'\n"
+        "|   |   false: Integer\n"
+        "|   |   |   value: '50'\n"
+        ;
+
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
 }
 
-
-void test_ternary_object(
+void test_ternary_literal_nested_false(
     test_ternary _this)
 {
-    /* Insert implementation */
-}
+    char *result, *input = "10 ? 20 : 30 ? 40 : 50";
+    char *expect =
+        "statements:\n"
+        "|   Ternary\n"
+        "|   |   cond: Integer\n"
+        "|   |   |   value: '10'\n"
+        "|   |   true: Integer\n"
+        "|   |   |   value: '20'\n"
+        "|   |   false: Ternary\n"
+        "|   |   |   cond: Integer\n"
+        "|   |   |   |   value: '30'\n"
+        "|   |   |   true: Integer\n"
+        "|   |   |   |   value: '40'\n"
+        "|   |   |   false: Integer\n"
+        "|   |   |   |   value: '50'\n"
+        ;
 
-
-void test_ternary_object_nested(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_ternary_precedence(
-    test_ternary _this)
-{
-    /* Insert implementation */
-}
-
-
-void test_ternary_precedence_paren(
-    test_ternary _this)
-{
-    /* Insert implementation */
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
 }

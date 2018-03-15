@@ -2,13 +2,13 @@
 
 #include <include/test.h>
 
-void test_object_identifier(
-    test_object _this)
+void test_identifier_identifier(
+    test_identifier _this)
 {
     char *result, *input = "foo";
     char *expect =
         "statements:\n"
-        "|   Object\n"
+        "|   Identifier\n"
         "|   |   id: 'foo'\n"
         ;
 
@@ -18,13 +18,13 @@ void test_object_identifier(
     free(result);
 }
 
-void test_object_full_identifier(
-    test_object _this)
+void test_identifier_full_identifier(
+    test_identifier _this)
 {
     char *result, *input = "/foo";
     char *expect =
         "statements:\n"
-        "|   Object\n"
+        "|   Identifier\n"
         "|   |   id: '/foo'\n"
         ;
 
@@ -34,13 +34,13 @@ void test_object_full_identifier(
     free(result);
 }
 
-void test_object_nested_identifier(
-    test_object _this)
+void test_identifier_nested_identifier(
+    test_identifier _this)
 {
     char *result, *input = "foo/bar";
     char *expect =
         "statements:\n"
-        "|   Object\n"
+        "|   Identifier\n"
         "|   |   id: 'foo/bar'\n"
         ;
 
@@ -50,13 +50,13 @@ void test_object_nested_identifier(
     free(result);
 }
 
-void test_object_full_nested_identifier(
-    test_object _this)
+void test_identifier_full_nested_identifier(
+    test_identifier _this)
 {
     char *result, *input = "/foo/bar";
     char *expect =
         "statements:\n"
-        "|   Object\n"
+        "|   Identifier\n"
         "|   |   id: '/foo/bar'\n"
         ;
 
@@ -66,13 +66,13 @@ void test_object_full_nested_identifier(
     free(result);
 }
 
-void test_object_root_identifier(
-    test_object _this)
+void test_identifier_root_identifier(
+    test_identifier _this)
 {
     char *result, *input = "root/";
     char *expect =
         "statements:\n"
-        "|   Object\n"
+        "|   Identifier\n"
         "|   |   id: '/'\n"
         ;
 

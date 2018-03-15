@@ -8,7 +8,7 @@ void test_unary_literal(
     char *result, *input = "!true";
     char *expect =
         "statements:\n"
-        "|   UnaryExpression\n"
+        "|   Unary\n"
         "|   |   expr: Boolean\n"
         "|   |   |   value: 'true'\n"
         "|   |   operator: 'COND_NOT'\n"
@@ -26,8 +26,8 @@ void test_unary_literal_nested(
     char *result, *input = "++!true";
     char *expect =
         "statements:\n"
-        "|   UnaryExpression\n"
-        "|   |   expr: UnaryExpression\n"
+        "|   Unary\n"
+        "|   |   expr: Unary\n"
         "|   |   |   expr: Boolean\n"
         "|   |   |   |   value: 'true'\n"
         "|   |   |   operator: 'COND_NOT'\n"
@@ -46,11 +46,11 @@ void test_unary_precedence(
     char *result, *input = "!(int32)foo";
     char *expect =
         "statements:\n"
-        "|   UnaryExpression\n"
-        "|   |   expr: CastExpression\n"
-        "|   |   |   type: Object\n"
+        "|   Unary\n"
+        "|   |   expr: Cast\n"
+        "|   |   |   type: Identifier\n"
         "|   |   |   |   id: 'int32'\n"
-        "|   |   |   expr: Object\n"
+        "|   |   |   expr: Identifier\n"
         "|   |   |   |   id: 'foo'\n"
         "|   |   operator: 'COND_NOT'\n"
         ;
