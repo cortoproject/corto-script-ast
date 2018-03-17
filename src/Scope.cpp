@@ -2,15 +2,15 @@
 
 #include <corto/script/ast/ast.h>
 
-void ast_Block_addStatement(
-    ast_Block _this,
+void ast_Scope_addStatement(
+    ast_Scope _this,
     ast_Statement node)
 {
     ast_StatementList__append(_this->statements, node);
 }
 
-int16_t ast_Block_visit_v(
-    ast_Block _this,
+int16_t ast_Scope_visit_v(
+    ast_Scope _this,
     ast_Visitor visitor)
 {
     corto_iter it = corto_ll_iter(_this->statements);

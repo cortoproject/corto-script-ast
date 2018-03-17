@@ -2,7 +2,7 @@
     <corto:package name="corto/script/ast" url="http://corto.io/doc/corto">
         <corto:object name="Visitor" type="class"/>
         <corto:object name="Initializer" type="class"/>
-        <corto:object name="Block" type="class"/>
+        <corto:object name="Scope" type="class"/>
         <corto:object name="InitializerHelper" type="class"/>
         <corto:object name="Storage" type="class"/>
         <corto:object name="Expression" type="class"/>
@@ -38,7 +38,7 @@
                 <member name="id" type="DeclarationIdentifier"/>
                 <member name="isVar" type="lang/bool"/>
                 <member name="initializer" type="script/ast/Initializer"/>
-                <member name="scope" type="script/ast/Block"/>
+                <member name="scope" type="script/ast/Scope"/>
             </corto:scope>
         </class>
 
@@ -191,9 +191,10 @@
 
         <class name="Null" base="Literal" baseAccess="hidden"/>
 
-        <class name="Block" base="Node">
+        <class name="Scope" base="Node">
             <corto:scope>
-                <member name="parent" type="Block"/>
+                <member name="parent" type="Scope"/>
+                <member name="default_type" type="Storage"/>
                 <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
                 <method name="addStatement(Statement node)"/>
                 <overridable name="visit(Visitor visitor)" returnType="int16"/>
@@ -203,7 +204,7 @@
         <class name="Visitor">
             <corto:scope>
                 <method name="visit(Node node)" returnType="int16"/>
-                <overridable name="visitBlock(Block node)" returnType="int16"/>
+                <overridable name="visitScope(Scope node)" returnType="int16"/>
                 <overridable name="visitStatement(Statement node)" returnType="int16"/>
                 <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
                 <overridable name="visitExpression(Expression node)" returnType="int16"/>

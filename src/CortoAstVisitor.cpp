@@ -23,14 +23,16 @@ typename T::_ref safe_visit(CortoAstVisitor *visitor, antlr4::ParserRuleContext 
 }
 
 Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
-    Block block = corto::declare<Block_t>();
+    Scope block = corto::declare<Scope_t>();
 
     vector< CortoParser::StatementContext *> statementCtx = ctx->statement();
 
     if (statementCtx.size()) {
         for (unsigned int i = 0; i < statementCtx.size(); i ++) {
             Statement statement = safe_visit<Statement_t>(this, statementCtx[i]);
-            ast_Block_addStatement(block, statement);
+            if (statement) {
+                ast_Scope_addStatement(block, statement);
+            }
         }
     }
 
@@ -55,11 +57,17 @@ Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
 }
 
 Any CortoAstVisitor::visitScope(CortoParser::ScopeContext *ctx) {
-    Block block = NULL;
+    Scope block = NULL;
 
     CortoParser::StatementsContext *statements_ctx = ctx->statements();
     if (statements_ctx) {
-        block = safe_visit<Block_t>(this, statements_ctx);
+        block = safe_visit<Scope_t>(this, statements_ctx);
+
+        CortoParser::Default_scope_typeContext *type_ctx =
+            ctx->default_scope_type();
+        if (type_ctx) {
+            block->default_type = safe_visit<Storage_t>(this, type_ctx);
+        }
     }
 
     return (Node)block;
@@ -89,13 +97,18 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
         ctx->initializer_assignment();
     if (initializerCtx) {
         declaration->initializer = safe_visit<Initializer_t>(this, initializerCtx);
+    } else {
+        CortoParser::Initializer_shorthandContext *shorthandCtx =
+            ctx->initializer_shorthand();
+        if (shorthandCtx) {
+            declaration->initializer = safe_visit<Initializer_t>(this, shorthandCtx);
+        }
     }
 
     // Parse scope of declaration
     CortoParser::ScopeContext *scope_ctx = ctx->scope();
     if (scope_ctx) {
-        declaration->scope = safe_visit<Block_t>(this, scope_ctx);
-        printf("declaration_scope_ctx = %p\n", declaration->scope);
+        declaration->scope = safe_visit<Scope_t>(this, scope_ctx);
     }
 
     corto_define(declaration);
@@ -146,6 +159,19 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
     }
 
     corto_define(result);
+
+    return (Node)result;
+}
+
+Any CortoAstVisitor::visitDefault_scope_type(CortoParser::Default_scope_typeContext *ctx) {
+    Node result = NULL;
+
+    CortoParser::Storage_expressionContext *storageCtx =
+        ctx->storage_expression();
+
+    if (storageCtx) {
+        result = safe_visit<Node_t>(this, storageCtx);
+    }
 
     return (Node)result;
 }

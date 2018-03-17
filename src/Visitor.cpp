@@ -6,8 +6,8 @@ int16_t ast_Visitor_visit(
     ast_Visitor _this,
     ast_Node node)
 {
-    if (corto_instanceof(ast_Block_o, node)) {
-        if (ast_Visitor_visitBlock(_this, node)) {
+    if (corto_instanceof(ast_Scope_o, node)) {
+        if (ast_Visitor_visitScope(_this, node)) {
             goto error;
         }
     }
@@ -37,9 +37,9 @@ error:
     return -1;
 }
 
-int16_t ast_Visitor_visitBlock_v(
+int16_t ast_Visitor_visitScope_v(
     ast_Visitor _this,
-    ast_Block node)
+    ast_Scope node)
 {
     corto_debug("parser: visit block");
 

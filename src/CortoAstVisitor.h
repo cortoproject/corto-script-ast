@@ -6,6 +6,7 @@ public:
     antlrcpp::Any visitScope(CortoParser::ScopeContext *ctx) override;
     antlrcpp::Any visitDeclaration(CortoParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) override;
+    antlrcpp::Any visitDefault_scope_type(CortoParser::Default_scope_typeContext *ctx) override;
     antlrcpp::Any visitStorage_expression(CortoParser::Storage_expressionContext *ctx) override;
     antlrcpp::Any visitStorage_identifier(CortoParser::Storage_identifierContext *ctx) override;
     antlrcpp::Any visitInitializer_composite(CortoParser::Initializer_compositeContext *ctx) override;
