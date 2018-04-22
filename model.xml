@@ -51,9 +51,10 @@
 
         <class name="Expression" base="Statement">
             <corto:scope>
+                <member name="is_reference" type="bool" modifiers="readonly"/>
                 <member name="type" type="lang/type" modifiers="private"/>
                 <method name="getType()" returnType="lang/type"/>
-                <method name="getTypeForTarget(lang/type target)" returnType="lang/type"/>
+                <method name="getTypeForTarget(lang/type target,ast/Expression target_expr)" returnType="lang/type"/>
                 <method name="serialize(lang/type target,word ptr)" returnType="int16"/>
                 <overridable name="getPtr()" returnType="lang/word"/>
             </corto:scope>
@@ -101,14 +102,17 @@
             <corto:scope>
                 <member name="collection" type="bool"/>
                 <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
-                <method name="populateHelper(InitializerHelper helper)" returnType="int16"/>
+                <method name="apply(InitializerHelper helper)" returnType="int16"/>
                 <overridable name="visit(Visitor visitor)" returnType="int16"/>
             </corto:scope>
         </class>
 
         <class name="Storage" base="Expression">
             <corto:scope>
-                <member name="value" type="object"/>
+                <member name="value" type="word"/>
+                <method name="set_object(object obj)"/>
+                <method name="get_object()" returnType="object"/>
+                <overridable name="getPtr()" returnType="lang/word"/>
             </corto:scope>
         </class>
 
@@ -209,6 +213,7 @@
                 <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
                 <overridable name="visitExpression(Expression node)" returnType="int16"/>
                 <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
+                <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
             </corto:scope>
         </class>
 
@@ -231,7 +236,7 @@
 
         <class name="InitializerHelper">
             <corto:scope>
-                <member name="expressions" type="list{Expression}" modifiers="not_null"/>
+                <member name="expression" type="ast/Expression"/>
                 <member name="frames" type="array{InitializerFrame,64}" modifiers="private|local"/>
                 <member name="fp" type="uint8" modifiers="private|local"/>
                 <method name="construct()" returnType="int16"/>
@@ -239,11 +244,11 @@
                 <method name="type()" returnType="type"/>
                 <overridable name="push()" returnType="int16"/>
                 <overridable name="pop()" returnType="int8"/>
-                <overridable name="value(Expression v)" returnType="int16"/>
+                <overridable name="value(ast/Expression v)" returnType="int16"/>
                 <overridable name="member(string name)" returnType="int32"/>
                 <overridable name="pushKey()" returnType="int16"/>
                 <overridable name="popKey()" returnType="int16"/>
-                <overridable name="valueKey(Expression key)" returnType="int16"/>
+                <overridable name="valueKey(ast/Expression key)" returnType="int16"/>
                 <overridable name="define_object()" returnType="int16"/>
                 <overridable name="next()" returnType="int16"/>
                 <method name="initFrame()" returnType="uint16"/>
@@ -252,8 +257,8 @@
 
         <struct name="StaticInitializerHelperFrame">
             <corto:scope>
-                <member name="ptr" type="array{word,64}"/>
-                <member name="keyPtr" type="array{word,64}"/>
+                <member name="ptr" type="word"/>
+                <member name="keyPtr" type="word"/>
             </corto:scope>
         </struct>
 
@@ -262,7 +267,7 @@
                 <method name="construct()" returnType="int16"/>
                 <member name="frames" type="array{StaticInitializerHelperFrame,64}" modifiers="private|local"/>
                 <method name="push()" returnType="int16"/>
-                <method name="value(Expression v)" returnType="int16"/>
+                <method name="value(ast/Expression v)" returnType="int16"/>
                 <method name="define_object()" returnType="int16"/>
             </corto:scope>
         </class>

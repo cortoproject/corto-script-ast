@@ -2,7 +2,7 @@
 
 #include <corto/script/ast/ast.h>
 
-int16_t ast_Initializer_populateHelper(
+int16_t ast_Initializer_apply(
     ast_Initializer _this,
     ast_InitializerHelper helper)
 {
@@ -22,7 +22,7 @@ int16_t ast_Initializer_populateHelper(
                 goto error;
             }
 
-            if (safe_ast_Initializer_populateHelper(arg->value, helper)) {
+            if (safe_ast_Initializer_apply(arg->value, helper)) {
                 goto error;
             }
 
@@ -30,22 +30,9 @@ int16_t ast_Initializer_populateHelper(
                 goto error;
             }
         } else {
-            /*ast_Node data = safe_ast_Statement_getData(arg->value);
-            if (!data) {
-                corto_throw("%s unexpected in initializer",
-                  corto_idof(corto_typeof(arg->value)));
+            if (ast_InitializerHelper_value(helper, arg->value)) {
                 goto error;
             }
-
-            if (corto_instanceof(ast_Expression_o, data)) {
-                if (ast_InitializerHelper_value(helper, data)) {
-                    goto error;
-                }
-            } else {
-                corto_throw("invalid %s element in initializer",
-                  corto_idof(corto_typeof(arg->value)));
-                goto error;
-            }*/
         }
     }
 

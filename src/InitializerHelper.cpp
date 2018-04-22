@@ -110,7 +110,7 @@ corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_
                     /* If m_out is not set _this function is not used to determine the type
                      * for setting a value in an initializer. */
                     if (m_out) {
-                        corto_error("member out of range");
+                        corto_throw("member out of range");
                     }
                 }
                 break;
@@ -127,19 +127,15 @@ corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_
                 } else {
                     if (m_out) {
                         corto_id id;
-                        corto_error(
+                        corto_throw(
                             "too many elements for non-composite\\collection type '%s'",
                             corto_fullpath(id, t));
                         result = NULL;
                     }
-
                 }
-
                 break;
             }
-
             }
-
         }
 
     } else {
@@ -148,17 +144,15 @@ corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_
         } else {
             corto_id id;
             if (_this->frames[0].type->reference) {
-                corto_error("excess elements in initializer for reference type '%s' (location=%d)",
+                corto_throw("excess elements in initializer for reference type '%s' (location=%d)",
                     corto_fullpath(id, _this->frames[0].type),
                     _this->frames[0].location);
             } else {
-                corto_error("excess elements in initializer for primitive type '%s' (location=%d)",
+                corto_throw("excess elements in initializer for primitive type '%s' (location=%d)",
                     corto_fullpath(id, _this->frames[0].type),
                     _this->frames[0].location);
             }
-
         }
-
     }
 
     return result;
@@ -167,16 +161,15 @@ corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_
 int16_t ast_InitializerHelper_construct(
     ast_InitializerHelper _this)
 {
-    corto_type t = safe_ast_Expression_getType(corto_ll_get(_this->expressions, 0));
-    corto_int32 count = corto_ll_count(_this->expressions);
-
-    if (!count) {
-        corto_error("parser error: no target expression(s) for initializer");
+    corto_type t = NULL;
+    if (!_this->expression) {
+        corto_throw("parser error: no object provided to initializer helper");
         goto error;
     }
 
+    t = safe_ast_Expression_getType(_this->expression);
     if (!t) {
-        corto_error("parser error: invalid object in initializer");
+        corto_throw("parser error: failed to get type of expression");
         goto error;
     }
 
@@ -185,11 +178,13 @@ int16_t ast_InitializerHelper_construct(
     _this->fp = 0;
 
     /* If type of initializer is either a composite or a collection type, do an initial push */
-    if ((((t->kind == CORTO_COMPOSITE) && (corto_interface(t)->kind != CORTO_DELEGATE)) || (t->kind == CORTO_COLLECTION))) {
+    if ((((t->kind == CORTO_COMPOSITE) &&
+        (corto_interface(t)->kind != CORTO_DELEGATE)) ||
+        (t->kind == CORTO_COLLECTION)))
+    {
         if (ast_InitializerHelper_push(_this)) {
             goto error;
         }
-
     }
 
     return 0;
@@ -221,7 +216,7 @@ uint16_t ast_InitializerHelper_initFrame(
     if (_this->fp) {
         t = _this->frames[_this->fp-1].type;
         if (!t) {
-            corto_error("missing type in initializer frame %d", _this->fp - 1);
+            corto_throw("missing type in initializer frame %d", _this->fp - 1);
             goto error;
         }
 
@@ -249,9 +244,7 @@ uint16_t ast_InitializerHelper_initFrame(
             } else {
                 corto_set_ref(&_this->frames[_this->fp].type, NULL);
             }
-
         }
-
     }
 
     return 0;
@@ -268,7 +261,7 @@ int32_t ast_InitializerHelper_member_v(
     ast_InitializerHelper_findMember_t walkData;
 
     if (!_this->fp) {
-        corto_error("unexpected member '%s' in initializer", name);
+        corto_throw("unexpected member '%s' in initializer", name);
         goto error;
     }
 
@@ -291,7 +284,7 @@ int32_t ast_InitializerHelper_member_v(
         /*corto_set_ref(&ast_ctx()->rvalueType, walkData.m->type);*/
     } else {
         corto_id id;
-        corto_error("member '%s' invalid for type '%s'", name,
+        corto_throw("member '%s' invalid for type '%s'", name,
             corto_fullpath(id, t));
         corto_set_ref(&_this->frames[_this->fp].type, NULL);
         goto error;
@@ -320,7 +313,6 @@ error:
 int8_t ast_InitializerHelper_pop_v(
     ast_InitializerHelper _this)
 {
-
     if (_this->fp) {
         _this->fp--;
         ast_InitializerHelper_next(_this);
@@ -351,7 +343,7 @@ int16_t ast_InitializerHelper_push_v(
 
     } else {
         corto_id id;
-        corto_error(
+        corto_throw(
             "unexpected initializer scope for value of reference type '%s'",
             corto_fullpath(id, t));
         goto error;
@@ -372,7 +364,7 @@ int16_t ast_InitializerHelper_pushKey_v(
 corto_type ast_InitializerHelper_type(
     ast_InitializerHelper _this)
 {
-    return safe_ast_Expression_getType(corto_ll_get(_this->expressions, 0));
+    return safe_ast_Expression_getType(_this->expression);
 }
 
 int16_t ast_InitializerHelper_value_v(

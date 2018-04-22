@@ -10,24 +10,29 @@ int16_t ast_Visitor_visit(
         if (ast_Visitor_visitScope(_this, node)) {
             goto error;
         }
-    }
+    } else
     if (corto_instanceof(ast_Declaration_o, node)) {
         if (ast_Visitor_visitDeclaration(_this, node)) {
             goto error;
         }
-    }
-    if (corto_instanceof(ast_Statement_o, node)) {
-        if (ast_Visitor_visitStatement(_this, node)) {
+    } else
+    if (corto_instanceof(ast_Initializer_o, node)) {
+        if (ast_Visitor_visitInitializer(_this, node)) {
             goto error;
         }
-    }
+    } else
+    if (corto_instanceof(ast_Storage_o, node)) {
+        if (ast_Visitor_visitStorage(_this, node)) {
+            goto error;
+        }
+    } else
     if (corto_instanceof(ast_Expression_o, node)) {
         if (ast_Visitor_visitExpression(_this, node)) {
             goto error;
         }
-    }
-    if (corto_instanceof(ast_Storage_o, node)) {
-        if (ast_Visitor_visitStorage(_this, node)) {
+    } else
+    if (corto_instanceof(ast_Statement_o, node)) {
+        if (ast_Visitor_visitStatement(_this, node)) {
             goto error;
         }
     }
@@ -41,10 +46,13 @@ int16_t ast_Visitor_visitScope_v(
     ast_Visitor _this,
     ast_Scope node)
 {
-    corto_debug("parser: visit block");
+    corto_debug("parser: visit scope");
 
-    if (ast_Node_visit(node, _this)) {
-        goto error;
+    corto_iter it = corto_ll_iter(node->statements);
+    while (corto_iter_hasNext(&it)) {
+        if (ast_Visitor_visit(_this, ast_Node( corto_iter_next(&it)))) {
+            goto error;
+        }
     }
 
     return 0;
@@ -90,4 +98,23 @@ int16_t ast_Visitor_visitStorage_v(
 {
     corto_debug("parser: visit object");
     return 0;
+}
+
+int16_t ast_Visitor_visitInitializer_v(
+    ast_Visitor _this,
+    ast_Initializer node)
+{
+    corto_debug("parser: visit initializer");
+
+    corto_iter it = corto_ll_iter(node->values);
+    while (corto_iter_hasNext(&it)) {
+        ast_InitializerValue value = ast_InitializerValue(corto_iter_next(&it));
+        if (ast_Visitor_visit(_this, ast_Node(value->value))) {
+            goto error;
+        }
+    }
+
+    return 0;
+error:
+    return -1;
 }
