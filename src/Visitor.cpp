@@ -64,8 +64,38 @@ int16_t ast_Visitor_visitDeclaration_v(
     ast_Visitor _this,
     ast_Declaration node)
 {
+    corto_iter it;
     corto_debug("parser: visit declaration");
+
+    if (node->type) {
+        if (safe_ast_Visitor_visit(_this, node->type)) {
+            goto error;
+        }
+    }
+
+    it = corto_ll_iter(node->id->ids);
+    while (corto_iter_hasNext(&it)) {
+        ast_Storage storage = ast_Storage(corto_iter_next(&it));
+        if (safe_ast_Visitor_visit(_this, storage)) {
+            goto error;
+        }
+    }
+
+    if (node->initializer) {
+        if (safe_ast_Visitor_visit(_this, node->initializer)) {
+            goto error;
+        }
+    }
+
+    if (node->scope) {
+        if (safe_ast_Visitor_visit(_this, node->scope)) {
+            goto error;
+        }
+    }
+
     return 0;
+error:
+    return -1;
 }
 
 int16_t ast_Visitor_visitExpression_v(
@@ -97,7 +127,20 @@ int16_t ast_Visitor_visitStorage_v(
     ast_Storage node)
 {
     corto_debug("parser: visit object");
+
+    if (corto_instanceof(ast_StorageInitializer_o, node)) {
+        ast_StorageInitializer s = ast_StorageInitializer(node);
+        if (safe_ast_Visitor_visit(_this, s->expr)) {
+            goto error;
+        }
+        if (safe_ast_Visitor_visit(_this, s->initializer)) {
+            goto error;
+        }
+    }
+
     return 0;
+error:
+    return -1;
 }
 
 int16_t ast_Visitor_visitInitializer_v(
