@@ -205,18 +205,6 @@
             </corto:scope>
         </class>
 
-        <class name="Visitor">
-            <corto:scope>
-                <method name="visit(Node node)" returnType="int16"/>
-                <overridable name="visitScope(Scope node)" returnType="int16"/>
-                <overridable name="visitStatement(Statement node)" returnType="int16"/>
-                <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
-                <overridable name="visitExpression(Expression node)" returnType="int16"/>
-                <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
-                <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
-            </corto:scope>
-        </class>
-
         <enum name="InitializerKind">
             <corto:scope>
                 <constant name="InitStatic"/>
@@ -269,6 +257,24 @@
                 <method name="push()" returnType="int16"/>
                 <method name="value(ast/Expression v)" returnType="int16"/>
                 <method name="define_object()" returnType="int16"/>
+            </corto:scope>
+        </class>
+
+        <class name="Visitor">
+            <corto:scope>
+                <method name="visit(Node node)" returnType="int16"/>
+                <overridable name="visitScope(Scope node)" returnType="int16"/>
+                <overridable name="visitStatement(Statement node)" returnType="int16"/>
+                <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
+                <overridable name="visitExpression(Expression node)" returnType="int16"/>
+                <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
+                <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
+            </corto:scope>
+        </class>
+
+        <class name="FoldingVisitor" base="Visitor">
+            <corto:scope>
+                <override name="visitExpression(Expression node)" returnType="int16"/>
             </corto:scope>
         </class>
 

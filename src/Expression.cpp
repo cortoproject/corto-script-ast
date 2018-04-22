@@ -40,49 +40,12 @@ corto_type ast_Expression_getTypeForTarget(
 {
     corto_type result = ast_Expression_getType(_this);
 
-    if (!result) {
-        if (corto_instanceof(ast_Null_o, _this)) {
-            /* If this is a null-expression, type is derived from the target */
-            if (target) {
-                bool primitive_target = target->kind == CORTO_PRIMITIVE;
-                if (target->reference ||
-                   (target_expr && target_expr->is_reference))
-                {
-                    /* If target is a reference, interpret as type of target */
-                    result = target;
-                } else if (primitive_target) {
-                    corto_primitiveKind kind = corto_primitive(target)->kind;
-                    if (kind == CORTO_TEXT) {
-                        /* If target is a string, interpret null as string */
-                        result = corto_type(corto_string_o);
-                    } else if (kind == CORTO_BOOLEAN) {
-                        /* If target is a bool, interpret null as an object */
-                        result = corto_type(corto_object_o);
-                    } else {
-                        /* Can't assign null to other kinds of primitives */
-                        goto error;
-                    }
-                } else {
-                    /* Can't assign null to other values */
-                    goto error;
-                }
-            } else {
-                /* This and target don't have a type. Don't know what to do */
-                goto error;
-            }
-        } else if (corto_instanceof(ast_Initializer_o, _this)) {
-            /* If expression is initializer, assume type of target */
-            result = target;
-        } else {
-            /* Cannot derive type from target */
-            goto error;
-        }
-    } else if ((target && (target->kind == CORTO_VOID) && target->reference)) {
-        result = corto_object_o;
+    if (corto_instanceof(ast_Initializer_o, _this)) {
+        result = target;
+    } else {
+        result = corto_expr_typeof(
+            result, target, target_expr ? target_expr->is_reference : false);
     }
 
     return result;
-error:
-    corto_throw("inconsistent usage of references");
-    return NULL;
 }
