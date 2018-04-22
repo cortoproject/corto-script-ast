@@ -7,7 +7,16 @@ void ast_Storage_set_object(
     corto_object obj)
 {
     _this->value = (uintptr_t)obj;
-    corto_set_ref(&ast_Expression(_this)->type, corto_typeof(obj));
+
+    if (corto_check_attr(obj, CORTO_ATTR_NAMED) &&
+        corto_typeof(obj) == corto_type(corto_constant_o) &&
+        corto_instanceof(corto_enum_o, corto_parentof(obj)))
+    {
+        corto_set_ref(&ast_Expression(_this)->type, corto_parentof(obj));
+    } else {
+        corto_set_ref(&ast_Expression(_this)->type, corto_typeof(obj));
+    }
+
     ast_Expression(_this)->is_reference = true;
 }
 
