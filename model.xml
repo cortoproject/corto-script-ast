@@ -109,7 +109,7 @@
 
         <class name="Storage" base="Expression">
             <corto:scope>
-                <member name="value" type="word"/>
+                <member name="value" type="word" modifiers="local"/>
                 <method name="set_object(object obj)"/>
                 <method name="get_object()" returnType="object"/>
                 <overridable name="getPtr()" returnType="lang/word"/>

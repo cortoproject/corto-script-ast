@@ -8,12 +8,11 @@
 
 #include <corto/corto.h>
 #include <corto/script/ast/_project.h>
+#include <corto/c/c.h>
 
 /* Private dependencies */
 #ifdef CORTO_SCRIPT_AST_IMPL
 #include <antlr4/cpp/cpp.h>
-#include <corto/script/ast/cpp/cpp.h>
-#include <corto/script/ast/c/c.h>
 #include <corto/script/parser/parser.h>
 #endif
 
