@@ -88,6 +88,11 @@ int16_t ast_Initializer_visit_v(
             if (!arg->value->type) {
                 corto_type value_type =
                     ast_InitializerHelper(helper)->frames[helper->fp].type;
+                if (!value_type) {
+                    corto_throw("initializer unexpected for type '%s'",
+                        corto_fullpath(NULL, type));
+                    goto error;
+                }
                 ast_Expression_setType(arg->value, value_type);
                 if (safe_ast_Visitor_visit(visitor, arg->value)) {
                     goto error;
@@ -101,6 +106,11 @@ int16_t ast_Initializer_visit_v(
             if (!arg->value->type) {
                 corto_type value_type =
                     ast_InitializerHelper(helper)->frames[helper->fp].type;
+                if (!value_type) {
+                    corto_throw("value unexpected for type '%s'",
+                        corto_fullpath(NULL, type));
+                    goto error;
+                }
                 ast_Expression_setType(arg->value, value_type);
                 if (safe_ast_Visitor_visit(visitor, arg->value)) {
                     goto error;
