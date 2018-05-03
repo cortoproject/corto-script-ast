@@ -49,3 +49,10 @@ corto_type ast_Expression_getTypeForTarget(
 
     return result;
 }
+
+void ast_Expression_setType(
+    ast_Expression _this,
+    corto_type type)
+{
+    corto_set_ref(&_this->type, type);
+}

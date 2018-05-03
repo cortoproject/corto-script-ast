@@ -149,12 +149,8 @@ int16_t ast_Visitor_visitInitializer_v(
 {
     corto_debug("parser: visit initializer");
 
-    corto_iter it = corto_ll_iter(node->values);
-    while (corto_iter_hasNext(&it)) {
-        ast_InitializerValue value = ast_InitializerValue(corto_iter_next(&it));
-        if (ast_Visitor_visit(_this, ast_Node(value->value))) {
-            goto error;
-        }
+    if (ast_Initializer_visit(node, _this)) {
+        goto error;
     }
 
     return 0;

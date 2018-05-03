@@ -161,23 +161,27 @@ corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_
 int16_t ast_InitializerHelper_construct(
     ast_InitializerHelper _this)
 {
-    corto_type t = NULL;
-    if (!_this->expression) {
-        corto_throw("parser error: no object provided to initializer helper");
-        goto error;
+    corto_type t = _this->frames[0].type;
+
+    /* If an expression is provided, get type from expression */
+    if (_this->expression) {
+        t = safe_ast_Expression_getType(_this->expression);
+        if (!t) {
+            corto_throw("parser error: failed to get type of expression");
+            goto error;
+        }
+
+        /* Initialize first frame with type */
+        corto_set_ref(&_this->frames[0].type, t);
     }
 
-    t = safe_ast_Expression_getType(_this->expression);
     if (!t) {
-        corto_throw("parser error: failed to get type of expression");
+        corto_throw("missing type for initializer helper");
         goto error;
     }
 
-    /* Initialize first frame with type */
-    corto_set_ref(&_this->frames[0].type, t);
-    _this->fp = 0;
-
-    /* If type of initializer is either a composite or a collection type, do an initial push */
+    /* If type of initializer is either a composite or a collection type, do
+     * an initial push */
     if ((((t->kind == CORTO_COMPOSITE) &&
         (corto_interface(t)->kind != CORTO_DELEGATE)) ||
         (t->kind == CORTO_COLLECTION)))

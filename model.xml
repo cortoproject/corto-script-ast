@@ -53,6 +53,7 @@
             <corto:scope>
                 <member name="is_reference" type="bool" modifiers="readonly"/>
                 <member name="type" type="lang/type" modifiers="private"/>
+                <method name="setType(lang/type type)"/>
                 <method name="getType()" returnType="lang/type"/>
                 <method name="getTypeForTarget(lang/type target,ast/Expression target_expr)" returnType="lang/type"/>
                 <method name="serialize(lang/type target,word ptr)" returnType="int16"/>
@@ -252,8 +253,8 @@
 
         <class name="StaticInitializerHelper" base="InitializerHelper">
             <corto:scope>
-                <method name="construct()" returnType="int16"/>
                 <member name="frames" type="array{StaticInitializerHelperFrame,64}" modifiers="private|local"/>
+                <method name="construct()" returnType="int16"/>
                 <method name="push()" returnType="int16"/>
                 <method name="value(ast/Expression v)" returnType="int16"/>
                 <method name="define_object()" returnType="int16"/>

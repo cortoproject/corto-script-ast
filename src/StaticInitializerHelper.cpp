@@ -8,7 +8,8 @@ corto_word ast_InitializerHelper_offset(
 {
     corto_word result, base;
     corto_uint16 fp = ast_InitializerHelper(_this)->fp;
-    ast_InitializerFrame *frame = &ast_InitializerHelper(_this)->frames[fp?fp-1:0];
+    ast_InitializerFrame *frame =
+        &ast_InitializerHelper(_this)->frames[fp?fp-1:0];
     ast_StaticInitializerHelperFrame *baseFrame = &(_this->frames[fp?fp-1:0]);
     ast_InitializerFrame *thisFrame = &ast_InitializerHelper(_this)->frames[fp];
     result = 0;
@@ -52,7 +53,8 @@ corto_word ast_InitializerHelper_offset(
                 base = (corto_word)((corto_objectseq*)base)->buffer;
 
             case CORTO_ARRAY:
-                result = base + thisFrame->location * corto_type_sizeof(elementType);
+                result =
+                    base + thisFrame->location * corto_type_sizeof(elementType);
                 memset((void*)result, 0, elementSize);
                 break;
 
@@ -62,7 +64,8 @@ corto_word ast_InitializerHelper_offset(
                 }
                 corto_ll_append(*(corto_ll*)base, (void*)result);
                 if (!result) {
-                    result = (corto_word)corto_ll_getPtr(*(corto_ll*)base, corto_ll_count(*(corto_ll*)base)-1);
+                    result = (corto_word)corto_ll_getPtr(
+                        *(corto_ll*)base, corto_ll_count(*(corto_ll*)base)-1);
                 }
                 break;
             }
@@ -89,7 +92,8 @@ corto_word ast_InitializerHelper_offset(
                         }
                     }
                 } else {
-                    result = (corto_word)corto_calloc(corto_type_sizeof(keyType));
+                    result = (corto_word)corto_calloc(
+                        corto_type_sizeof(keyType));
                     _this->frames[fp].keyPtr = result;
                     thisFrame->isKey = FALSE;
                 }
@@ -119,16 +123,13 @@ int16_t ast_StaticInitializerHelper_construct(
     ast_StaticInitializerHelper _this)
 {
     ast_Expression expr = ast_InitializerHelper(_this)->expression;
-    if (!expr) {
-        corto_throw("initializer helper is missing expression");
-        goto error;
-    }
-
-    /* Copy offsets of variable into frame */
-    _this->frames[0].ptr = (corto_word)ast_Storage(expr)->value;
-    if (!_this->frames[0].ptr) {
-        corto_throw("non-static variable in static initializer");
-        goto error;
+    if (expr) {
+        /* Copy offsets of variable into frame */
+        _this->frames[0].ptr = (corto_word)ast_Storage(expr)->value;
+        if (!_this->frames[0].ptr) {
+            corto_throw("non-static variable in static initializer");
+            goto error;
+        }
     }
 
     return ast_InitializerHelper_construct(ast_InitializerHelper(_this));
@@ -140,15 +141,17 @@ int16_t ast_StaticInitializerHelper_define_object(
     ast_StaticInitializerHelper _this)
 {
     ast_Expression expr = ast_InitializerHelper(_this)->expression;
-    corto_object o = (corto_object)ast_Storage(expr)->value;
+    if (expr) {
+        corto_object o = (corto_object)ast_Storage(expr)->value;
 
-    if (corto_define(o)) {
-        corto_id id1;
-        corto_throw("failed to define '%s'", corto_fullpath(id1, o));
-        goto error;
+        if (corto_define(o)) {
+            corto_id id1;
+            corto_throw("failed to define '%s'", corto_fullpath(id1, o));
+            goto error;
+        }
+
+        ast_InitializerHelper_define_object_v(ast_InitializerHelper(_this));
     }
-
-    ast_InitializerHelper_define_object_v(ast_InitializerHelper(_this));
     return 0;
 error:
     return -1;
@@ -157,12 +160,15 @@ error:
 int16_t ast_StaticInitializerHelper_push(
     ast_StaticInitializerHelper _this)
 {
-    corto_word offset = ast_InitializerHelper_offset(_this);
-    if (!offset) {
-        goto error;
-    }
+    ast_Expression expr = ast_InitializerHelper(_this)->expression;
+    if (expr) {
+        corto_word offset = ast_InitializerHelper_offset(_this);
+        if (!offset) {
+            goto error;
+        }
 
-    _this->frames[ast_InitializerHelper(_this)->fp].ptr = offset;
+        _this->frames[ast_InitializerHelper(_this)->fp].ptr = offset;
+    }
 
     return ast_InitializerHelper_push_v(ast_InitializerHelper(_this));
 error:
@@ -177,6 +183,7 @@ int16_t ast_StaticInitializerHelper_value(
     corto_uint32 fp = ast_InitializerHelper(_this)->fp;
     corto_type type = safe_ast_InitializerHelper_currentType(_this);
     corto_type vType = NULL;
+    ast_Expression expr = ast_InitializerHelper(_this)->expression;
 
     vType = safe_ast_Expression_getTypeForTarget(v, type, NULL);
 
@@ -200,15 +207,17 @@ int16_t ast_StaticInitializerHelper_value(
         goto error;
     }
 
-    /* Serialize value */
-    offset = ast_InitializerHelper_offset(_this);
-    if (!offset) {
-        goto error;
-    }
+    if (expr) {
+        /* Serialize value */
+        offset = ast_InitializerHelper_offset(_this);
+        if (!offset) {
+            goto error;
+        }
 
-    _this->frames[fp].ptr = offset;
-    if (ast_Expression_serialize(v, type, offset)) {
-        goto error;
+        _this->frames[fp].ptr = offset;
+        if (ast_Expression_serialize(v, type, offset)) {
+            goto error;
+        }
     }
 
     return ast_InitializerHelper_next(ast_InitializerHelper(_this));
