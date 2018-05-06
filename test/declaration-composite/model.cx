@@ -36,6 +36,18 @@ test/suite composite_1_composite:/
     void anonymous_type_full_nested_id()
     void anonymous_type_root_id()
 
+test/suite composite_1_composite_single_value:/
+    void named_type_id()
+    void named_type_nested_id()
+    void named_type_full_id()
+    void named_type_full_nested_id()
+    void named_type_root_id()
+    void anonymous_type_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_id()
+    void anonymous_type_full_nested_id()
+    void anonymous_type_root_id()
+
 test/suite composite_1_collection:/
     void named_type_id()
     void named_type_nested_id()

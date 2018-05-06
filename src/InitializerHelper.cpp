@@ -270,6 +270,11 @@ int32_t ast_InitializerHelper_member_v(
     }
 
     t = _this->frames[_this->fp-1].type;
+    if (!t) {
+        corto_throw("missing type to lookup member '%s' in", name);
+        goto error;
+    }
+
     s = ast_findMemberSerializer(TRUE);
     walkData.id = 0;
     walkData.count = 0;
@@ -344,7 +349,6 @@ int16_t ast_InitializerHelper_push_v(
         if (ast_InitializerHelper_initFrame(_this)) {
             goto error;
         }
-
     } else {
         corto_id id;
         corto_throw(

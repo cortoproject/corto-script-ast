@@ -13,6 +13,54 @@ int16_t ast_Initializer_apply(
 
         if (arg->key) {
             if (ast_InitializerHelper_member(helper, arg->key)) {
+                corto_throw(NULL);
+                goto error;
+            }
+        }
+
+        if (corto_instanceof(ast_Initializer_o, arg->value)) {
+            if (ast_InitializerHelper_push(helper)) {
+                corto_throw(NULL);
+                goto error;
+            }
+
+            if (safe_ast_Initializer_apply(arg->value, helper)) {
+                corto_throw(NULL);
+                goto error;
+            }
+
+            if (ast_InitializerHelper_pop(helper)) {
+                corto_throw(NULL);
+                goto error;
+            }
+        } else {
+            if (ast_InitializerHelper_value(helper, arg->value)) {
+                corto_throw(NULL);
+                goto error;
+            }
+        }
+    }
+
+    return 0;
+error:
+    return -1;
+}
+
+int16_t ast_Initializer_visit_values(
+    ast_Initializer _this,
+    ast_Visitor visitor,
+    ast_InitializerHelper helper)
+{
+    corto_iter it = corto_ll_iter(_this->values);
+    corto_type type = ast_Expression(_this)->type;
+
+    /* Visit the values in the initializer, pre-set their type */
+    while (corto_iter_hasNext(&it)) {
+        ast_InitializerValue arg = (ast_InitializerValue)corto_iter_next(&it);
+
+        if (arg->key) {
+            if (ast_InitializerHelper_member(helper, arg->key)) {
+                corto_throw(NULL);
                 goto error;
             }
         }
@@ -22,16 +70,42 @@ int16_t ast_Initializer_apply(
                 goto error;
             }
 
-            if (safe_ast_Initializer_apply(arg->value, helper)) {
-                goto error;
+            if (!arg->value->type) {
+                corto_type value_type =
+                    ast_InitializerHelper(helper)->frames[helper->fp].type;
+                if (!value_type) {
+                    corto_throw("initializer unexpected for type '%s'",
+                        corto_fullpath(NULL, type));
+                    goto error;
+                }
+                ast_Expression_setType(arg->value, value_type);
+                if (safe_ast_Initializer_visit_values(
+                    arg->value,
+                    visitor,
+                    helper))
+                {
+                    corto_throw(NULL);
+                    goto error;
+                }
             }
 
             if (ast_InitializerHelper_pop(helper)) {
                 goto error;
             }
         } else {
-            if (ast_InitializerHelper_value(helper, arg->value)) {
-                goto error;
+            if (!arg->value->type) {
+                corto_type value_type =
+                    ast_InitializerHelper(helper)->frames[helper->fp].type;
+                if (!value_type) {
+                    corto_throw("value unexpected for type '%s'",
+                        corto_fullpath(NULL, type));
+                    goto error;
+                }
+                ast_Expression_setType(arg->value, value_type);
+                if (safe_ast_Visitor_visit(visitor, arg->value)) {
+                    corto_throw(NULL);
+                    goto error;
+                }
             }
         }
     }
@@ -45,7 +119,6 @@ int16_t ast_Initializer_visit_v(
     ast_Initializer _this,
     ast_Visitor visitor)
 {
-    corto_iter it = corto_ll_iter(_this->values);
     corto_type type = ast_Expression(_this)->type;
     ast_InitializerHelper helper = NULL;
 
@@ -70,53 +143,8 @@ int16_t ast_Initializer_visit_v(
         goto error;
     }
 
-    /* Visit the values in the initializer, pre-set their type */
-    while (corto_iter_hasNext(&it)) {
-        ast_InitializerValue arg = (ast_InitializerValue)corto_iter_next(&it);
-
-        if (arg->key) {
-            if (ast_InitializerHelper_member(helper, arg->key)) {
-                goto error;
-            }
-        }
-
-        if (corto_instanceof(ast_Initializer_o, arg->value)) {
-            if (ast_InitializerHelper_push(helper)) {
-                goto error;
-            }
-
-            if (!arg->value->type) {
-                corto_type value_type =
-                    ast_InitializerHelper(helper)->frames[helper->fp].type;
-                if (!value_type) {
-                    corto_throw("initializer unexpected for type '%s'",
-                        corto_fullpath(NULL, type));
-                    goto error;
-                }
-                ast_Expression_setType(arg->value, value_type);
-                if (safe_ast_Visitor_visit(visitor, arg->value)) {
-                    goto error;
-                }
-            }
-
-            if (ast_InitializerHelper_pop(helper)) {
-                goto error;
-            }
-        } else {
-            if (!arg->value->type) {
-                corto_type value_type =
-                    ast_InitializerHelper(helper)->frames[helper->fp].type;
-                if (!value_type) {
-                    corto_throw("value unexpected for type '%s'",
-                        corto_fullpath(NULL, type));
-                    goto error;
-                }
-                ast_Expression_setType(arg->value, value_type);
-                if (safe_ast_Visitor_visit(visitor, arg->value)) {
-                    goto error;
-                }
-            }
-        }
+    if (ast_Initializer_visit_values(_this, visitor, helper)) {
+        goto error;
     }
 
     corto_delete(helper);

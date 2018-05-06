@@ -105,6 +105,7 @@
                 <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
                 <method name="apply(InitializerHelper helper)" returnType="int16"/>
                 <overridable name="visit(Visitor visitor)" returnType="int16"/>
+                <method name="visit_values(Visitor visitor,InitializerHelper helper)" returnType="int16"/>
             </corto:scope>
         </class>
 
