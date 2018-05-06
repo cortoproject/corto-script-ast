@@ -13,7 +13,11 @@ typedef struct ast_InitializerHelper_findMember_t {
 } ast_InitializerHelper_findMember_t;
 
 /* Walk members, look it up */
-corto_int16 ast_InitializerHelper_findMember(corto_walk_opt* s, corto_value* v, void* userData) {
+int16_t ast_InitializerHelper_findMember(
+    corto_walk_opt* s,
+    corto_value* v,
+    void* userData)
+{
     corto_uint32 result;
     ast_InitializerHelper_findMember_t* data;
 
@@ -25,17 +29,20 @@ corto_int16 ast_InitializerHelper_findMember(corto_walk_opt* s, corto_value* v, 
         if (v->is.member.t->id == (corto_uint32)-1) {
             result = corto_walk_value(s, v, userData);
         } else {
-            if ((data->lookForLocation >= 0) && ((corto_uint32)data->lookForLocation == data->count)) {
+            if ((data->lookForLocation >= 0) &&
+                ((corto_uint32)data->lookForLocation == data->count))
+            {
                 data->m = v->is.member.t;
                 data->id = data->count;
                 goto found;
-            } else if (data->lookForString && !strcmp(data->lookForString, corto_idof(v->is.member.t))) {
+            } else if (data->lookForString &&
+                !strcmp(data->lookForString, corto_idof(v->is.member.t)))
+            {
                 data->m = v->is.member.t;
                 data->id = data->count;
                 if (data->current >= data->count) {
                     goto found;
                 }
-
             }
 
             data->count++;
@@ -69,7 +76,10 @@ corto_walk_opt ast_findMemberSerializer(corto_bool findHidden) {
     return s;
 }
 
-corto_type ast_Context_initGetType(ast_InitializerHelper _this, corto_member *m_out) {
+corto_type ast_Context_initGetType(
+    ast_InitializerHelper _this,
+    corto_member *m_out)
+{
     corto_type t, result;
 
     result = NULL;
@@ -239,15 +249,15 @@ uint16_t ast_InitializerHelper_initFrame(
             _this->frames[_this->fp].location = walkData.id;
             corto_set_ref(&_this->frames[_this->fp].member, walkData.m);
             corto_set_ref(&_this->frames[_this->fp].type, walkData.m->type);
-            /*corto_set_ref(&ast_ctx()->rvalueType, walkData.m->type);*/
+            _this->frames[_this->fp].offset = walkData.m->offset;
         } else {
             corto_set_ref(&_this->frames[_this->fp].member, NULL);
             if (t->kind == CORTO_COLLECTION) {
                 corto_set_ref(&_this->frames[_this->fp].type, corto_collection(t)->elementType);
-                /*corto_set_ref(&ast_ctx()->rvalueType, corto_collection(t)->elementType);*/
             } else {
                 corto_set_ref(&_this->frames[_this->fp].type, NULL);
             }
+            _this->frames[_this->fp].offset = 0;
         }
     }
 
@@ -261,40 +271,60 @@ int32_t ast_InitializerHelper_member_v(
     const char *name)
 {
     corto_walk_opt s;
-    corto_type t;
+    corto_type type;
     ast_InitializerHelper_findMember_t walkData;
+    corto_id full_member_id;
+    char *member_id;
+    uintptr_t offset = 0;
 
     if (!_this->fp) {
         corto_throw("unexpected member '%s' in initializer", name);
         goto error;
     }
 
-    t = _this->frames[_this->fp-1].type;
-    if (!t) {
+    type = _this->frames[_this->fp-1].type;
+    if (!type) {
         corto_throw("missing type to lookup member '%s' in", name);
         goto error;
     }
 
     s = ast_findMemberSerializer(TRUE);
-    walkData.id = 0;
-    walkData.count = 0;
-    walkData.lookForLocation = -1;
-    walkData.lookForString = name;
-    walkData.m = NULL;
-    walkData.current = _this->frames[_this->fp].location;
-    if (t->kind == CORTO_COMPOSITE) {
-        corto_metawalk(&s, t, &walkData);
+
+    /* Support nested member ids, separated by a '.' */
+    strcpy(full_member_id, name);
+    member_id = strtok(full_member_id, ".");
+    while (member_id) {
+        walkData.id = 0;
+        walkData.count = 0;
+        walkData.lookForLocation = -1;
+        walkData.lookForString = member_id;
+        walkData.m = NULL;
+        walkData.current = _this->frames[_this->fp].location;
+
+        if (type->kind == CORTO_COMPOSITE) {
+            corto_metawalk(&s, type, &walkData);
+        } else {
+            corto_throw("cannot resolve member '%s' in non-composite type '%s'",
+                member_id, corto_fullpath(NULL, type));
+            goto error;
+        }
+
+        if (walkData.m) {
+            type = walkData.m->type;
+            offset += walkData.m->offset;
+        }
+
+        member_id = strtok(NULL, ".");
     }
 
     if (walkData.m) {
-        /* _this->frames[_this->fp].location = walkData.id; */
         corto_set_ref(&_this->frames[_this->fp].member, walkData.m);
         corto_set_ref(&_this->frames[_this->fp].type, walkData.m->type);
-        /*corto_set_ref(&ast_ctx()->rvalueType, walkData.m->type);*/
+        _this->frames[_this->fp].offset = offset;
     } else {
         corto_id id;
         corto_throw("member '%s' invalid for type '%s'", name,
-            corto_fullpath(id, t));
+            corto_fullpath(id, type));
         corto_set_ref(&_this->frames[_this->fp].type, NULL);
         goto error;
     }

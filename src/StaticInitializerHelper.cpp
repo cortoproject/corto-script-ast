@@ -27,11 +27,7 @@ corto_word ast_InitializerHelper_offset(
         break;
 
     case CORTO_COMPOSITE:
-        if (fp) {
-            result = base + thisFrame->member->offset;
-        } else {
-            result = base;
-        }
+        result = base + thisFrame->offset;
         break;
 
     case CORTO_ITERATOR:

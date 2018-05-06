@@ -221,6 +221,7 @@
                 <member name="type" type="type"/>
                 <member name="isKey" type="bool"/>
                 <member name="member" type="member"/>
+                <member name="offset" type="word"/>
             </corto:scope>
         </struct>
 
