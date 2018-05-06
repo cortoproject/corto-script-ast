@@ -59,13 +59,16 @@ corto_word ast_InitializerHelper_offset(
                 break;
 
             case CORTO_LIST: {
+                corto_ll list = *(corto_ll*)base;
+
                 if (corto_collection_requiresAlloc(elementType)) {
                     result = (corto_word)corto_ptr_new(elementType);
                 }
-                corto_ll_append(*(corto_ll*)base, (void*)result);
+                corto_ll_append(list, (void*)result);
                 if (!result) {
                     result = (corto_word)corto_ll_getPtr(
-                        *(corto_ll*)base, corto_ll_count(*(corto_ll*)base)-1);
+                        list,
+                        corto_ll_count(list)-1);
                 }
                 break;
             }
@@ -161,8 +164,11 @@ int16_t ast_StaticInitializerHelper_push(
     ast_StaticInitializerHelper _this)
 {
     ast_Expression expr = ast_InitializerHelper(_this)->expression;
+    int16_t ret = 0;
+    uintptr_t offset = 0;
+
     if (expr) {
-        corto_word offset = ast_InitializerHelper_offset(_this);
+        offset = ast_InitializerHelper_offset(_this);
         if (!offset) {
             goto error;
         }
@@ -170,7 +176,27 @@ int16_t ast_StaticInitializerHelper_push(
         _this->frames[ast_InitializerHelper(_this)->fp].ptr = offset;
     }
 
-    return ast_InitializerHelper_push_v(ast_InitializerHelper(_this));
+    ret = ast_InitializerHelper_push_v(ast_InitializerHelper(_this));
+    if (ret) {
+        goto error;
+    }
+
+    /* If a collection is pushed, check if collection must be allocated */
+    if (expr) {
+        ast_InitializerHelper base = ast_InitializerHelper(_this);
+        corto_type type = base->frames[base->fp - 1].type;
+        if (type->kind == CORTO_COLLECTION) {
+            corto_collection collection_type = corto_collection(type);
+            if (collection_type->kind == CORTO_LIST) {
+                if (!*(corto_ll*)offset) {
+                    /* If list isn't allocated, this is not a not_null list. */
+                    *(corto_ll*)offset = corto_ll_new();
+                }
+            }
+        }
+    }
+
+    return 0;
 error:
     return -1;
 }
