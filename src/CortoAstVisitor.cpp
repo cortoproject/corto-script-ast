@@ -851,7 +851,8 @@ Any CortoAstVisitor::visitLiteral(CortoParser::LiteralContext *ctx) {
     if ((node = ctx->FLOATING_POINT_MEASUREMENT())) {
         char *str = strdup(node->getText().c_str());
         char *ptr = NULL;
-        double value = strtof(str, &ptr);
+        strtof(str, &ptr);
+        double value = atof(str); /* Use double precision */
         result = (Node)ast_FloatingPoint__create(NULL, NULL, ptr, value);
         free(str);
     } else
