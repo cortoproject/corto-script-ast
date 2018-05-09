@@ -43,6 +43,13 @@ void cortoscript_ast_visit(
     ast_Node node,
     void *ctx);
 
+ast_Expression cortoscript_ast_from_value(
+    corto_value *value);
+
+int16_t cortoscript_ast_to_value(
+    ast_Node root,
+    corto_value *value_out);
+
 #ifdef __cplusplus
 }
 #endif

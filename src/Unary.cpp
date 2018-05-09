@@ -2,9 +2,10 @@
 
 #include <corto/script/ast/ast.h>
 
-int16_t ast_FoldingVisitor_visitExpression(
-    ast_FoldingVisitor _this,
-    ast_Expression node)
+
+
+ast_Expression ast_Unary_fold(
+    ast_Unary _this)
 {
     /* Insert implementation */
 }

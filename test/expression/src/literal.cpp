@@ -167,11 +167,11 @@ void test_literal_floating_point_signed_scientific_minus_e_upper(
 void test_literal_floating_point_signed_scientific_plus_e(
     test_literal _this)
 {
-    char *result, *input = "-10.5e+2";
+    char *result, *input = "10.5e+2";
     char *expect =
         "statements:\n"
         "|   FloatingPoint\n"
-        "|   |   value: '-1050.000000'\n"
+        "|   |   value: '1050.000000'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -523,23 +523,6 @@ void test_literal_floating_point_measurement_scientific_plus_e(
         "|   FloatingPoint\n"
         "|   |   unit: 'ft'\n"
         "|   |   value: '1050.000000'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-void test_literal_integer_measurement_scientific(
-    test_literal _this)
-{
-    char *result, *input = "10ft";
-    char *expect =
-        "statements:\n"
-        "|   Integer\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '10'\n"
         ;
 
     result = cortoscript_code_to_string(input);

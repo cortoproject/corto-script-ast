@@ -40,6 +40,10 @@ corto_type ast_Expression_getTypeForTarget(
 {
     corto_type result = ast_Expression_getType(_this);
 
+    if (!target && target_expr) {
+        target = ast_Expression_getType(target_expr);
+    }
+
     if (corto_instanceof(ast_Initializer_o, _this)) {
         result = target;
     } else {
@@ -55,4 +59,12 @@ void ast_Expression_setType(
     corto_type type)
 {
     corto_set_ref(&_this->type, type);
+}
+
+ast_Expression ast_Expression_fold_v(
+    ast_Expression _this)
+{
+    /* If function is not overridden, there's nothing to fold & just return this
+     * expression. */
+    return _this;
 }

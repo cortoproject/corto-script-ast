@@ -2,6 +2,7 @@
 
 #include <corto/script/ast/ast.h>
 #include "CortoAstVisitor.h"
+#include "ast.h"
 
 corto_tls ast_PARSER_KEY;
 

@@ -153,3 +153,22 @@ int16_t ast_Initializer_visit_v(
 error:
     return -1;
 }
+
+ast_Expression ast_Initializer_fold(
+    ast_Initializer _this)
+{
+    corto_iter it = corto_ll_iter(_this->values);
+
+    /* Visit the values in the initializer, pre-set their type */
+    while (corto_iter_hasNext(&it)) {
+        ast_InitializerValue arg = (ast_InitializerValue)corto_iter_next(&it);
+        corto_set_ref(&arg->value, ast_Expression_fold(arg->value));
+        if (!arg->value) {
+            goto error;
+        }
+    }
+
+    return ast_Expression(_this);
+error:
+    return NULL;
+}

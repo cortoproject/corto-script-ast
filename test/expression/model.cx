@@ -30,7 +30,6 @@ test/suite literal:/
     void signed_integer_plus_measurement()
     void signed_integer_minus_measurement()
     void floating_point_measurement()
-    void integer_measurement_scientific()
     void signed_integer_plus_measurement_scientific_plus_e()
     void signed_integer_minus_measurement_scientific_plus_e()
     void floating_point_measurement_scientific_plus_e()

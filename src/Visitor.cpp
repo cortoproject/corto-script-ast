@@ -26,6 +26,11 @@ int16_t ast_Visitor_visit(
             goto error;
         }
     } else
+    if (corto_instanceof(ast_Binary_o, node)) {
+        if (ast_Visitor_visitBinary(_this, node)) {
+            goto error;
+        }
+    } else
     if (corto_instanceof(ast_Expression_o, node)) {
         if (ast_Visitor_visitExpression(_this, node)) {
             goto error;
@@ -103,6 +108,14 @@ int16_t ast_Visitor_visitExpression_v(
     ast_Expression node)
 {
     corto_debug("parser: visit expression");
+    return 0;
+}
+
+int16_t ast_Visitor_visitBinary_v(
+    ast_Visitor _this,
+    ast_Binary node)
+{
+    corto_debug("parser: visit binary expression");
     return 0;
 }
 
