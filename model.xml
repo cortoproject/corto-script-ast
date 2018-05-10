@@ -85,6 +85,7 @@
                 <member name="cond" type="Expression"/>
                 <member name="true" type="Expression"/>
                 <member name="false" type="Expression"/>
+                <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
 

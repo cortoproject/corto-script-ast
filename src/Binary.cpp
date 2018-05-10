@@ -10,6 +10,7 @@ ast_Expression ast_Binary_fold(
     corto_type type = ast_Expression(_this)->type;
     uintptr_t left_offset, right_offset = 0;
     corto_type left_type, right_type = NULL;
+    bool left_isnull, right_isnull;
     corto_value left, right, result_value;
 
     /* First, fold left and right operands to handle nested expressions */
@@ -25,28 +26,33 @@ ast_Expression ast_Binary_fold(
         goto error;
     }
 
+    left_isnull = corto_instanceof(ast_Null_o, _this->left);
+    right_isnull = corto_instanceof(ast_Null_o, _this->right);
+
     left_offset = ast_Expression_getPtr(_this->left);
     right_offset = ast_Expression_getPtr(_this->right);
 
-    if (!left_offset) {
-        corto_throw("value of left operand cannot be statically derived");
+    if (!left_offset && !left_isnull) {
+        corto_throw("value of left operand (%s) cannot be statically derived",
+            corto_idof(corto_typeof(_this->left)));
         goto error;
     }
 
-    if (!right_offset) {
-        corto_throw("value of right operand cannot be statically derived");
+    if (!right_offset && !right_isnull) {
+        corto_throw("value of right operand (%s) cannot be statically derived",
+            corto_idof(corto_typeof(_this->right)));
         goto error;
     }
 
     left_type = safe_ast_Expression_getTypeForTarget(_this->left, type, _this);
     right_type = safe_ast_Expression_getTypeForTarget(_this->right, type, _this);
 
-    if (!left_type) {
+    if (!left_type && !left_isnull) {
         corto_throw("cannot determine type of left operand");
         goto error;
     }
 
-    if (!right_type) {
+    if (!right_type && !right_isnull) {
         corto_throw("cannot determine type of right operand");
         goto error;
     }

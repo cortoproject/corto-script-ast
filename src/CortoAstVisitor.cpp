@@ -743,6 +743,9 @@ Any CortoAstVisitor::visitUnary_operator(CortoParser::Unary_operatorContext *ctx
     } else
     if (oper == "!") {
         result = CORTO_COND_NOT;
+    } else
+    if (oper == "not") {
+        result = CORTO_COND_NOT;
     }
 
     return result;
