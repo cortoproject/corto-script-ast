@@ -11,6 +11,7 @@ ast_Expression ast_Ternary_fold(
     uintptr_t cond_ptr, true_ptr, false_ptr;
     corto_type true_type, false_type, cond_type;
     corto_value true_value, false_value, cond_value;
+    bool true_isnull, false_isnull, cond_isnull;
 
     /* First, fold left and right operands to handle nested expressions */
     corto_set_ref(&_this->cond, ast_Expression_fold(_this->cond));
@@ -35,17 +36,21 @@ ast_Expression ast_Ternary_fold(
     true_ptr = ast_Expression_getPtr(_this->_true);
     false_ptr = ast_Expression_getPtr(_this->_false);
 
-    if (!cond_ptr && !corto_instanceof(ast_Null_o, _this->cond)) {
+    cond_isnull = corto_instanceof(ast_Null_o, _this->cond);
+    true_isnull = corto_instanceof(ast_Null_o, _this->_true);
+    false_isnull = corto_instanceof(ast_Null_o, _this->_false);
+
+    if (!cond_ptr && !cond_isnull) {
         corto_throw("value of condition cannot be statically derived");
         goto error;
     }
 
-    if (!true_ptr && !corto_instanceof(ast_Null_o, _this->_true)) {
+    if (!true_ptr && !true_isnull) {
         corto_throw("value of true operand cannot be statically derived");
         goto error;
     }
 
-    if (!false_ptr && !corto_instanceof(ast_Null_o, _this->_false)) {
+    if (!false_ptr && !false_isnull) {
         corto_throw("value of false operand cannot be statically derived");
         goto error;
     }
@@ -54,17 +59,17 @@ ast_Expression ast_Ternary_fold(
     true_type = safe_ast_Expression_getTypeForTarget(_this->_true, type, _this);
     false_type = safe_ast_Expression_getTypeForTarget(_this->_false, type, _this);
 
-    if (!cond_type) {
+    if (!cond_type && !cond_isnull) {
         corto_throw("cannot determine type of condition operand");
         goto error;
     }
 
-    if (!true_type) {
+    if (!true_type && !true_isnull) {
         corto_throw("cannot determine type of true operand");
         goto error;
     }
 
-    if (!false_type) {
+    if (!false_type && !false_isnull) {
         corto_throw("cannot determine type of false operand");
         goto error;
     }

@@ -9,6 +9,10 @@ ast_Expression cortoscript_ast_from_value(
     corto_type type = corto_value_typeof(value);
     ast_Expression result = NULL;
 
+    if (!type) {
+        return ast_Expression(ast_Null__create(NULL, NULL));
+    }
+
     if (value->kind == CORTO_VALUE) {
         if (type->kind == CORTO_PRIMITIVE) {
             corto_primitive primitive_type = corto_primitive(type);

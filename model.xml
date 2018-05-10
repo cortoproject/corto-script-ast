@@ -76,6 +76,8 @@
                 <member name="left" type="Expression"/>
                 <member name="right" type="Expression"/>
                 <member name="operator" type="operatorKind"/>
+                <member name="operand_type" type="lang/type" modifiers="readonly"/>
+                <method name="construct()" returnType="int16"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
