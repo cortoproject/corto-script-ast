@@ -17,13 +17,13 @@ void ast_Storage_set_object(
         corto_set_ref(&ast_Expression(_this)->type, corto_typeof(obj));
     }
 
-    ast_Expression(_this)->is_reference = true;
+    ast_Expression(_this)->is_object = true;
 }
 
 corto_object ast_Storage_get_object(
     ast_Storage _this)
 {
-    if (ast_Expression(_this)->is_reference) {
+    if (ast_Expression(_this)->is_object) {
         return (corto_object)_this->value;
     } else {
         return NULL;

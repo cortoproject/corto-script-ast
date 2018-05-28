@@ -105,6 +105,13 @@ corto_word ast_InitializerHelper_offset(
         break;
     }
 
+    case CORTO_VOID:
+        if (frame->type->reference) {
+            result = base;
+            break;
+        }
+        /* fallthrough on purpose */
+
     default: {
         corto_id id;
         corto_throw("invalid initializer type '%s'",
@@ -197,49 +204,32 @@ error:
     return -1;
 }
 
+
 int16_t ast_StaticInitializerHelper_value(
     ast_StaticInitializerHelper _this,
     ast_Expression v)
 {
-    corto_word offset;
+    void* ptr = NULL;
     corto_uint32 fp = ast_InitializerHelper(_this)->fp;
     corto_type type = safe_ast_InitializerHelper_currentType(_this);
-    corto_type vType = NULL;
     ast_Expression expr = ast_InitializerHelper(_this)->expression;
 
-    vType = safe_ast_Expression_getTypeForTarget(v, type, NULL);
-
-    if (!type) {
-        corto_id id;
-        corto_throw("excess elements in initializer of type '%s'",
-            corto_fullpath(id, ast_Expression(_this)->type));
-        goto error;
-    }
-
-    if (!vType) {
-        corto_throw("type missing for expression");
-        goto error;
-    }
-
-    /* Validate whether expression type matches current type of initializer */
-    if (vType && !corto_type_castable(type, vType)) {
-        corto_id id, id2;
-        corto_throw("expected '%s', got '%s'",
-            corto_fullpath(id, type), corto_fullpath(id2, vType));
-        goto error;
-    }
-
     if (expr) {
-        /* Serialize value */
-        offset = ast_InitializerHelper_offset(_this);
-        if (!offset) {
+        ptr = (void*)ast_InitializerHelper_offset(_this);
+        if (!ptr) {
+            corto_throw("cannot statically define value of expression");
             goto error;
         }
 
-        _this->frames[fp].ptr = offset;
-        if (ast_Expression_serialize(v, type, offset)) {
-            goto error;
-        }
+        _this->frames[fp].ptr = (uintptr_t)ptr;
+
+        corto_value dst = corto_value_pointer(ptr, type);
+        corto_value src;
+        corto_try(
+          cortoscript_ast_to_value(ast_Node(v), &src), NULL);
+
+        corto_try(
+          corto_value_binaryOp(CORTO_ASSIGN, &dst, &src, NULL), NULL);
     }
 
     return ast_InitializerHelper_next(ast_InitializerHelper(_this));

@@ -6,6 +6,10 @@ int16_t ast_Visitor_visit(
     ast_Visitor _this,
     ast_Node node)
 {
+    if (!node) {
+        corto_throw("NULL passed to ast_Visitor_visit");
+        goto error;
+    }
     if (corto_instanceof(ast_Scope_o, node)) {
         if (ast_Visitor_visitScope(_this, node)) {
             goto error;
@@ -28,6 +32,11 @@ int16_t ast_Visitor_visit(
     } else
     if (corto_instanceof(ast_Binary_o, node)) {
         if (ast_Visitor_visitBinary(_this, node)) {
+            goto error;
+        }
+    } else
+    if (corto_instanceof(ast_Unary_o, node)) {
+        if (ast_Visitor_visitUnary(_this, node)) {
             goto error;
         }
     } else
@@ -111,12 +120,52 @@ int16_t ast_Visitor_visitExpression_v(
     return 0;
 }
 
+int16_t ast_Visitor_visitUnary_v(
+    ast_Visitor _this,
+    ast_Unary node)
+{
+    if (node->expr) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->expr)), NULL);
+    }
+
+    return 0;
+error:
+    return -1;
+}
+
 int16_t ast_Visitor_visitBinary_v(
     ast_Visitor _this,
     ast_Binary node)
 {
-    corto_debug("parser: visit binary expression");
+    if (node->left) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->left)), NULL);
+    }
+    if (node->right) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->right)), NULL);
+    }
+
     return 0;
+error:
+    return -1;
+}
+
+int16_t ast_Visitor_visitTernary_v(
+    ast_Visitor _this,
+    ast_Ternary node)
+{
+    if (node->cond) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->cond)), NULL);
+    }
+    if (node->_true) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->_true)), NULL);
+    }
+    if (node->_false) {
+        corto_try (ast_Visitor_visit(_this, ast_Node(node->_false)), NULL);
+    }
+
+    return 0;
+error:
+    return -1;
 }
 
 int16_t ast_Visitor_visitId_v(
@@ -162,8 +211,15 @@ int16_t ast_Visitor_visitInitializer_v(
 {
     corto_debug("parser: visit initializer");
 
-    if (ast_Initializer_visit(node, _this)) {
-        goto error;
+    corto_iter it = corto_ll_iter(node->values);
+
+    /* Visit the values in the initializer, pre-set their type */
+    while (corto_iter_hasNext(&it)) {
+        ast_InitializerValue arg = (ast_InitializerValue)corto_iter_next(&it);
+
+        if (ast_Visitor_visit(_this, ast_Node(arg->value))) {
+            goto error;
+        }
     }
 
     return 0;

@@ -13,7 +13,7 @@ ast_Expression cortoscript_ast_from_value(
         return ast_Expression(ast_Null__create(NULL, NULL));
     }
 
-    if (value->kind == CORTO_VALUE) {
+    if (value->kind == CORTO_POINTER) {
         if (type->kind == CORTO_PRIMITIVE) {
             corto_primitive primitive_type = corto_primitive(type);
             switch (primitive_type->kind) {
@@ -213,6 +213,8 @@ int16_t cortoscript_ast_expr_to_value(
             corto_fullpath(NULL, corto_typeof(expr)));
         goto error;
     }
+
+    out->ref_kind = expr->ref_kind;
 
     return 0;
 error:

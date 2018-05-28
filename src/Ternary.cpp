@@ -74,9 +74,9 @@ ast_Expression ast_Ternary_fold(
         goto error;
     }
 
-    cond_value = corto_value_value((void*)cond_ptr, cond_type);
-    true_value = corto_value_value((void*)true_ptr, true_type);
-    false_value = corto_value_value((void*)false_ptr, false_type);
+    cond_value = corto_value_ptr((void*)cond_ptr, cond_type);
+    true_value = corto_value_ptr((void*)true_ptr, true_type);
+    false_value = corto_value_ptr((void*)false_ptr, false_type);
 
     bool cond;
     if (corto_value_to_boolean(&cond_value, &cond)) {
@@ -93,4 +93,18 @@ ast_Expression ast_Ternary_fold(
     return result;
 error:
     return NULL;
+}
+
+void ast_Ternary_setType(
+    ast_Ternary _this,
+    corto_type type)
+{
+    if (!_this->_true->type) {
+        ast_Expression_setType(_this->_true, type);
+    }
+    if (!_this->_false->type) {
+        ast_Expression_setType(_this->_false, type);
+    }
+
+    safe_ast_Expression_setType_v(_this, type);
 }

@@ -26,19 +26,19 @@ int16_t ast_InitializerHelper_findMember(
 
     switch(v->kind) {
     case CORTO_MEMBER:
-        if (v->is.member.t->id == (corto_uint32)-1) {
+        if (v->is.member.member->id == (corto_uint32)-1) {
             result = corto_walk_value(s, v, userData);
         } else {
             if ((data->lookForLocation >= 0) &&
                 ((corto_uint32)data->lookForLocation == data->count))
             {
-                data->m = v->is.member.t;
+                data->m = v->is.member.member;
                 data->id = data->count;
                 goto found;
             } else if (data->lookForString &&
-                !strcmp(data->lookForString, corto_idof(v->is.member.t)))
+                !strcmp(data->lookForString, corto_idof(v->is.member.member)))
             {
-                data->m = v->is.member.t;
+                data->m = v->is.member.member;
                 data->id = data->count;
                 if (data->current >= data->count) {
                     goto found;

@@ -51,12 +51,13 @@
 
         <class name="Expression" base="Statement">
             <corto:scope>
-                <member name="is_reference" type="bool" modifiers="readonly"/>
+                <member name="ref_kind" type="lang/ref_kind" modifiers="readonly"/>
+                <member name="is_object" type="bool" modifiers="readonly"/>
                 <member name="type" type="lang/type" modifiers="private"/>
-                <method name="setType(lang/type type)"/>
+                <method name="isReference()" returnType="bool"/>
                 <method name="getType()" returnType="lang/type"/>
                 <method name="getTypeForTarget(lang/type target,ast/Expression target_expr)" returnType="lang/type"/>
-                <method name="serialize(lang/type target,word ptr)" returnType="int16"/>
+                <overridable name="setType(lang/type type)"/>
                 <overridable name="getPtr()" returnType="lang/word"/>
                 <overridable name="fold()" returnType="Expression"/>
             </corto:scope>
@@ -67,6 +68,7 @@
                 <member name="expr" type="Expression"/>
                 <member name="operator" type="operatorKind"/>
                 <member name="postfix" type="bool"/>
+                <override name="setType(lang/type type)"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
@@ -78,6 +80,7 @@
                 <member name="operator" type="operatorKind"/>
                 <member name="operand_type" type="lang/type" modifiers="readonly"/>
                 <method name="construct()" returnType="int16"/>
+                <override name="setType(lang/type type)"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
@@ -87,6 +90,7 @@
                 <member name="cond" type="Expression"/>
                 <member name="true" type="Expression"/>
                 <member name="false" type="Expression"/>
+                <override name="setType(lang/type type)"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
@@ -110,8 +114,7 @@
                 <member name="collection" type="bool"/>
                 <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
                 <method name="apply(InitializerHelper helper)" returnType="int16"/>
-                <method name="visit_values(Visitor visitor,InitializerHelper helper)" returnType="int16"/>
-                <overridable name="visit(Visitor visitor)" returnType="int16"/>
+                <method name="propagateType(lang/type type)" returnType="int16"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
         </class>
@@ -278,7 +281,9 @@
                 <overridable name="visitStatement(Statement node)" returnType="int16"/>
                 <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
                 <overridable name="visitExpression(Expression node)" returnType="int16"/>
+                <overridable name="visitUnary(ast/Unary node)" returnType="int16"/>
                 <overridable name="visitBinary(ast/Binary node)" returnType="int16"/>
+                <overridable name="visitTernary(ast/Ternary node)" returnType="int16"/>
                 <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
                 <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
             </corto:scope>

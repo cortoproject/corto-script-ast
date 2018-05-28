@@ -46,9 +46,9 @@ error:
     return -1;
 }
 
-int16_t ast_Initializer_visit_values(
+static
+int16_t ast_Initializer_propagateTypes(
     ast_Initializer _this,
-    ast_Visitor visitor,
     ast_InitializerHelper helper)
 {
     corto_iter it = corto_ll_iter(_this->values);
@@ -79,9 +79,8 @@ int16_t ast_Initializer_visit_values(
                     goto error;
                 }
                 ast_Expression_setType(arg->value, value_type);
-                if (safe_ast_Initializer_visit_values(
-                    arg->value,
-                    visitor,
+                if (ast_Initializer_propagateTypes(
+                    ast_Initializer(arg->value),
                     helper))
                 {
                     corto_throw(NULL);
@@ -101,11 +100,8 @@ int16_t ast_Initializer_visit_values(
                         corto_fullpath(NULL, type));
                     goto error;
                 }
+
                 ast_Expression_setType(arg->value, value_type);
-                if (safe_ast_Visitor_visit(visitor, arg->value)) {
-                    corto_throw(NULL);
-                    goto error;
-                }
             }
         }
     }
@@ -115,17 +111,12 @@ error:
     return -1;
 }
 
-int16_t ast_Initializer_visit_v(
+int16_t ast_Initializer_propagateType(
     ast_Initializer _this,
-    ast_Visitor visitor)
+    corto_type type)
 {
-    corto_type type = ast_Expression(_this)->type;
+    safe_ast_Expression_setType_v(_this, type);
     ast_InitializerHelper helper = NULL;
-
-    if (!type) {
-        corto_throw("initializer has no type");
-        goto error;
-    }
 
     /* Create an initializer helper to determine the type for the initializer
      * value expressions. This is needed because some of the values cannot
@@ -143,7 +134,7 @@ int16_t ast_Initializer_visit_v(
         goto error;
     }
 
-    if (ast_Initializer_visit_values(_this, visitor, helper)) {
+    if (ast_Initializer_propagateTypes(_this, helper)) {
         goto error;
     }
 

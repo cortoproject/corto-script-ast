@@ -58,8 +58,8 @@ ast_Expression ast_Binary_fold(
         goto error;
     }
 
-    left = corto_value_value((void*)left_offset, left_type);
-    right = corto_value_value((void*)right_offset, right_type);
+    left = corto_value_ptr((void*)left_offset, left_type);
+    right = corto_value_ptr((void*)right_offset, right_type);
     result_value = corto_value_init();
 
     if (corto_value_binaryOp(_this->_operator, &left, &right, &result_value)) {
@@ -106,4 +106,20 @@ int16_t ast_Binary_construct(
     return corto_super_construct(_this);
 error:
     return -1;
+}
+
+void ast_Binary_setType(
+    ast_Binary _this,
+    corto_type type)
+{
+    /* Propagate type if no type has been set yet for operands. This enables
+     * resolving constants from the scope of enumeration types. */
+    if (!_this->left->type) {
+        ast_Expression_setType(_this->left, type);
+    }
+    if (!_this->right->type) {
+        ast_Expression_setType(_this->right, type);
+    }
+
+    safe_ast_Expression_setType_v(_this, type);
 }

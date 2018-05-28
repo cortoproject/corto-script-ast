@@ -2,25 +2,6 @@
 
 #include <corto/script/ast/ast.h>
 
-int16_t ast_Expression_serialize(
-    ast_Expression _this,
-    corto_type target,
-    uintptr_t ptr)
-{
-    uintptr_t srcPtr = ast_Expression_getPtr(_this);
-    corto_type srcType = safe_ast_Expression_getTypeForTarget(
-        _this, target, NULL);
-
-    /*corto_info("target type = %s [%p], source type = %s [%p]",
-        corto_fullpath(NULL, target), ptr, corto_fullpath(NULL, srcType), srcPtr);*/
-
-    corto_value
-        src = corto_value_value((void*)srcPtr, srcType),
-        dst = corto_value_value((void*)ptr, target);
-
-    return corto_value_binaryOp(CORTO_ASSIGN, &dst, &src, NULL);
-}
-
 uintptr_t ast_Expression_getPtr_v(
     ast_Expression _this)
 {
@@ -47,18 +28,18 @@ corto_type ast_Expression_getTypeForTarget(
     if (corto_instanceof(ast_Initializer_o, _this)) {
         result = target;
     } else {
-        result = corto_expr_typeof(
-            result, target, target_expr ? target_expr->is_reference : false);
+        corto_try(corto_expr_typeof(
+            result,
+            target,
+            ast_Expression_isReference(_this),
+            target_expr ? ast_Expression_isReference(target_expr) : false,
+            &result), NULL);
     }
 
     return result;
-}
-
-void ast_Expression_setType(
-    ast_Expression _this,
-    corto_type type)
-{
-    corto_set_ref(&_this->type, type);
+error:
+    corto_raise();
+    return NULL;
 }
 
 ast_Expression ast_Expression_fold_v(
@@ -67,4 +48,38 @@ ast_Expression ast_Expression_fold_v(
     /* If function is not overridden, there's nothing to fold & just return this
      * expression. */
     return _this;
+}
+
+void ast_Expression_setType_v(
+    ast_Expression _this,
+    corto_type type)
+{
+    /* Never set the type of a null literal */
+    if (!corto_instanceof(ast_Null_o, _this)) {
+        corto_set_ref(&_this->type, type);
+    }
+}
+
+bool ast_Expression_isReference(
+    ast_Expression _this)
+{
+    corto_value_kind kind = CORTO_POINTER;
+
+    if (corto_instanceof(ast_Storage_o, _this)) {
+        if (ast_Storage_get_object(ast_Storage(_this))) {
+            kind = CORTO_OBJECT;
+        }
+    } else if (corto_instanceof(ast_Literal_o, _this)) {
+        kind = CORTO_LITERAL;
+    }
+
+    bool result = false;
+
+    corto_try(
+      corto_expr_is_ref(kind, _this->ref_kind, _this->type, &result), NULL);
+
+    return result;
+error:
+    corto_raise();
+    return false;
 }
