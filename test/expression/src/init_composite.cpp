@@ -89,7 +89,7 @@ void test_init_composite_id_1(
 void test_init_composite_id_1_coll(
     test_init_composite _this)
 {
-    char *result, *input = "foo(a[10])";
+    char *result, *input = "foo(a:[10])";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -117,7 +117,7 @@ void test_init_composite_id_1_coll(
 void test_init_composite_id_1_comp(
     test_init_composite _this)
 {
-    char *result, *input = "foo(a(10))";
+    char *result, *input = "foo(a:(10))";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -253,7 +253,7 @@ void test_init_composite_id_n(
 void test_init_composite_id_n_coll(
     test_init_composite _this)
 {
-    char *result, *input = "foo(a[10], b[20])";
+    char *result, *input = "foo(a:[10], b:[20])";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -289,7 +289,7 @@ void test_init_composite_id_n_coll(
 void test_init_composite_id_n_comp(
     test_init_composite _this)
 {
-    char *result, *input = "foo(a(10), b(20))";
+    char *result, *input = "foo(a:(10), b:(20))";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -513,7 +513,7 @@ void test_init_composite_member_1(
 void test_init_composite_member_1_coll(
     test_init_composite _this)
 {
-    char *result, *input = "foo.bar(a[10])";
+    char *result, *input = "foo.bar(a:[10])";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -543,7 +543,7 @@ void test_init_composite_member_1_coll(
 void test_init_composite_member_1_comp(
     test_init_composite _this)
 {
-    char *result, *input = "foo.bar(a(10))";
+    char *result, *input = "foo.bar(a:(10))";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -689,7 +689,7 @@ void test_init_composite_member_n(
 void test_init_composite_member_n_coll(
     test_init_composite _this)
 {
-    char *result, *input = "foo.bar(a[10], b[20])";
+    char *result, *input = "foo.bar(a:[10], b:[20])";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -727,7 +727,7 @@ void test_init_composite_member_n_coll(
 void test_init_composite_member_n_comp(
     test_init_composite _this)
 {
-    char *result, *input = "foo.bar(a(10), b(20))";
+    char *result, *input = "foo.bar(a:(10), b:(20))";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"

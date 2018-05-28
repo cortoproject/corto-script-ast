@@ -849,7 +849,6 @@ void test_binary_assign(
         "|   |   |   id: 'foo'\n"
         "|   |   right: Integer\n"
         "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -872,8 +871,6 @@ void test_binary_assign_nested(
         "|   |   |   |   id: 'bar'\n"
         "|   |   |   right: Integer\n"
         "|   |   |   |   value: '30'\n"
-        "|   |   |   operator: 'ASSIGN'\n"
-        "|   |   operator: 'ASSIGN'\n"
         ;
 
     result = cortoscript_code_to_string(input);
