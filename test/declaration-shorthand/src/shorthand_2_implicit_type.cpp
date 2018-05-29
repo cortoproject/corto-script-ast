@@ -124,7 +124,7 @@ void test_shorthand_2_implicit_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         "|   |   initializer: Initializer\n"
         "|   |   |   values:\n"
         "|   |   |   |   InitializerValue\n"

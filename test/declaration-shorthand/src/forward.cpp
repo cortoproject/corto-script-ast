@@ -131,7 +131,7 @@ void test_forward_anonymous_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -240,7 +240,7 @@ void test_forward_named_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         ;
 
     result = cortoscript_code_to_string(input);

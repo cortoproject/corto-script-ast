@@ -22,6 +22,18 @@ typename T::_ref safe_visit(CortoAstVisitor *visitor, antlr4::ParserRuleContext 
     return static_cast<typename T::_ref>(result);
 }
 
+ast_Identifier to_identifier(CortoParser::Storage_identifierContext *idCtx) {
+    Identifier id = corto::declare<Identifier_t>();
+    std::string id_str = idCtx->getText();
+    if (id_str == "root/") {
+        corto_set_str(&id->id, "/");
+    } else {
+        corto_set_str(&id->id, idCtx->getText().c_str());
+    }
+    corto_define(id);
+    return id;
+}
+
 Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
     Scope block = corto::declare<Scope_t>();
 
@@ -84,7 +96,8 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
         // Type for shorthand procedures notation can only be a storage id
         CortoParser::Storage_identifierContext *typeCtx = ctx->storage_identifier();
         if (typeCtx) {
-            declaration->type = safe_visit<Storage_t>(this, typeCtx);
+            Identifier id_node = to_identifier(typeCtx);
+            declaration->type = ast_Storage(id_node);
         }
     }
 
@@ -138,14 +151,7 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
         ctx->storage_identifier();
     if (idCtx.size()) {
         for (unsigned int i = 0; i < idCtx.size(); i ++) {
-            std::string id = visit(idCtx[i]);
-            Identifier id_node = corto::declare<Identifier_t>();
-            if (id == "/root") {
-                id_node->id = corto_strdup("/");
-            } else {
-                id_node->id = corto_strdup(id.c_str());
-            }
-            corto_define(id_node);
+            Identifier id_node = to_identifier(idCtx[i]);
             corto_ll_append(result->ids, id_node);
         }
     }
@@ -171,14 +177,7 @@ Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierCo
     // Parse function identifier
     CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
     if (idCtx) {
-        std::string id = visit(idCtx);
-        Identifier id_node = corto::declare<Identifier_t>();
-        if (id == "/root") {
-            id_node->id = corto_strdup("/");
-        } else {
-            id_node->id = corto_strdup(id.c_str());
-        }
-        corto_define(id_node);
+        Identifier id_node = to_identifier(idCtx);
         corto_ll_append(result->ids, id_node);
     }
 
@@ -223,14 +222,8 @@ Any CortoAstVisitor::visitStorage_expression(CortoParser::Storage_expressionCont
     antlr4::tree::TerminalNode *memberCtx = ctx->IDENTIFIER();
 
     if (idCtx) {
-        Identifier id = corto::declare<Identifier_t>();
-        std::string id_str = idCtx->getText();
-        if (id_str == "root/") {
-            corto_set_str(&id->id, "/");
-        } else {
-            corto_set_str(&id->id, idCtx->getText().c_str());
-        }
-        result = (Node)id;
+        Identifier id_node = to_identifier(idCtx);
+        result = (Node)id_node;
     } else
     if (memberCtx) {
         Member member = corto::declare<Member_t>();

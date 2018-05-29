@@ -139,7 +139,7 @@ void test_collection_0_anonymous_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         "|   |   initializer: Initializer\n"
         "|   |   |   collection: 'true'\n"
         ;
@@ -259,7 +259,7 @@ void test_collection_0_named_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         "|   |   initializer: Initializer\n"
         "|   |   |   collection: 'true'\n"
         ;

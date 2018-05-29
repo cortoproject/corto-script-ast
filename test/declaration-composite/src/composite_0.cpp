@@ -135,7 +135,7 @@ void test_composite_0_anonymous_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         "|   |   initializer: Initializer\n"
         ;
 
@@ -250,7 +250,7 @@ void test_composite_0_named_type_root_id(
         "|   |   id: DeclarationIdentifier\n"
         "|   |   |   ids:\n"
         "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'root/'\n"
+        "|   |   |   |   |   id: '/'\n"
         "|   |   initializer: Initializer\n"
         ;
 
