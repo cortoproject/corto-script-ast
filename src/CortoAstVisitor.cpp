@@ -80,24 +80,38 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     CortoParser::Storage_expressionContext *typeCtx = ctx->storage_expression();
     if (typeCtx) {
         declaration->type = safe_visit<Storage_t>(this, typeCtx);
+    } else {
+        // Type for shorthand procedures notation can only be a storage id
+        CortoParser::Storage_identifierContext *typeCtx = ctx->storage_identifier();
+        if (typeCtx) {
+            declaration->type = safe_visit<Storage_t>(this, typeCtx);
+        }
     }
 
     // Parse identifiers of declaration
-    CortoParser::Declaration_identifierContext* declarationCtx =
+    CortoParser::Declaration_identifierContext* idCtx =
         ctx->declaration_identifier();
 
-    if (declarationCtx) {
+    if (idCtx) {
         declaration->id = safe_visit<DeclarationIdentifier_t>(
-            this,
-            declarationCtx);
+            this, idCtx);
+    } else {
+        // Check if there is a function declaration
+        CortoParser::Function_identifierContext* funcCtx =
+            ctx->function_identifier();
+        if (funcCtx) {
+            declaration->id = safe_visit<DeclarationIdentifier_t>(
+                this, funcCtx);
+        }
     }
 
     // Parse initializer of declaration
-    CortoParser::Initializer_assignmentContext *initializerCtx =
-        ctx->initializer_assignment();
+    CortoParser::Declaration_initializerContext *initializerCtx =
+        ctx->declaration_initializer();
     if (initializerCtx) {
         declaration->initializer = safe_visit<Initializer_t>(this, initializerCtx);
     } else {
+        // Shorthand procedure notation can only use shorthand initializers
         CortoParser::Initializer_shorthandContext *shorthandCtx =
             ctx->initializer_shorthand();
         if (shorthandCtx) {
@@ -144,6 +158,28 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
             Storage id = safe_visit<Storage_t>(this, exprCtx[i]);
             corto_ll_append(result->ids, id);
         }
+    }
+
+    corto_define(result);
+
+    return (Node)result;
+}
+
+Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierContext *ctx) {
+    DeclarationIdentifier result = corto::declare<DeclarationIdentifier_t>();
+
+    // Parse function identifier
+    CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
+    if (idCtx) {
+        std::string id = visit(idCtx);
+        Identifier id_node = corto::declare<Identifier_t>();
+        if (id == "/root") {
+            id_node->id = corto_strdup("/");
+        } else {
+            id_node->id = corto_strdup(id.c_str());
+        }
+        corto_define(id_node);
+        corto_ll_append(result->ids, id_node);
     }
 
     // Parse argument list, if specified
