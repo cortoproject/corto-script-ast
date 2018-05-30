@@ -389,3 +389,33 @@ void test_implicit_type_tc_return_type_anonymous(
     test_assertstr(expect, result);
     free(result);
 }
+
+void test_implicit_type_tc_return_type_anonymous_no_args(
+    test_implicit_type _this)
+{
+    char *result, *input = "hello(): list(int32)";
+    char *expect =
+        "statements:\n"
+        "|   Declaration\n"
+        "|   |   id: DeclarationIdentifier\n"
+        "|   |   |   ids:\n"
+        "|   |   |   |   Identifier\n"
+        "|   |   |   |   |   id: 'hello'\n"
+        "|   |   initializer: Initializer\n"
+        "|   |   |   values:\n"
+        "|   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   value: StorageInitializer\n"
+        "|   |   |   |   |   |   expr: Identifier\n"
+        "|   |   |   |   |   |   |   id: 'list'\n"
+        "|   |   |   |   |   |   initializer: Initializer\n"
+        "|   |   |   |   |   |   |   values:\n"
+        "|   |   |   |   |   |   |   |   InitializerValue\n"
+        "|   |   |   |   |   |   |   |   |   value: Identifier\n"
+        "|   |   |   |   |   |   |   |   |   |   id: 'int32'\n"
+        ;
+
+    result = cortoscript_code_to_string(input);
+    test_assert(result != NULL);
+    test_assertstr(expect, result);
+    free(result);
+}

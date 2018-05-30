@@ -187,6 +187,9 @@ Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierCo
     if (argumentsCtx) {
         vector<CortoParser::ArgumentContext*> argumentCtx =
             argumentsCtx->argument();
+        if (!result->arguments) {
+            result->arguments = corto_ll_new();
+        }
         for (unsigned int i = 0; i < argumentCtx.size(); i ++) {
             FunctionArgument argument = safe_visit<FunctionArgument_t>(this, argumentCtx[i]);
             corto_ll_append(result->arguments, argument);
@@ -331,6 +334,25 @@ Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
 
     // Get argument name
     corto_set_str(&argument->name, ctx->IDENTIFIER()->getText().c_str());
+
+    // Check if argument is inout
+    if (ctx->INOUT()) {
+        std::string inout = ctx->INOUT()->getText();
+        if (inout == "in") {
+            argument->inout = CORTO_IN;
+        } else if (inout == "out") {
+            argument->inout = CORTO_OUT;
+        } else if (inout == "inout") {
+            argument->inout = CORTO_INOUT;
+        }
+    } else {
+        argument->inout = CORTO_IN;
+    }
+
+    // Check if argument is reference
+    if (ctx->REF()) {
+        argument->is_reference = true;
+    }
 
     corto_define(argument);
 

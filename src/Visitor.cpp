@@ -49,6 +49,11 @@ int16_t ast_Visitor_visit(
         if (ast_Visitor_visitStatement(_this, node)) {
             goto error;
         }
+    } else
+    if (corto_instanceof(ast_FunctionArgument_o, node)) {
+        if (ast_Visitor_visitFunctionArgument(_this, node)) {
+            goto error;
+        }
     }
 
     return 0;
@@ -85,6 +90,11 @@ int16_t ast_Visitor_visitDeclaration_v(
         if (safe_ast_Visitor_visit(_this, node->type)) {
             goto error;
         }
+    }
+
+    if (node->id->arguments) {
+        corto_try(
+          ast_Visitor_visitFunctionArguments(_this, node->id->arguments), NULL);
     }
 
     it = corto_ll_iter(node->id->ids);
@@ -220,6 +230,32 @@ int16_t ast_Visitor_visitInitializer_v(
         if (ast_Visitor_visit(_this, ast_Node(arg->value))) {
             goto error;
         }
+    }
+
+    return 0;
+error:
+    return -1;
+}
+
+int16_t ast_Visitor_visitFunctionArgument_v(
+    ast_Visitor _this,
+    ast_FunctionArgument argument)
+{
+    corto_try(safe_ast_Visitor_visit(_this, argument->type), NULL);
+    return 0;
+error:
+    return -1;
+}
+
+int16_t ast_Visitor_visitFunctionArguments_v(
+    ast_Visitor _this,
+    ast_FunctionArgumentList arguments)
+{
+    corto_iter it = corto_ll_iter(arguments);
+
+    while (corto_iter_hasNext(&it)) {
+        ast_FunctionArgument arg = ast_FunctionArgument(corto_iter_next(&it));
+        corto_try (safe_ast_Visitor_visit(_this, arg), NULL);
     }
 
     return 0;

@@ -22,13 +22,15 @@
             <corto:scope>
                 <member name="name" type="lang/string"/>
                 <member name="type" type="script/ast/Storage"/>
+                <member name="inout" type="inout"/>
+                <member name="is_reference" type="bool"/>
             </corto:scope>
         </class>
 
         <class name="DeclarationIdentifier" base="Node" baseAccess="hidden">
             <corto:scope>
                 <member name="ids" type="list{script/ast/Storage}" modifiers="not_null"/>
-                <member name="arguments" type="list{FunctionArgument}"  modifiers="not_null"/>
+                <member name="arguments" type="list{FunctionArgument}"/>
             </corto:scope>
         </class>
 
@@ -39,13 +41,6 @@
                 <member name="isVar" type="lang/bool"/>
                 <member name="initializer" type="script/ast/Initializer"/>
                 <member name="scope" type="script/ast/Scope"/>
-            </corto:scope>
-        </class>
-
-        <class name="FunctionDeclaration" base="Declaration">
-            <corto:scope>
-                <member name="returnsReference" type="lang/bool"/>
-                <member name="parameters" type="list{Declaration}" modifiers="not_null"/>
             </corto:scope>
         </class>
 
@@ -286,6 +281,8 @@
                 <overridable name="visitTernary(ast/Ternary node)" returnType="int16"/>
                 <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
                 <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
+                <overridable name="visitFunctionArguments(list{FunctionArgument} arguments)" returnType="int16"/>
+                <overridable name="visitFunctionArgument(FunctionArgument argument)" returnType="int16"/>
             </corto:scope>
         </class>
 
