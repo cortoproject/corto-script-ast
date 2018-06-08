@@ -108,7 +108,7 @@
             <corto:scope>
                 <member name="collection" type="bool"/>
                 <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
-                <method name="apply(InitializerHelper helper)" returnType="int16"/>
+                <method name="apply(word helper)" returnType="int16"/>
                 <method name="propagateType(lang/type type)" returnType="int16"/>
                 <override name="fold()" returnType="Expression"/>
             </corto:scope>
@@ -210,62 +210,6 @@
                 <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
                 <method name="addStatement(Statement node)"/>
                 <overridable name="visit(Visitor visitor)" returnType="int16"/>
-            </corto:scope>
-        </class>
-
-        <enum name="InitializerKind">
-            <corto:scope>
-                <constant name="InitStatic"/>
-                <constant name="InitDynamic"/>
-                <constant name="InitExpression"/>
-            </corto:scope>
-        </enum>
-
-        <struct name="InitializerFrame">
-            <corto:scope>
-                <member name="location" type="uint32"/>
-                <member name="type" type="type"/>
-                <member name="isKey" type="bool"/>
-                <member name="member" type="member"/>
-                <member name="offset" type="word"/>
-            </corto:scope>
-        </struct>
-
-        <class name="InitializerHelper">
-            <corto:scope>
-                <member name="expression" type="ast/Expression"/>
-                <member name="frames" type="array{InitializerFrame,64}" modifiers="private|local"/>
-                <member name="fp" type="uint8" modifiers="private|local"/>
-                <method name="construct()" returnType="int16"/>
-                <method name="currentType()" returnType="type"/>
-                <method name="type()" returnType="type"/>
-                <overridable name="push()" returnType="int16"/>
-                <overridable name="pop()" returnType="int8"/>
-                <overridable name="value(ast/Expression v)" returnType="int16"/>
-                <overridable name="member(string name)" returnType="int32"/>
-                <overridable name="pushKey()" returnType="int16"/>
-                <overridable name="popKey()" returnType="int16"/>
-                <overridable name="valueKey(ast/Expression key)" returnType="int16"/>
-                <overridable name="define_object()" returnType="int16"/>
-                <overridable name="next()" returnType="int16"/>
-                <method name="initFrame()" returnType="uint16"/>
-            </corto:scope>
-        </class>
-
-        <struct name="StaticInitializerHelperFrame">
-            <corto:scope>
-                <member name="ptr" type="word"/>
-                <member name="keyPtr" type="word"/>
-            </corto:scope>
-        </struct>
-
-        <class name="StaticInitializerHelper" base="InitializerHelper">
-            <corto:scope>
-                <member name="frames" type="array{StaticInitializerHelperFrame,64}" modifiers="private|local"/>
-                <method name="construct()" returnType="int16"/>
-                <method name="push()" returnType="int16"/>
-                <method name="value(ast/Expression v)" returnType="int16"/>
-                <method name="define_object()" returnType="int16"/>
             </corto:scope>
         </class>
 
