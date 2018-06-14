@@ -192,7 +192,6 @@ Any CortoAstVisitor::visitStorage_expression(CortoParser::Storage_expressionCont
         ctx->storage_expression();
     CortoParser::Initializer_collectionContext* collectionInit =
         ctx->initializer_collection();
-    antlr4::tree::TerminalNode *memberCtx = ctx->IDENTIFIER();
 
     if (idCtx) {
         Identifier id_node = to_identifier(idCtx);
@@ -208,12 +207,6 @@ Any CortoAstVisitor::visitStorage_expression(CortoParser::Storage_expressionCont
         init->initializer->collection = false;
         corto_define(init);
         result = (Node)init;
-    } else
-    if (memberCtx) {
-        Member member = corto::declare<Member_t>();
-        member->expr = safe_visit<Storage_t>(this, storageCtx);
-        member->key = corto_strdup(memberCtx->getText().c_str());
-        result = (Node)member;
     }
 
     corto_define(result);

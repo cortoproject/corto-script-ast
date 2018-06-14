@@ -8,10 +8,8 @@ void test_member_member(
     char *result, *input = "foo.bar";
     char *expect =
         "statements:\n"
-        "|   Member\n"
-        "|   |   expr: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   key: 'bar'\n"
+        "|   Identifier\n"
+        "|   |   id: 'foo.bar'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -26,12 +24,8 @@ void test_member_member_nested_1(
     char *result, *input = "foo.bar.hello";
     char *expect =
         "statements:\n"
-        "|   Member\n"
-        "|   |   expr: Member\n"
-        "|   |   |   expr: Identifier\n"
-        "|   |   |   |   id: 'foo'\n"
-        "|   |   |   key: 'bar'\n"
-        "|   |   key: 'hello'\n"
+        "|   Identifier\n"
+        "|   |   id: 'foo.bar.hello'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -46,14 +40,8 @@ void test_member_member_nested_n(
     char *result, *input = "foo.bar.hello.world";
     char *expect =
         "statements:\n"
-        "|   Member\n"
-        "|   |   expr: Member\n"
-        "|   |   |   expr: Member\n"
-        "|   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   id: 'foo'\n"
-        "|   |   |   |   key: 'bar'\n"
-        "|   |   |   key: 'hello'\n"
-        "|   |   key: 'world'\n"
+        "|   Identifier\n"
+        "|   |   id: 'foo.bar.hello.world'\n"
         ;
 
     result = cortoscript_code_to_string(input);

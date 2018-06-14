@@ -177,3 +177,10 @@ test/suite shorthand_2_key_collection:/
     void anonymous_type_full_id()
     void anonymous_type_full_nested_id()
     void anonymous_type_root_id()
+
+test/suite shorthand_dot_ids:/
+    void named_type_nested_id()
+    void named_type_full_nested_id()
+    void anonymous_type_nested_id()
+    void anonymous_type_full_nested_id()
+    void ref_value()
