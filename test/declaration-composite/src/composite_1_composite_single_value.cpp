@@ -5,7 +5,7 @@
 void test_composite_1_composite_single_value_anonymous_type_full_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo(bar) /hello((10))";
+    char *result, *input = "foo[bar] /hello = {{10}}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -41,7 +41,7 @@ void test_composite_1_composite_single_value_anonymous_type_full_id(
 void test_composite_1_composite_single_value_anonymous_type_full_nested_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo(bar) /hello/world([10])";
+    char *result, *input = "foo[bar] /hello/world = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -78,7 +78,7 @@ void test_composite_1_composite_single_value_anonymous_type_full_nested_id(
 void test_composite_1_composite_single_value_anonymous_type_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo(bar) hello([10])";
+    char *result, *input = "foo[bar] hello = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -115,7 +115,7 @@ void test_composite_1_composite_single_value_anonymous_type_id(
 void test_composite_1_composite_single_value_anonymous_type_nested_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo(bar) hello/world([10])";
+    char *result, *input = "foo[bar] hello/world = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -152,7 +152,7 @@ void test_composite_1_composite_single_value_anonymous_type_nested_id(
 void test_composite_1_composite_single_value_anonymous_type_root_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo(bar) root/([10])";
+    char *result, *input = "foo[bar] root/ = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -189,7 +189,7 @@ void test_composite_1_composite_single_value_anonymous_type_root_id(
 void test_composite_1_composite_single_value_named_type_full_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo /hello([10])";
+    char *result, *input = "foo /hello = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -220,7 +220,7 @@ void test_composite_1_composite_single_value_named_type_full_id(
 void test_composite_1_composite_single_value_named_type_full_nested_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo /hello/world([10])";
+    char *result, *input = "foo /hello/world = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -251,7 +251,7 @@ void test_composite_1_composite_single_value_named_type_full_nested_id(
 void test_composite_1_composite_single_value_named_type_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo hello([10])";
+    char *result, *input = "foo hello = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -282,7 +282,7 @@ void test_composite_1_composite_single_value_named_type_id(
 void test_composite_1_composite_single_value_named_type_nested_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo hello/world([10])";
+    char *result, *input = "foo hello/world = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -313,7 +313,7 @@ void test_composite_1_composite_single_value_named_type_nested_id(
 void test_composite_1_composite_single_value_named_type_root_id(
     test_composite_1_composite_single_value _this)
 {
-    char *result, *input = "foo root/([10])";
+    char *result, *input = "foo root/ = {[10]}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

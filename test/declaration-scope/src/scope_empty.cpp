@@ -5,7 +5,7 @@
 void test_scope_empty_anonymous_type_full_id(
     test_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello {}";
+    char *result, *input = "foo[bar] /hello {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -34,7 +34,7 @@ void test_scope_empty_anonymous_type_full_id(
 void test_scope_empty_anonymous_type_full_nested_id(
     test_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello/world {}";
+    char *result, *input = "foo[bar] /hello/world {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -63,7 +63,7 @@ void test_scope_empty_anonymous_type_full_nested_id(
 void test_scope_empty_anonymous_type_id(
     test_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello {}";
+    char *result, *input = "foo[bar] /hello {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -92,7 +92,7 @@ void test_scope_empty_anonymous_type_id(
 void test_scope_empty_anonymous_type_nested_id(
     test_scope_empty _this)
 {
-    char *result, *input = "foo(bar) hello/world {}";
+    char *result, *input = "foo[bar] hello/world {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

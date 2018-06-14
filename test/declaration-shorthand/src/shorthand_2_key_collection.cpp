@@ -5,7 +5,7 @@
 void test_shorthand_2_key_collection_anonymous_type_full_id(
     test_shorthand_2_key_collection _this)
 {
-    char *result, *input = "foo(bar) /hello: the_key:[10], more_key:[20]";
+    char *result, *input = "foo[bar] /hello: the_key:[10], more_key:[20]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -51,7 +51,7 @@ void test_shorthand_2_key_collection_anonymous_type_full_id(
 void test_shorthand_2_key_collection_anonymous_type_full_nested_id(
     test_shorthand_2_key_collection _this)
 {
-    char *result, *input = "foo(bar) /hello/world: the_key:[10], more_key:[20]";
+    char *result, *input = "foo[bar] /hello/world: the_key:[10], more_key:[20]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -97,7 +97,7 @@ void test_shorthand_2_key_collection_anonymous_type_full_nested_id(
 void test_shorthand_2_key_collection_anonymous_type_id(
     test_shorthand_2_key_collection _this)
 {
-    char *result, *input = "foo(bar) hello: the_key:[10], more_key:[20]";
+    char *result, *input = "foo[bar] hello: the_key:[10], more_key:[20]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -143,7 +143,7 @@ void test_shorthand_2_key_collection_anonymous_type_id(
 void test_shorthand_2_key_collection_anonymous_type_nested_id(
     test_shorthand_2_key_collection _this)
 {
-    char *result, *input = "foo(bar) hello/world: the_key:[10], more_key:[20]";
+    char *result, *input = "foo[bar] hello/world: the_key:[10], more_key:[20]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -189,7 +189,7 @@ void test_shorthand_2_key_collection_anonymous_type_nested_id(
 void test_shorthand_2_key_collection_anonymous_type_root_id(
     test_shorthand_2_key_collection _this)
 {
-    char *result, *input = "foo(bar) root/: the_key:[10], more_key:[20]";
+    char *result, *input = "foo[bar] root/: the_key:[10], more_key:[20]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

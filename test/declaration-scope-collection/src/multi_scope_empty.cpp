@@ -5,7 +5,7 @@
 void test_multi_scope_empty_anonymous_type_full_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello, /world [10, 20] {}";
+    char *result, *input = "foo[bar] /hello, /world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -45,7 +45,7 @@ void test_multi_scope_empty_anonymous_type_full_id(
 void test_multi_scope_empty_anonymous_type_full_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello/world, /world/hello [10, 20] {}";
+    char *result, *input = "foo[bar] /hello/world, /world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -85,7 +85,7 @@ void test_multi_scope_empty_anonymous_type_full_nested_id(
 void test_multi_scope_empty_anonymous_type_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo(bar) /hello, /world [10, 20] {}";
+    char *result, *input = "foo[bar] /hello, /world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -125,7 +125,7 @@ void test_multi_scope_empty_anonymous_type_id(
 void test_multi_scope_empty_anonymous_type_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo(bar) hello/world, world/hello [10, 20] {}";
+    char *result, *input = "foo[bar] hello/world, world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -165,7 +165,7 @@ void test_multi_scope_empty_anonymous_type_nested_id(
 void test_multi_scope_empty_implicit_type_full_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "/hello, /world [10, 20] {}";
+    char *result, *input = "/hello, /world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -197,7 +197,7 @@ void test_multi_scope_empty_implicit_type_full_id(
 void test_multi_scope_empty_implicit_type_full_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "hello/world, world/hello [10, 20] {}";
+    char *result, *input = "hello/world, world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -229,7 +229,7 @@ void test_multi_scope_empty_implicit_type_full_nested_id(
 void test_multi_scope_empty_implicit_type_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "hello, world [10, 20] {}";
+    char *result, *input = "hello, world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -261,7 +261,7 @@ void test_multi_scope_empty_implicit_type_id(
 void test_multi_scope_empty_implicit_type_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "hello/world, world/hello [10, 20] {}";
+    char *result, *input = "hello/world, world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -293,7 +293,7 @@ void test_multi_scope_empty_implicit_type_nested_id(
 void test_multi_scope_empty_named_type_full_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo /hello, /world [10, 20] {}";
+    char *result, *input = "foo /hello, /world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -327,7 +327,7 @@ void test_multi_scope_empty_named_type_full_id(
 void test_multi_scope_empty_named_type_full_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo hello/world, world/hello [10, 20] {}";
+    char *result, *input = "foo hello/world, world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -361,7 +361,7 @@ void test_multi_scope_empty_named_type_full_nested_id(
 void test_multi_scope_empty_named_type_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo hello, world [10, 20] {}";
+    char *result, *input = "foo hello, world = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -395,7 +395,7 @@ void test_multi_scope_empty_named_type_id(
 void test_multi_scope_empty_named_type_nested_id(
     test_multi_scope_empty _this)
 {
-    char *result, *input = "foo hello/world, world/hello [10, 20] {}";
+    char *result, *input = "foo hello/world, world/hello = [10, 20] {}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

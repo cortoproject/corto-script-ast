@@ -10,7 +10,7 @@ void test_multi_scope_stmt_multiline_anonymous_type_full_id(
     test_multi_scope_stmt_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world: 10, 20 {\n"
+        "foo[bar] /hello, /world: 10, 20 {\n"
         "  stmt\n"
         "}"
         ;
@@ -41,8 +41,11 @@ void test_multi_scope_stmt_multiline_anonymous_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -56,7 +59,7 @@ void test_multi_scope_stmt_multiline_anonymous_type_full_nested_id(
     test_multi_scope_stmt_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello/world, /world/hello: 10, 20 {\n"
+        "foo[bar] /hello/world, /world/hello: 10, 20 {\n"
         "  stmt\n"
         "}"
         ;
@@ -87,8 +90,11 @@ void test_multi_scope_stmt_multiline_anonymous_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -102,7 +108,7 @@ void test_multi_scope_stmt_multiline_anonymous_type_id(
     test_multi_scope_stmt_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world: 10, 20 {\n"
+        "foo[bar] /hello, /world: 10, 20 {\n"
         "  stmt\n"
         "}"
         ;
@@ -133,8 +139,11 @@ void test_multi_scope_stmt_multiline_anonymous_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -148,7 +157,7 @@ void test_multi_scope_stmt_multiline_anonymous_type_nested_id(
     test_multi_scope_stmt_multiline _this)
 {
     char *result, *input =
-        "foo(bar) hello/world, world/hello: 10, 20 {\n"
+        "foo[bar] hello/world, world/hello: 10, 20 {\n"
         "  stmt\n"
         "}"
         ;
@@ -179,8 +188,11 @@ void test_multi_scope_stmt_multiline_anonymous_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -217,8 +229,11 @@ void test_multi_scope_stmt_multiline_implicit_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -255,8 +270,11 @@ void test_multi_scope_stmt_multiline_implicit_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -293,8 +311,11 @@ void test_multi_scope_stmt_multiline_implicit_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -331,8 +352,11 @@ void test_multi_scope_stmt_multiline_implicit_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -371,8 +395,11 @@ void test_multi_scope_stmt_multiline_named_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -411,8 +438,11 @@ void test_multi_scope_stmt_multiline_named_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -451,8 +481,11 @@ void test_multi_scope_stmt_multiline_named_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -491,8 +524,11 @@ void test_multi_scope_stmt_multiline_named_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);

@@ -5,7 +5,7 @@
 void test_explicit_type_tc_no_args_full_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello(): int32";
+    char *result, *input = "function /hello() int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -32,7 +32,7 @@ void test_explicit_type_tc_no_args_full_id(
 void test_explicit_type_tc_no_args_full_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello/world(): int32";
+    char *result, *input = "function /hello/world() int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -59,7 +59,7 @@ void test_explicit_type_tc_no_args_full_nested_id(
 void test_explicit_type_tc_no_args_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello(): int32";
+    char *result, *input = "function hello() int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -86,7 +86,7 @@ void test_explicit_type_tc_no_args_id(
 void test_explicit_type_tc_no_args_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello/world(): int32";
+    char *result, *input = "function hello/world() int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -113,7 +113,7 @@ void test_explicit_type_tc_no_args_nested_id(
 void test_explicit_type_tc_one_arg_full_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello(float32 arg): int32";
+    char *result, *input = "function /hello(float32 arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -145,7 +145,7 @@ void test_explicit_type_tc_one_arg_full_id(
 void test_explicit_type_tc_one_arg_full_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello/world(float32 arg): int32";
+    char *result, *input = "function /hello/world(float32 arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -177,7 +177,7 @@ void test_explicit_type_tc_one_arg_full_nested_id(
 void test_explicit_type_tc_one_arg_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello(float32 arg): int32";
+    char *result, *input = "function hello(float32 arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -209,7 +209,7 @@ void test_explicit_type_tc_one_arg_id(
 void test_explicit_type_tc_one_arg_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello/world(float32 arg): int32";
+    char *result, *input = "function hello/world(float32 arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -240,7 +240,7 @@ void test_explicit_type_tc_one_arg_nested_id(
 void test_explicit_type_tc_two_args_full_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello(float32 arg1, string arg2): int32";
+    char *result, *input = "function /hello(float32 arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -275,7 +275,7 @@ void test_explicit_type_tc_two_args_full_id(
 void test_explicit_type_tc_two_args_full_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function /hello/world(float32 arg1, string arg2): int32";
+    char *result, *input = "function /hello/world(float32 arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -311,7 +311,7 @@ void test_explicit_type_tc_two_args_full_nested_id(
 void test_explicit_type_tc_two_args_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello(float32 arg1, string arg2): int32";
+    char *result, *input = "function hello(float32 arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -347,7 +347,7 @@ void test_explicit_type_tc_two_args_id(
 void test_explicit_type_tc_two_args_nested_id(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello/world(float32 arg1, string arg2): int32";
+    char *result, *input = "function hello/world(float32 arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -382,7 +382,7 @@ void test_explicit_type_tc_two_args_nested_id(
 void test_explicit_type_tc_return_type_anonymous(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello(float32 arg): list(int32)";
+    char *result, *input = "function hello(float32 arg) list[int32]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -419,7 +419,7 @@ void test_explicit_type_tc_return_type_anonymous(
 void test_explicit_type_tc_return_type_anonymous_no_args(
     test_explicit_type _this)
 {
-    char *result, *input = "function hello(): list(int32)";
+    char *result, *input = "function hello() list[int32]";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

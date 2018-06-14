@@ -6,7 +6,7 @@ void test_multi_scope_empty_multiline_anonymous_type_full_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world {\n"
+        "foo[bar] /hello, /world {\n"
         "\n"
         "}"
         ;
@@ -41,7 +41,7 @@ void test_multi_scope_empty_multiline_anonymous_type_full_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello/world, /world/hello {\n"
+        "foo[bar] /hello/world, /world/hello {\n"
         "\n"
         "}"
         ;
@@ -76,7 +76,7 @@ void test_multi_scope_empty_multiline_anonymous_type_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world {\n"
+        "foo[bar] /hello, /world {\n"
         "\n"
         "}"
         ;
@@ -111,7 +111,7 @@ void test_multi_scope_empty_multiline_anonymous_type_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) hello/world, world/hello {\n"
+        "foo[bar] hello/world, world/hello {\n"
         "\n"
         "}"
         ;

@@ -117,7 +117,7 @@ void test_shorthand_2_implicit_type_nested_id(
 void test_shorthand_2_implicit_type_root_id(
     test_shorthand_2_implicit_type _this)
 {
-    char *result, *input = "foo(bar) root/: 10, 20";
+    char *result, *input = "foo[bar] root/: 10, 20";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

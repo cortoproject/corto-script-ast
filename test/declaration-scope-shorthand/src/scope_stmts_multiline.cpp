@@ -7,7 +7,7 @@ void test_scope_stmts_multiline_nested_decl_collection_1(
 {
     char *result, *input =
         "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt1[1]\n"
+        "  type1 stmt1 = [1]\n"
         "}"
         ;
     char *expect =
@@ -56,8 +56,8 @@ void test_scope_stmts_multiline_nested_decl_collection_2(
 {
     char *result, *input =
         "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt1[1]\n"
-        "  type2 stmt2[2]\n"
+        "  type1 stmt1 = [1]\n"
+        "  type2 stmt2 = [2]\n"
         "}"
         ;
     char *expect =
@@ -113,155 +113,12 @@ void test_scope_stmts_multiline_nested_decl_collection_2(
     free(result);
 }
 
-
-void test_scope_stmts_multiline_nested_decl_collection_multi_1(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt10[10], stmt11[11]\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type1'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt10'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt11'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '11'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
-void test_scope_stmts_multiline_nested_decl_collection_multi_2(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt10[10], stmt11[11]\n"
-        "  type2 stmt20[20], stmt21[21]\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type1'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt10'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt11'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '11'\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type2'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt20'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '20'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt21'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '21'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
 void test_scope_stmts_multiline_nested_decl_composite_1(
     test_scope_stmts_multiline _this)
 {
     char *result, *input =
         "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt1(1)\n"
+        "  type1 stmt1 = {1}\n"
         "}"
         ;
     char *expect =
@@ -309,8 +166,8 @@ void test_scope_stmts_multiline_nested_decl_composite_2(
 {
     char *result, *input =
         "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt1(1)\n"
-        "  type2 stmt2(2)\n"
+        "  type1 stmt1 = {1}\n"
+        "  type2 stmt2 = {2}\n"
         "}"
         ;
     char *expect =
@@ -363,143 +220,6 @@ void test_scope_stmts_multiline_nested_decl_composite_2(
     test_assertstr(expect, result);
     free(result);
 }
-
-
-void test_scope_stmts_multiline_nested_decl_composite_multi_1(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt10(10), stmt11(11)\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type1'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt10'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt11'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '11'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
-void test_scope_stmts_multiline_nested_decl_composite_multi_2(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  type1 stmt10(10), stmt11(11)\n"
-        "  type2 stmt20(20), stmt21(21)\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type1'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt10'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt11'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '11'\n"
-        "|   |   |   |   Declaration\n"
-        "|   |   |   |   |   type: Identifier\n"
-        "|   |   |   |   |   |   id: 'type2'\n"
-        "|   |   |   |   |   id: DeclarationIdentifier\n"
-        "|   |   |   |   |   |   ids:\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt20'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '20'\n"
-        "|   |   |   |   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   |   |   |   id: 'stmt21'\n"
-        "|   |   |   |   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   |   |   |   value: '21'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
 
 void test_scope_stmts_multiline_nested_decl_shorthand_1(
     test_scope_stmts_multiline _this)
@@ -945,8 +665,11 @@ void test_scope_stmts_multiline_nested_id_1(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -983,10 +706,16 @@ void test_scope_stmts_multiline_nested_id_2(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt1'\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt2'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt1'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt2'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -995,214 +724,3 @@ void test_scope_stmts_multiline_nested_id_2(
     free(result);
 }
 
-void test_scope_stmts_multiline_nested_anonymous_collection_1(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  anon[1, 2]\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '1'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '2'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-void test_scope_stmts_multiline_nested_anonymous_collection_2(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  anon1[1, 2]\n"
-        "  anon2[3, 4]\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon1'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '1'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '2'\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon2'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   collection: 'true'\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '3'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '4'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-
-void test_scope_stmts_multiline_nested_anonymous_composite_1(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  anon(1, 2)\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '1'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '2'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}
-
-void test_scope_stmts_multiline_nested_anonymous_composite_2(
-    test_scope_stmts_multiline _this)
-{
-    char *result, *input =
-        "foo/bar hello: 10, 20 {\n"
-        "  anon1(1, 2)\n"
-        "  anon2(3, 4)\n"
-        "}"
-        ;
-    char *expect =
-        "statements:\n"
-        "|   Declaration\n"
-        "|   |   type: Identifier\n"
-        "|   |   |   id: 'foo/bar'\n"
-        "|   |   id: DeclarationIdentifier\n"
-        "|   |   |   ids:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'hello'\n"
-        "|   |   initializer: Initializer\n"
-        "|   |   |   values:\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '10'\n"
-        "|   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   value: '20'\n"
-        "|   |   scope: Scope\n"
-        "|   |   |   statements:\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon1'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '1'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '2'\n"
-        "|   |   |   |   StorageInitializer\n"
-        "|   |   |   |   |   expr: Identifier\n"
-        "|   |   |   |   |   |   id: 'anon2'\n"
-        "|   |   |   |   |   initializer: Initializer\n"
-        "|   |   |   |   |   |   values:\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '3'\n"
-        "|   |   |   |   |   |   |   InitializerValue\n"
-        "|   |   |   |   |   |   |   |   value: Integer\n"
-        "|   |   |   |   |   |   |   |   |   value: '4'\n"
-        ;
-
-    result = cortoscript_code_to_string(input);
-    test_assert(result != NULL);
-    test_assertstr(expect, result);
-    free(result);
-}

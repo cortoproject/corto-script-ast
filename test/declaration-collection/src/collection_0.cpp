@@ -5,7 +5,7 @@
 void test_collection_0_anonymous_type_full_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo(bar) /hello[]";
+    char *result, *input = "foo[bar] /hello = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -34,7 +34,7 @@ void test_collection_0_anonymous_type_full_id(
 void test_collection_0_anonymous_type_full_nested_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo(bar) /hello/world[]";
+    char *result, *input = "foo[bar] /hello/world = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -64,7 +64,7 @@ void test_collection_0_anonymous_type_full_nested_id(
 void test_collection_0_anonymous_type_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo(bar) hello[]";
+    char *result, *input = "foo[bar] hello = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -94,7 +94,7 @@ void test_collection_0_anonymous_type_id(
 void test_collection_0_anonymous_type_nested_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo(bar) hello/world[]";
+    char *result, *input = "foo[bar] hello/world = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -124,7 +124,7 @@ void test_collection_0_anonymous_type_nested_id(
 void test_collection_0_anonymous_type_root_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo(bar) root/[]";
+    char *result, *input = "foo[bar] root/ = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -154,7 +154,7 @@ void test_collection_0_anonymous_type_root_id(
 void test_collection_0_named_type_full_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo /hello[]";
+    char *result, *input = "foo /hello = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -178,7 +178,7 @@ void test_collection_0_named_type_full_id(
 void test_collection_0_named_type_full_nested_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo /hello/world[]";
+    char *result, *input = "foo /hello/world = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -202,7 +202,7 @@ void test_collection_0_named_type_full_nested_id(
 void test_collection_0_named_type_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo hello[]";
+    char *result, *input = "foo hello = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -226,7 +226,7 @@ void test_collection_0_named_type_id(
 void test_collection_0_named_type_nested_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo hello/world[]";
+    char *result, *input = "foo hello/world = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -250,7 +250,7 @@ void test_collection_0_named_type_nested_id(
 void test_collection_0_named_type_root_id(
     test_collection_0 _this)
 {
-    char *result, *input = "foo root/[]";
+    char *result, *input = "foo root/ = []";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

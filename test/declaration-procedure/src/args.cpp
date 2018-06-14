@@ -5,7 +5,7 @@
 void test_args_tc_full_id(
     test_args _this)
 {
-    char *result, *input = "hello(/foo arg): int32";
+    char *result, *input = "hello(/foo arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -35,7 +35,7 @@ void test_args_tc_full_id(
 void test_args_tc_full_id_nested(
     test_args _this)
 {
-    char *result, *input = "hello(/foo/bar arg): int32";
+    char *result, *input = "hello(/foo/bar arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -65,7 +65,7 @@ void test_args_tc_full_id_nested(
 void test_args_tc_id(
     test_args _this)
 {
-    char *result, *input = "hello(foo arg): int32";
+    char *result, *input = "hello(foo arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -95,7 +95,7 @@ void test_args_tc_id(
 void test_args_tc_id_nested(
     test_args _this)
 {
-    char *result, *input = "hello(foo/bar arg): int32";
+    char *result, *input = "hello(foo/bar arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -125,7 +125,7 @@ void test_args_tc_id_nested(
 void test_args_tc_in(
     test_args _this)
 {
-    char *result, *input = "hello(in foo arg): int32";
+    char *result, *input = "hello(in foo arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -155,7 +155,7 @@ void test_args_tc_in(
 void test_args_tc_inout(
     test_args _this)
 {
-    char *result, *input = "hello(inout foo arg): int32";
+    char *result, *input = "hello(inout foo arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -186,7 +186,7 @@ void test_args_tc_inout(
 void test_args_tc_inout_mixed(
     test_args _this)
 {
-    char *result, *input = "hello(in foo arg1, out bar arg2, inout foo/bar arg3): int32";
+    char *result, *input = "hello(in foo arg1, out bar arg2, inout foo/bar arg3) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -226,7 +226,7 @@ void test_args_tc_inout_mixed(
 void test_args_tc_out(
     test_args _this)
 {
-    char *result, *input = "hello(out foo arg): int32";
+    char *result, *input = "hello(out foo arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -257,7 +257,7 @@ void test_args_tc_out(
 void test_args_tc_type_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(list(int32) arg1): int32";
+    char *result, *input = "hello(list[int32] arg1) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -293,7 +293,7 @@ void test_args_tc_type_anonymous(
 void test_args_tc_type_mixed_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(list(int32) arg1, string arg2): int32";
+    char *result, *input = "hello(list[int32] arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -332,7 +332,7 @@ void test_args_tc_type_mixed_anonymous(
 void test_args_tc_in_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(in list(int32) arg): int32";
+    char *result, *input = "hello(in list[int32] arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -367,7 +367,7 @@ void test_args_tc_in_anonymous(
 void test_args_tc_inout_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(inout list(int32) arg): int32";
+    char *result, *input = "hello(inout list[int32] arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -403,7 +403,7 @@ void test_args_tc_inout_anonymous(
 void test_args_tc_out_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(out list(int32) arg): int32";
+    char *result, *input = "hello(out list[int32] arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -439,7 +439,7 @@ void test_args_tc_out_anonymous(
 void test_args_tc_ref(
     test_args _this)
 {
-    char *result, *input = "hello(float32& arg): int32";
+    char *result, *input = "hello(float32& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -469,7 +469,7 @@ void test_args_tc_ref(
 void test_args_tc_ref_in(
     test_args _this)
 {
-    char *result, *input = "hello(in float32& arg): int32";
+    char *result, *input = "hello(in float32& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -499,7 +499,7 @@ void test_args_tc_ref_in(
 void test_args_tc_ref_in_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(in list(int32)& arg): int32";
+    char *result, *input = "hello(in list[int32]& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -535,7 +535,7 @@ void test_args_tc_ref_in_anonymous(
 void test_args_tc_ref_inout(
     test_args _this)
 {
-    char *result, *input = "hello(inout float32& arg): int32";
+    char *result, *input = "hello(inout float32& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -566,7 +566,7 @@ void test_args_tc_ref_inout(
 void test_args_tc_ref_inout_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(inout list(int32)& arg): int32";
+    char *result, *input = "hello(inout list[int32]& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -603,7 +603,7 @@ void test_args_tc_ref_inout_anonymous(
 void test_args_tc_ref_mixed(
     test_args _this)
 {
-    char *result, *input = "hello(float32& arg1, string arg2): int32";
+    char *result, *input = "hello(float32& arg1, string arg2) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -637,7 +637,7 @@ void test_args_tc_ref_mixed(
 void test_args_tc_ref_out(
     test_args _this)
 {
-    char *result, *input = "hello(out float32& arg): int32";
+    char *result, *input = "hello(out float32& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -668,7 +668,7 @@ void test_args_tc_ref_out(
 void test_args_tc_ref_out_anonymous(
     test_args _this)
 {
-    char *result, *input = "hello(out list(int32)& arg): int32";
+    char *result, *input = "hello(out list[int32]& arg) int32";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

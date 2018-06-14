@@ -9,7 +9,7 @@
 void test_scope_stmt_anonymous_type_full_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo(bar) /hello [10, 20] { stmt; }";
+    char *result, *input = "foo[bar] /hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -36,8 +36,11 @@ void test_scope_stmt_anonymous_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -50,7 +53,7 @@ void test_scope_stmt_anonymous_type_full_id(
 void test_scope_stmt_anonymous_type_full_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo(bar) /hello/world [10, 20] { stmt; }";
+    char *result, *input = "foo[bar] /hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -77,8 +80,11 @@ void test_scope_stmt_anonymous_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -91,7 +97,7 @@ void test_scope_stmt_anonymous_type_full_nested_id(
 void test_scope_stmt_anonymous_type_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo(bar) /hello [10, 20] { stmt; }";
+    char *result, *input = "foo[bar] /hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -118,8 +124,11 @@ void test_scope_stmt_anonymous_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -132,7 +141,7 @@ void test_scope_stmt_anonymous_type_id(
 void test_scope_stmt_anonymous_type_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo(bar) hello/world [10, 20] { stmt; }";
+    char *result, *input = "foo[bar] hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -159,8 +168,11 @@ void test_scope_stmt_anonymous_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -173,7 +185,7 @@ void test_scope_stmt_anonymous_type_nested_id(
 void test_scope_stmt_implicit_type_full_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "/hello [10, 20] { stmt; }";
+    char *result, *input = "/hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -192,8 +204,11 @@ void test_scope_stmt_implicit_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -206,7 +221,7 @@ void test_scope_stmt_implicit_type_full_id(
 void test_scope_stmt_implicit_type_full_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "hello/world [10, 20] { stmt; }";
+    char *result, *input = "hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -225,8 +240,11 @@ void test_scope_stmt_implicit_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -239,7 +257,7 @@ void test_scope_stmt_implicit_type_full_nested_id(
 void test_scope_stmt_implicit_type_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "hello [10, 20] { stmt; }";
+    char *result, *input = "hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -258,8 +276,11 @@ void test_scope_stmt_implicit_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -272,7 +293,7 @@ void test_scope_stmt_implicit_type_id(
 void test_scope_stmt_implicit_type_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "hello/world [10, 20] { stmt; }";
+    char *result, *input = "hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -291,8 +312,11 @@ void test_scope_stmt_implicit_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -305,7 +329,7 @@ void test_scope_stmt_implicit_type_nested_id(
 void test_scope_stmt_named_type_full_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo /hello [10, 20] { stmt; }";
+    char *result, *input = "foo /hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -326,8 +350,11 @@ void test_scope_stmt_named_type_full_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -340,7 +367,7 @@ void test_scope_stmt_named_type_full_id(
 void test_scope_stmt_named_type_full_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo hello/world [10, 20] { stmt; }";
+    char *result, *input = "foo hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -361,8 +388,11 @@ void test_scope_stmt_named_type_full_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -375,7 +405,7 @@ void test_scope_stmt_named_type_full_nested_id(
 void test_scope_stmt_named_type_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo hello [10, 20] { stmt; }";
+    char *result, *input = "foo hello = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -396,8 +426,11 @@ void test_scope_stmt_named_type_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);
@@ -410,7 +443,7 @@ void test_scope_stmt_named_type_id(
 void test_scope_stmt_named_type_nested_id(
     test_scope_stmt _this)
 {
-    char *result, *input = "foo hello/world [10, 20] { stmt; }";
+    char *result, *input = "foo hello/world = [10, 20] { stmt; }";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -421,7 +454,7 @@ void test_scope_stmt_named_type_nested_id(
         "|   |   |   |   Identifier\n"
         "|   |   |   |   |   id: 'hello/world'\n"
         "|   |   initializer: Initializer\n"
-        "|   |   |   collection: 'true'\n"    
+        "|   |   |   collection: 'true'\n"
         "|   |   |   values:\n"
         "|   |   |   |   InitializerValue\n"
         "|   |   |   |   |   value: Integer\n"
@@ -431,8 +464,11 @@ void test_scope_stmt_named_type_nested_id(
         "|   |   |   |   |   |   value: '20'\n"
         "|   |   scope: Scope\n"
         "|   |   |   statements:\n"
-        "|   |   |   |   Identifier\n"
-        "|   |   |   |   |   id: 'stmt'\n"
+        "|   |   |   |   Declaration\n"
+        "|   |   |   |   |   id: DeclarationIdentifier\n"
+        "|   |   |   |   |   |   ids:\n"
+        "|   |   |   |   |   |   |   Identifier\n"
+        "|   |   |   |   |   |   |   |   id: 'stmt'\n"
         ;
 
     result = cortoscript_code_to_string(input);

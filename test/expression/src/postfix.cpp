@@ -5,7 +5,7 @@
 void test_postfix_call_arg_1(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(10)";
+    char *result, *input = "foo.bar[10]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -30,7 +30,7 @@ void test_postfix_call_arg_1(
 void test_postfix_call_arg_n(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(10, 20)";
+    char *result, *input = "foo.bar[10, 20]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -57,7 +57,7 @@ void test_postfix_call_arg_n(
 void test_postfix_call_arg_1_collection(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:[10])";
+    char *result, *input = "foo.bar[a:[10]]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -86,7 +86,7 @@ void test_postfix_call_arg_1_collection(
 void test_postfix_call_arg_1_composite(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:(10))";
+    char *result, *input = "foo.bar[a:{10}]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -114,7 +114,7 @@ void test_postfix_call_arg_1_composite(
 void test_postfix_call_arg_1_key(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:10)";
+    char *result, *input = "foo.bar[a:10]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -139,7 +139,7 @@ void test_postfix_call_arg_1_key(
 void test_postfix_call_arg_n_collection(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:[10], b:[20])";
+    char *result, *input = "foo.bar[a:[10], b:[20]]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -176,7 +176,7 @@ void test_postfix_call_arg_n_collection(
 void test_postfix_call_arg_n_composite(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:(10), b:(20))";
+    char *result, *input = "foo.bar[a:{10}, b:{20}]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"
@@ -211,7 +211,7 @@ void test_postfix_call_arg_n_composite(
 void test_postfix_call_arg_n_key(
     test_postfix _this)
 {
-    char *result, *input = "foo.bar(a:10, b:20)";
+    char *result, *input = "foo.bar[a:10, b:20]";
     char *expect =
         "statements:\n"
         "|   StorageInitializer\n"

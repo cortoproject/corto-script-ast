@@ -5,7 +5,7 @@
 void test_shorthand_2_composite_anonymous_type_full_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo(bar) /hello: (10, 20), (30, 40)";
+    char *result, *input = "foo[bar] /hello: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -53,7 +53,7 @@ void test_shorthand_2_composite_anonymous_type_full_id(
 void test_shorthand_2_composite_anonymous_type_full_nested_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo(bar) /hello/world: (10, 20), (30, 40)";
+    char *result, *input = "foo[bar] /hello/world: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -101,7 +101,7 @@ void test_shorthand_2_composite_anonymous_type_full_nested_id(
 void test_shorthand_2_composite_anonymous_type_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo(bar) hello: (10, 20), (30, 40)";
+    char *result, *input = "foo[bar] hello: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -149,7 +149,7 @@ void test_shorthand_2_composite_anonymous_type_id(
 void test_shorthand_2_composite_anonymous_type_nested_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo(bar) hello/world: (10, 20), (30, 40)";
+    char *result, *input = "foo[bar] hello/world: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -197,7 +197,7 @@ void test_shorthand_2_composite_anonymous_type_nested_id(
 void test_shorthand_2_composite_anonymous_type_root_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo(bar) root/: (10, 20), (30, 40)";
+    char *result, *input = "foo[bar] root/: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -245,7 +245,7 @@ void test_shorthand_2_composite_anonymous_type_root_id(
 void test_shorthand_2_composite_named_type_full_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo /hello: (10, 20), (30, 40)";
+    char *result, *input = "foo /hello: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -287,7 +287,7 @@ void test_shorthand_2_composite_named_type_full_id(
 void test_shorthand_2_composite_named_type_full_nested_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo /hello/world: (10, 20), (30, 40)";
+    char *result, *input = "foo /hello/world: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -329,7 +329,7 @@ void test_shorthand_2_composite_named_type_full_nested_id(
 void test_shorthand_2_composite_named_type_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo hello: (10, 20), (30, 40)";
+    char *result, *input = "foo hello: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -371,7 +371,7 @@ void test_shorthand_2_composite_named_type_id(
 void test_shorthand_2_composite_named_type_nested_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo hello/world: (10, 20), (30, 40)";
+    char *result, *input = "foo hello/world: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -413,7 +413,7 @@ void test_shorthand_2_composite_named_type_nested_id(
 void test_shorthand_2_composite_named_type_root_id(
     test_shorthand_2_composite _this)
 {
-    char *result, *input = "foo root/: (10, 20), (30, 40)";
+    char *result, *input = "foo root/: {10, 20}, {30, 40}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"

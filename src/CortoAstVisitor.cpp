@@ -69,16 +69,17 @@ Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
 }
 
 Any CortoAstVisitor::visitScope(CortoParser::ScopeContext *ctx) {
-    Scope block = NULL;
+    Scope block = corto::declare<Scope_t>();
 
-    CortoParser::StatementsContext *statements_ctx = ctx->statements();
-    if (statements_ctx) {
-        block = safe_visit<Scope_t>(this, statements_ctx);
+    vector< CortoParser::Scope_statementContext *> statementCtx =
+      ctx->scope_statement();
 
-        CortoParser::Default_scope_typeContext *type_ctx =
-            ctx->default_scope_type();
-        if (type_ctx) {
-            block->default_type = safe_visit<Storage_t>(this, type_ctx);
+    if (statementCtx.size()) {
+        for (unsigned int i = 0; i < statementCtx.size(); i ++) {
+            Statement statement = safe_visit<Statement_t>(this, statementCtx[i]);
+            if (statement) {
+                ast_Scope_addStatement(block, statement);
+            }
         }
     }
 
@@ -92,44 +93,35 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     CortoParser::Storage_expressionContext *typeCtx = ctx->storage_expression();
     if (typeCtx) {
         declaration->type = safe_visit<Storage_t>(this, typeCtx);
-    } else {
-        // Type for shorthand procedures notation can only be a storage id
-        CortoParser::Storage_identifierContext *typeCtx = ctx->storage_identifier();
-        if (typeCtx) {
-            Identifier id_node = to_identifier(typeCtx);
-            declaration->type = ast_Storage(id_node);
-        }
     }
 
-    // Parse identifiers of declaration
     CortoParser::Declaration_identifierContext* idCtx =
         ctx->declaration_identifier();
 
+    CortoParser::Function_identifierContext* funcCtx =
+        ctx->function_identifier();
+
+    // Parse identifiers of declaration
     if (idCtx) {
-        declaration->id = safe_visit<DeclarationIdentifier_t>(
-            this, idCtx);
-    } else {
-        // Check if there is a function declaration
-        CortoParser::Function_identifierContext* funcCtx =
-            ctx->function_identifier();
-        if (funcCtx) {
-            declaration->id = safe_visit<DeclarationIdentifier_t>(
-                this, funcCtx);
-        }
+        declaration->id = safe_visit<DeclarationIdentifier_t>(this, idCtx);
+    } else
+
+    // Parse function identifiers of declaration
+    if (funcCtx) {
+        declaration->id = safe_visit<DeclarationIdentifier_t>(this, funcCtx);
     }
 
     // Parse initializer of declaration
-    CortoParser::Declaration_initializerContext *initializerCtx =
-        ctx->declaration_initializer();
+    CortoParser::Initializer_assignmentContext *initializerCtx =
+        ctx->initializer_assignment();
+    CortoParser::Initializer_listContext *initializerListCtx =
+        ctx->initializer_list();
+
     if (initializerCtx) {
         declaration->initializer = safe_visit<Initializer_t>(this, initializerCtx);
-    } else {
-        // Shorthand procedure notation can only use shorthand initializers
-        CortoParser::Initializer_shorthandContext *shorthandCtx =
-            ctx->initializer_shorthand();
-        if (shorthandCtx) {
-            declaration->initializer = safe_visit<Initializer_t>(this, shorthandCtx);
-        }
+    } else
+    if (initializerListCtx) {
+        declaration->initializer = safe_visit<Initializer_t>(this, initializerListCtx);
     }
 
     // Parse scope of declaration
@@ -156,16 +148,6 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
         }
     }
 
-    // Expressions are identifiers with a local initializer
-    vector<CortoParser::Storage_expressionContext *> exprCtx =
-        ctx->storage_expression();
-    if (exprCtx.size()) {
-        for (unsigned int i = 0; i < exprCtx.size(); i ++) {
-            Storage id = safe_visit<Storage_t>(this, exprCtx[i]);
-            corto_ll_append(result->ids, id);
-        }
-    }
-
     corto_define(result);
 
     return (Node)result;
@@ -174,8 +156,9 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
 Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierContext *ctx) {
     DeclarationIdentifier result = corto::declare<DeclarationIdentifier_t>();
 
-    // Parse function identifier
-    CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
+    // Identifiers are identifiers without a local initializer
+    CortoParser::Storage_identifierContext *idCtx =
+        ctx->storage_identifier();
     if (idCtx) {
         Identifier id_node = to_identifier(idCtx);
         corto_ll_append(result->ids, id_node);
@@ -201,43 +184,35 @@ Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierCo
     return (Node)result;
 }
 
-Any CortoAstVisitor::visitDefault_scope_type(CortoParser::Default_scope_typeContext *ctx) {
-    Node result = NULL;
-
-    CortoParser::Storage_expressionContext *storageCtx =
-        ctx->storage_expression();
-
-    if (storageCtx) {
-        result = safe_visit<Node_t>(this, storageCtx);
-    }
-
-    return (Node)result;
-}
-
 Any CortoAstVisitor::visitStorage_expression(CortoParser::Storage_expressionContext *ctx) {
     Node result = NULL;
 
     CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
     CortoParser::Storage_expressionContext *storageCtx =
         ctx->storage_expression();
-    CortoParser::Initializer_expressionContext* initCtx =
-        ctx->initializer_expression();
+    CortoParser::Initializer_collectionContext* collectionInit =
+        ctx->initializer_collection();
     antlr4::tree::TerminalNode *memberCtx = ctx->IDENTIFIER();
 
     if (idCtx) {
         Identifier id_node = to_identifier(idCtx);
         result = (Node)id_node;
     } else
+    if (collectionInit) {
+        StorageInitializer init = corto::declare<StorageInitializer_t>();
+        init->expr = safe_visit<Storage_t>(this, storageCtx);
+        init->initializer = safe_visit<Initializer_t>(this, collectionInit);
+
+        /* StorageExpression initializers use collection initializer
+         * syntax, but don't enforce their contents to be collections */
+        init->initializer->collection = false;
+        corto_define(init);
+        result = (Node)init;
+    } else
     if (memberCtx) {
         Member member = corto::declare<Member_t>();
         member->expr = safe_visit<Storage_t>(this, storageCtx);
         member->key = corto_strdup(memberCtx->getText().c_str());
-        result = (Node)member;
-    } else
-    if (initCtx) {
-        StorageInitializer member = corto::declare<StorageInitializer_t>();
-        member->expr = safe_visit<Storage_t>(this, storageCtx);
-        member->initializer = safe_visit<Initializer_t>(this, initCtx);
         result = (Node)member;
     }
 
@@ -333,7 +308,9 @@ Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
     argument->type = safe_visit<Storage_t>(this, ctx->storage_expression());
 
     // Get argument name
-    corto_set_str(&argument->name, ctx->IDENTIFIER()->getText().c_str());
+    if (ctx->IDENTIFIER()) {
+        corto_set_str(&argument->name, ctx->IDENTIFIER()->getText().c_str());
+    }
 
     // Check if argument is inout
     if (ctx->INOUT()) {
@@ -805,7 +782,7 @@ Any CortoAstVisitor::visitUnary_operator(CortoParser::Unary_operatorContext *ctx
 Any CortoAstVisitor::visitPostfix_expression(CortoParser::Postfix_expressionContext *ctx) {
     Expression result = NULL;
 
-    CortoParser::Primary_expressionContext *primary_ctx = ctx->primary_expression();
+    CortoParser::LiteralContext *primary_ctx = ctx->literal();
     CortoParser::Storage_expressionContext *storage_ctx = ctx->storage_expression();
     CortoParser::Postfix_expressionContext *postfix_ctx = ctx->postfix_expression();
     CortoParser::ExpressionContext *expr_ctx = ctx->expression();
@@ -847,18 +824,6 @@ Any CortoAstVisitor::visitInc_operator(CortoParser::Inc_operatorContext *ctx) {
     }
 
     return result;
-}
-
-Any CortoAstVisitor::visitPrimary_expression(CortoParser::Primary_expressionContext *ctx) {
-    Expression result = NULL;
-
-    CortoParser::LiteralContext *literal_ctx = ctx->literal();
-
-    if (literal_ctx) {
-        result = safe_visit<Expression_t>(this, literal_ctx);
-    }
-
-    return (Node)result;
 }
 
 Any CortoAstVisitor::visitLiteral(CortoParser::LiteralContext *ctx) {

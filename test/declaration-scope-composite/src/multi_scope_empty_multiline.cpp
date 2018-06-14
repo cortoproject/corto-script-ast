@@ -6,7 +6,7 @@ void test_multi_scope_empty_multiline_anonymous_type_full_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world (10, 20) {\n"
+        "foo[bar] /hello, /world = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -49,7 +49,7 @@ void test_multi_scope_empty_multiline_anonymous_type_full_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello/world, /world/hello (10, 20) {\n"
+        "foo[bar] /hello/world, /world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -92,7 +92,7 @@ void test_multi_scope_empty_multiline_anonymous_type_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) /hello, /world (10, 20) {\n"
+        "foo[bar] /hello, /world = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -135,7 +135,7 @@ void test_multi_scope_empty_multiline_anonymous_type_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo(bar) hello/world, world/hello (10, 20) {\n"
+        "foo[bar] hello/world, world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -178,7 +178,7 @@ void test_multi_scope_empty_multiline_implicit_type_full_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "/hello, /world (10, 20) {\n"
+        "/hello, /world = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -213,7 +213,7 @@ void test_multi_scope_empty_multiline_implicit_type_full_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "hello/world, world/hello (10, 20) {\n"
+        "hello/world, world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -248,7 +248,7 @@ void test_multi_scope_empty_multiline_implicit_type_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "hello, world (10, 20) {\n"
+        "hello, world = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -283,7 +283,7 @@ void test_multi_scope_empty_multiline_implicit_type_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "hello/world, world/hello (10, 20) {\n"
+        "hello/world, world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -318,7 +318,7 @@ void test_multi_scope_empty_multiline_named_type_full_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo /hello, /world (10, 20) {\n"
+        "foo /hello, /world = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -355,7 +355,7 @@ void test_multi_scope_empty_multiline_named_type_full_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo hello/world, world/hello (10, 20) {\n"
+        "foo hello/world, world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;
@@ -392,7 +392,7 @@ void test_multi_scope_empty_multiline_named_type_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo hello, world (10, 20) {\n"
+        "foo hello, world = {10, 20} {\n"
         "\n"
         "}";
     char *expect =
@@ -428,7 +428,7 @@ void test_multi_scope_empty_multiline_named_type_nested_id(
     test_multi_scope_empty_multiline _this)
 {
     char *result, *input =
-        "foo hello/world, world/hello (10, 20) {\n"
+        "foo hello/world, world/hello = {10, 20} {\n"
         "\n"
         "}"
         ;

@@ -5,7 +5,7 @@
 void test_composite_1_multi_anonymous_type_full_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo(bar) /hello, /world (10)";
+    char *result, *input = "foo[bar] /hello, /world = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -40,7 +40,7 @@ void test_composite_1_multi_anonymous_type_full_id(
 void test_composite_1_multi_anonymous_type_full_nested_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo(bar) /hello/world, /world/hello (10)";
+    char *result, *input = "foo[bar] /hello/world, /world/hello = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -75,7 +75,7 @@ void test_composite_1_multi_anonymous_type_full_nested_id(
 void test_composite_1_multi_anonymous_type_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo(bar) hello, world (10)";
+    char *result, *input = "foo[bar] hello, world = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -110,7 +110,7 @@ void test_composite_1_multi_anonymous_type_id(
 void test_composite_1_multi_anonymous_type_nested_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo(bar) hello/world, world/hello (10)";
+    char *result, *input = "foo[bar] hello/world, world/hello = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -138,13 +138,13 @@ void test_composite_1_multi_anonymous_type_nested_id(
     result = cortoscript_code_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
-    free(result);
+    free(result); 
 }
 
 void test_composite_1_multi_named_type_full_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo /hello, /world (10)";
+    char *result, *input = "foo /hello, /world = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -172,7 +172,7 @@ void test_composite_1_multi_named_type_full_id(
 void test_composite_1_multi_named_type_full_nested_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo /hello/world, /world/hello (10)";
+    char *result, *input = "foo /hello/world, /world/hello = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -201,7 +201,7 @@ void test_composite_1_multi_named_type_full_nested_id(
 void test_composite_1_multi_named_type_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo hello, world (10)";
+    char *result, *input = "foo hello, world = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
@@ -229,7 +229,7 @@ void test_composite_1_multi_named_type_id(
 void test_composite_1_multi_named_type_nested_id(
     test_composite_1_multi _this)
 {
-    char *result, *input = "foo hello/world, world/hello (10)";
+    char *result, *input = "foo hello/world, world/hello = {10}";
     char *expect =
         "statements:\n"
         "|   Declaration\n"
