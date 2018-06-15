@@ -56,13 +56,19 @@ Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
 Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
     Node node = NULL;
 
-    CortoParser::DeclarationContext *decl_ctx = ctx->declaration();
     CortoParser::ExpressionContext *expr_ctx = ctx->expression();
+    CortoParser::Use_statementContext *use_ctx = ctx->use_statement();
+    CortoParser::In_declarationContext *in_ctx = ctx->in_declaration();
+    CortoParser::DeclarationContext *decl_ctx = ctx->declaration();
 
     if (decl_ctx) {
         node = safe_visit<Node_t>(this, decl_ctx);
     } else if (expr_ctx) {
         node = safe_visit<Node_t>(this, expr_ctx);
+    } else if (use_ctx) {
+        node = safe_visit<Node_t>(this, use_ctx);
+    } else if (in_ctx) {
+        node = safe_visit<Node_t>(this, in_ctx);
     }
 
     return node;
@@ -84,6 +90,34 @@ Any CortoAstVisitor::visitScope(CortoParser::ScopeContext *ctx) {
     }
 
     return (Node)block;
+}
+
+Any CortoAstVisitor::visitUse_statement(CortoParser::Use_statementContext *ctx) {
+    ast_Use use = corto::declare<Use_t>();
+
+    vector<CortoParser::Storage_identifierContext*> ids = ctx->storage_identifier();
+
+    /* should always be at least one identifier, at most two */
+    corto_set_str(&use->package, ids[0]->getText().c_str());
+
+    if (ctx->AS()) {
+        corto_set_str(&use->alias, ids[1]->getText().c_str());
+    }
+
+    if (ctx->TYPESYSTEM()) {
+        use->as_typesystem = true;
+    }
+
+    return (Node)use;
+}
+
+Any CortoAstVisitor::visitIn_declaration(CortoParser::In_declarationContext *ctx) {
+    ast_Declaration declaration =
+      safe_visit<Declaration_t>(this, ctx->declaration());
+
+    declaration->set_scope = true;
+
+    return (Node)declaration;
 }
 
 Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
@@ -306,8 +340,8 @@ Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
     }
 
     // Check if argument is inout
-    if (ctx->INOUT()) {
-        std::string inout = ctx->INOUT()->getText();
+    if (ctx->inout()) {
+        std::string inout = ctx->inout()->getText();
         if (inout == "in") {
             argument->inout = CORTO_IN;
         } else if (inout == "out") {

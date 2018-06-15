@@ -45,6 +45,11 @@ int16_t ast_Visitor_visit(
             goto error;
         }
     } else
+    if (corto_instanceof(ast_Use_o, node)) {
+       if (ast_Visitor_visitUse(_this, node)) {
+           goto error;
+       }
+    } else
     if (corto_instanceof(ast_Statement_o, node)) {
         if (ast_Visitor_visitStatement(_this, node)) {
             goto error;
@@ -261,4 +266,11 @@ int16_t ast_Visitor_visitFunctionArguments_v(
     return 0;
 error:
     return -1;
+}
+
+int16_t ast_Visitor_visitUse_v(
+    ast_Visitor _this,
+    ast_Use node)
+{
+    return 0;
 }

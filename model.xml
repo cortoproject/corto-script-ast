@@ -18,6 +18,14 @@
 
         <class name="Statement" base="Node"/>
 
+        <class name="Use" base="Statement">
+            <corto:scope>
+                <member name="package" type="string"/>
+                <member name="alias" type="string"/>
+                <member name="as_typesystem" type="bool"/>
+            </corto:scope>
+        </class>
+
         <class name="FunctionArgument" base="Node">
             <corto:scope>
                 <member name="name" type="lang/string"/>
@@ -38,7 +46,8 @@
             <corto:scope>
                 <member name="type" type="script/ast/Storage"/>
                 <member name="id" type="DeclarationIdentifier"/>
-                <member name="isVar" type="lang/bool"/>
+                <member name="set_scope" type="lang/bool"/>
+                <member name="is_var" type="lang/bool"/>
                 <member name="initializer" type="script/ast/Initializer"/>
                 <member name="scope" type="script/ast/Scope"/>
             </corto:scope>
@@ -218,6 +227,7 @@
                 <method name="visit(Node node)" returnType="int16"/>
                 <overridable name="visitScope(Scope node)" returnType="int16"/>
                 <overridable name="visitStatement(Statement node)" returnType="int16"/>
+                <overridable name="visitUse(Use node)" returnType="int16"/>
                 <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
                 <overridable name="visitExpression(Expression node)" returnType="int16"/>
                 <overridable name="visitUnary(ast/Unary node)" returnType="int16"/>
