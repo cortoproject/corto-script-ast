@@ -7,14 +7,13 @@ void test_unary_literal(
 {
     char *result, *input = "!true";
     char *expect =
-        "statements:\n"
-        "|   Unary\n"
-        "|   |   expr: Boolean\n"
-        "|   |   |   value: 'true'\n"
-        "|   |   operator: 'COND_NOT'\n"
+        "Unary\n"
+        "|   expr: Boolean\n"
+        "|   |   value: 'true'\n"
+        "|   operator: 'COND_NOT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -25,16 +24,15 @@ void test_unary_literal_nested(
 {
     char *result, *input = "++!true";
     char *expect =
-        "statements:\n"
-        "|   Unary\n"
-        "|   |   expr: Unary\n"
-        "|   |   |   expr: Boolean\n"
-        "|   |   |   |   value: 'true'\n"
-        "|   |   |   operator: 'COND_NOT'\n"
-        "|   |   operator: 'INC'\n"
+        "Unary\n"
+        "|   expr: Unary\n"
+        "|   |   expr: Boolean\n"
+        "|   |   |   value: 'true'\n"
+        "|   |   operator: 'COND_NOT'\n"
+        "|   operator: 'INC'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -45,17 +43,16 @@ void test_unary_precedence(
 {
     char *result, *input = "!(int32)foo";
     char *expect =
-        "statements:\n"
-        "|   Unary\n"
-        "|   |   expr: Cast\n"
-        "|   |   |   type: Identifier\n"
-        "|   |   |   |   id: 'int32'\n"
-        "|   |   |   expr: Identifier\n"
-        "|   |   |   |   id: 'foo'\n"
-        "|   |   operator: 'COND_NOT'\n"
+        "Unary\n"
+        "|   expr: Cast\n"
+        "|   |   type: Identifier\n"
+        "|   |   |   id: 'int32'\n"
+        "|   |   expr: Identifier\n"
+        "|   |   |   id: 'foo'\n"
+        "|   operator: 'COND_NOT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);

@@ -7,12 +7,11 @@ void test_member_member(
 {
     char *result, *input = "foo.bar";
     char *expect =
-        "statements:\n"
-        "|   Identifier\n"
-        "|   |   id: 'foo.bar'\n"
+        "Identifier\n"
+        "|   id: 'foo.bar'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -23,12 +22,11 @@ void test_member_member_nested_1(
 {
     char *result, *input = "foo.bar.hello";
     char *expect =
-        "statements:\n"
-        "|   Identifier\n"
-        "|   |   id: 'foo.bar.hello'\n"
+        "Identifier\n"
+        "|   id: 'foo.bar.hello'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -39,12 +37,11 @@ void test_member_member_nested_n(
 {
     char *result, *input = "foo.bar.hello.world";
     char *expect =
-        "statements:\n"
-        "|   Identifier\n"
-        "|   |   id: 'foo.bar.hello.world'\n"
+        "Identifier\n"
+        "|   id: 'foo.bar.hello.world'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);

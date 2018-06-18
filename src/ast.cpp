@@ -9,27 +9,39 @@ corto_tls ast_PARSER_KEY;
 using namespace antlr4;
 
 ast_Node cortoscript_ast_parse(
-    const char * string)
+    const char * string,
+    bool as_expression)
 {
     ANTLRInputStream input(string);
     CortoLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
     tokens.fill();
     CortoParser parser(&tokens);
-    tree::ParseTree* tree = parser.program();
+    tree::ParseTree* tree = NULL;
+    if (as_expression) {
+        tree = parser.expression();
+    } else {
+        tree = parser.program();
+    }
     CortoAstVisitor visitor;
     return visitor.visit(tree);
 }
 
 ast_Node cortoscript_ast_parse_file(
-    const char * file)
+    const char * file,
+    bool as_expression)
 {
     ANTLRFileStream input(file);
     CortoLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
     tokens.fill();
     CortoParser parser(&tokens);
-    tree::ParseTree* tree = parser.program();
+    tree::ParseTree* tree = NULL;
+    if (as_expression) {
+        tree = parser.expression();
+    } else {
+        tree = parser.program();
+    }
     CortoAstVisitor visitor;
     return visitor.visit(tree);
 }

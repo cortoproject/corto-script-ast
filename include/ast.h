@@ -34,10 +34,12 @@ extern "C" {
 #endif
 
 ast_Node cortoscript_ast_parse(
-    const char * string);
+    const char * string,
+    bool as_expression);
 
 ast_Node cortoscript_ast_parse_file(
-    const char * file);
+    const char * file,
+    bool as_expression);
 
 void cortoscript_ast_visit(
     ast_Node node,
@@ -56,4 +58,3 @@ int16_t cortoscript_ast_to_value(
 /* $end */
 
 #endif
-

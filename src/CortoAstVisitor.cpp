@@ -56,15 +56,12 @@ Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
 Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
     Node node = NULL;
 
-    CortoParser::ExpressionContext *expr_ctx = ctx->expression();
     CortoParser::Use_statementContext *use_ctx = ctx->use_statement();
     CortoParser::In_declarationContext *in_ctx = ctx->in_declaration();
     CortoParser::DeclarationContext *decl_ctx = ctx->declaration();
 
     if (decl_ctx) {
         node = safe_visit<Node_t>(this, decl_ctx);
-    } else if (expr_ctx) {
-        node = safe_visit<Node_t>(this, expr_ctx);
     } else if (use_ctx) {
         node = safe_visit<Node_t>(this, use_ctx);
     } else if (in_ctx) {

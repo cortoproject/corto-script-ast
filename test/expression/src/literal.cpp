@@ -7,12 +7,11 @@ void test_literal_boolean_true(
 {
     char *result, *input = "true";
     char *expect =
-        "statements:\n"
-        "|   Boolean\n"
-        "|   |   value: 'true'\n"
+        "Boolean\n"
+        "|   value: 'true'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -23,11 +22,10 @@ void test_literal_boolean_false(
 {
     char *result, *input = "false";
     char *expect =
-        "statements:\n"
-        "|   Boolean\n"
+        "Boolean\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -39,12 +37,11 @@ void test_literal_floating_point(
 {
     char *result, *input = "10.5";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '10.500000'\n"
+        "FloatingPoint\n"
+        "|   value: '10.500000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -56,13 +53,12 @@ void test_literal_floating_point_measurement(
 {
     char *result, *input = "10.5ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '10.500000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '10.500000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -73,12 +69,11 @@ void test_literal_floating_point_scientific_plus_e(
 {
     char *result, *input = "10.5e+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '1050.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '1050.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -89,12 +84,11 @@ void test_literal_floating_point_scientific_plus_e_upper(
 {
     char *result, *input = "10.5E+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '1050.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '1050.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -105,12 +99,11 @@ void test_literal_floating_point_scientific_minus_e(
 {
     char *result, *input = "10.5e-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '0.105000'\n"
+        "FloatingPoint\n"
+        "|   value: '0.105000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -121,12 +114,11 @@ void test_literal_floating_point_scientific_minus_e_upper(
 {
     char *result, *input = "10.5E-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '0.105000'\n"
+        "FloatingPoint\n"
+        "|   value: '0.105000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -137,12 +129,11 @@ void test_literal_floating_point_signed_scientific_minus_e(
 {
     char *result, *input = "-10.5e-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-0.105000'\n"
+        "FloatingPoint\n"
+        "|   value: '-0.105000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -153,12 +144,11 @@ void test_literal_floating_point_signed_scientific_minus_e_upper(
 {
     char *result, *input = "-10.5E-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-0.105000'\n"
+        "FloatingPoint\n"
+        "|   value: '-0.105000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -169,12 +159,11 @@ void test_literal_floating_point_signed_scientific_plus_e(
 {
     char *result, *input = "10.5e+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '1050.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '1050.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -185,12 +174,11 @@ void test_literal_floating_point_signed_scientific_plus_e_upper(
 {
     char *result, *input = "-10.5E+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-1050.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '-1050.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -201,12 +189,11 @@ void test_literal_hexadecimal(
 {
     char *result, *input = "0xFF";
     char *expect =
-        "statements:\n"
-        "|   Integer\n"
-        "|   |   value: '255'\n"
+        "Integer\n"
+        "|   value: '255'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -218,12 +205,11 @@ void test_literal_integer(
 {
     char *result, *input = "10";
     char *expect =
-        "statements:\n"
-        "|   Integer\n"
-        "|   |   value: '10'\n"
+        "Integer\n"
+        "|   value: '10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -235,13 +221,12 @@ void test_literal_integer_measurement(
 {
     char *result, *input = "10ft";
     char *expect =
-        "statements:\n"
-        "|   Integer\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '10'\n"
+        "Integer\n"
+        "|   unit: 'ft'\n"
+        "|   value: '10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -253,11 +238,10 @@ void test_literal_null_literal(
 {
     char *result, *input = "null";
     char *expect =
-        "statements:\n"
-        "|   Null\n"
+        "Null\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -269,12 +253,11 @@ void test_literal_signed_integer_minus(
 {
     char *result, *input = "-10";
     char *expect =
-        "statements:\n"
-        "|   SignedInteger\n"
-        "|   |   value: '-10'\n"
+        "SignedInteger\n"
+        "|   value: '-10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -286,13 +269,12 @@ void test_literal_signed_integer_minus_measurement(
 {
     char *result, *input = "-10ft";
     char *expect =
-        "statements:\n"
-        "|   SignedInteger\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '-10'\n"
+        "SignedInteger\n"
+        "|   unit: 'ft'\n"
+        "|   value: '-10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -304,12 +286,11 @@ void test_literal_signed_integer_plus(
 {
     char *result, *input = "+10";
     char *expect =
-        "statements:\n"
-        "|   SignedInteger\n"
-        "|   |   value: '10'\n"
+        "SignedInteger\n"
+        "|   value: '10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -321,13 +302,12 @@ void test_literal_signed_integer_plus_measurement(
 {
     char *result, *input = "+10ft";
     char *expect =
-        "statements:\n"
-        "|   SignedInteger\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '10'\n"
+        "SignedInteger\n"
+        "|   unit: 'ft'\n"
+        "|   value: '10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -339,13 +319,12 @@ void test_literal_string_double_quote(
 {
     char *result, *input = "\"Foo\"";
     char *expect =
-        "statements:\n"
-        "|   String\n"
-        "|   |   value: 'Foo'\n"
-        "|   |   delim: '\"'\n"
+        "String\n"
+        "|   value: 'Foo'\n"
+        "|   delim: '\"'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -357,13 +336,12 @@ void test_literal_string_single_quote(
 {
     char *result, *input = "'Foo'";
     char *expect =
-        "statements:\n"
-        "|   String\n"
-        "|   |   value: 'Foo'\n"
-        "|   |   delim: '\\''\n"
+        "String\n"
+        "|   value: 'Foo'\n"
+        "|   delim: '\\''\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -374,12 +352,11 @@ void test_literal_integer_scientific_minus_e(
 {
     char *result, *input = "10e-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '0.100000'\n"
+        "FloatingPoint\n"
+        "|   value: '0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -390,12 +367,11 @@ void test_literal_integer_scientific_minus_e_upper(
 {
     char *result, *input = "10E-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '0.100000'\n"
+        "FloatingPoint\n"
+        "|   value: '0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -406,12 +382,11 @@ void test_literal_integer_scientific_plus_e(
 {
     char *result, *input = "10e+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '1000.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -422,12 +397,11 @@ void test_literal_integer_scientific_plus_e_upper(
 {
     char *result, *input = "10E+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '1000.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -438,12 +412,11 @@ void test_literal_signed_integer_scientific_minus_e(
 {
     char *result, *input = "-10e-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-0.100000'\n"
+        "FloatingPoint\n"
+        "|   value: '-0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -454,12 +427,11 @@ void test_literal_signed_integer_scientific_minus_e_upper(
 {
     char *result, *input = "-10E-2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-0.100000'\n"
+        "FloatingPoint\n"
+        "|   value: '-0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -470,12 +442,11 @@ void test_literal_signed_integer_scientific_plus_e(
 {
     char *result, *input = "-10e+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-1000.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '-1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -486,12 +457,11 @@ void test_literal_signed_integer_scientific_plus_e_upper(
 {
     char *result, *input = "-10E+2";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   value: '-1000.000000'\n"
+        "FloatingPoint\n"
+        "|   value: '-1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -502,13 +472,12 @@ void test_literal_floating_point_measurement_scientific_minus_e(
 {
     char *result, *input = "10.5e-2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '0.105000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '0.105000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -519,13 +488,12 @@ void test_literal_floating_point_measurement_scientific_plus_e(
 {
     char *result, *input = "10.5e+2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '1050.000000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '1050.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -536,13 +504,12 @@ void test_literal_signed_integer_minus_measurement_scientific_minus_e(
 {
     char *result, *input = "-10e-2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '-0.100000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '-0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -553,13 +520,12 @@ void test_literal_signed_integer_minus_measurement_scientific_plus_e(
 {
     char *result, *input = "-10e+2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '-1000.000000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '-1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -570,13 +536,12 @@ void test_literal_signed_integer_plus_measurement_scientific_minus_e(
 {
     char *result, *input = "+10e-2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '0.100000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '0.100000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -587,13 +552,12 @@ void test_literal_signed_integer_plus_measurement_scientific_plus_e(
 {
     char *result, *input = "+10e+2ft";
     char *expect =
-        "statements:\n"
-        "|   FloatingPoint\n"
-        "|   |   unit: 'ft'\n"
-        "|   |   value: '1000.000000'\n"
+        "FloatingPoint\n"
+        "|   unit: 'ft'\n"
+        "|   value: '1000.000000'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);

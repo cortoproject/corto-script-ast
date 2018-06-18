@@ -7,16 +7,15 @@ void test_binary_add(
 {
     char *result, *input = "10 + 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'ADD'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'ADD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -27,20 +26,19 @@ void test_binary_add_nested(
 {
     char *result, *input = "10 + 20 + 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'ADD'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'ADD'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'ADD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -51,16 +49,15 @@ void test_binary_div(
 {
     char *result, *input = "10 / 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'DIV'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'DIV'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -71,20 +68,19 @@ void test_binary_div_nested(
 {
     char *result, *input = "10 / 20 / 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'DIV'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'DIV'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'DIV'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -95,16 +91,15 @@ void test_binary_mod(
 {
     char *result, *input = "10 % 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'MOD'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'MOD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -115,20 +110,19 @@ void test_binary_mod_nested(
 {
     char *result, *input = "10 % 20 % 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'MOD'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'MOD'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'MOD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -139,16 +133,15 @@ void test_binary_mul(
 {
     char *result, *input = "10 * 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'MUL'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'MUL'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -159,20 +152,19 @@ void test_binary_mul_nested(
 {
     char *result, *input = "10 * 20 * 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'MUL'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'MUL'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'MUL'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -183,16 +175,15 @@ void test_binary_sub(
 {
     char *result, *input = "10 - 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'SUB'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'SUB'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -203,20 +194,19 @@ void test_binary_sub_nested(
 {
     char *result, *input = "10 - 20 - 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'SUB'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'SUB'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'SUB'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -227,16 +217,15 @@ void test_binary_gt(
 {
     char *result, *input = "10 > 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_GT'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_GT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -247,20 +236,19 @@ void test_binary_gt_nested(
 {
     char *result, *input = "10 > 20 > 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_GT'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_GT'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_GT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -271,16 +259,15 @@ void test_binary_gteq(
 {
     char *result, *input = "10 >= 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_GTEQ'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_GTEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -291,20 +278,19 @@ void test_binary_gteq_nested(
 {
     char *result, *input = "10 >= 20 >= 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_GTEQ'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_GTEQ'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_GTEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -315,16 +301,15 @@ void test_binary_lt(
 {
     char *result, *input = "10 < 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_LT'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_LT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -335,20 +320,19 @@ void test_binary_lt_nested(
 {
     char *result, *input = "10 < 20 < 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_LT'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_LT'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_LT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -359,16 +343,15 @@ void test_binary_lteq(
 {
     char *result, *input = "10 <= 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_LTEQ'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_LTEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -379,20 +362,19 @@ void test_binary_lteq_nested(
 {
     char *result, *input = "10 <= 20 <= 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_LTEQ'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_LTEQ'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_LTEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -403,16 +385,15 @@ void test_binary_shift(
 {
     char *result, *input = "10 << 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'SHIFT_LEFT'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'SHIFT_LEFT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -423,20 +404,19 @@ void test_binary_shift_nested(
 {
     char *result, *input = "10 << 20 >> 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'SHIFT_LEFT'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
-        "|   |   operator: 'SHIFT_RIGHT'\n"
+        "|   |   |   value: '20'\n"
+        "|   |   operator: 'SHIFT_LEFT'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'SHIFT_RIGHT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -447,16 +427,15 @@ void test_binary_bitwise_and(
 {
     char *result, *input = "10 & 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'AND'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -467,20 +446,19 @@ void test_binary_bitwise_and_nested(
 {
     char *result, *input = "10 & 20 & 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'AND'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'AND'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -491,16 +469,15 @@ void test_binary_bitwise_or(
 {
     char *result, *input = "10 | 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'OR'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -511,20 +488,19 @@ void test_binary_bitwise_or_nested(
 {
     char *result, *input = "10 | 20 | 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'OR'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'OR'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -535,16 +511,15 @@ void test_binary_bitwise_xor(
 {
     char *result, *input = "10 ^ 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'XOR'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'XOR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -555,20 +530,19 @@ void test_binary_bitwise_xor_nested(
 {
     char *result, *input = "10 ^ 20 ^ 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'XOR'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'XOR'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'XOR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -579,16 +553,15 @@ void test_binary_eq(
 {
     char *result, *input = "10 == 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_EQ'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_EQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -599,20 +572,19 @@ void test_binary_eq_nested(
 {
     char *result, *input = "10 == 20 == 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_EQ'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_EQ'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_EQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -623,16 +595,15 @@ void test_binary_neq(
 {
     char *result, *input = "10 != 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_NEQ'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_NEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -643,20 +614,19 @@ void test_binary_neq_nested(
 {
     char *result, *input = "10 != 20 != 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_NEQ'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_NEQ'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_NEQ'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -667,16 +637,15 @@ void test_binary_cond_and(
 {
     char *result, *input = "10 && 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_AND'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -687,20 +656,19 @@ void test_binary_cond_and_nested(
 {
     char *result, *input = "10 && 20 && 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_AND'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_AND'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -711,16 +679,15 @@ void test_binary_cond_or(
 {
     char *result, *input = "10 || 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_OR'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -731,20 +698,19 @@ void test_binary_cond_or_nested(
 {
     char *result, *input = "10 || 20 || 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_OR'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_OR'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -755,16 +721,15 @@ void test_binary_cond_and_kw(
 {
     char *result, *input = "10 and 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_AND'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -775,20 +740,19 @@ void test_binary_cond_and_kw_nested(
 {
     char *result, *input = "10 and 20 and 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_AND'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_AND'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -799,16 +763,15 @@ void test_binary_cond_or_kw(
 {
     char *result, *input = "10 or 20";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '20'\n"
-        "|   |   operator: 'COND_OR'\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Integer\n"
+        "|   |   value: '20'\n"
+        "|   operator: 'COND_OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -819,20 +782,19 @@ void test_binary_cond_or_kw_nested(
 {
     char *result, *input = "10 or 20 or 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'COND_OR'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
+        "|   |   |   value: '20'\n"
         "|   |   operator: 'COND_OR'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'COND_OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -843,15 +805,14 @@ void test_binary_assign(
 {
     char *result, *input = "foo = 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -862,18 +823,17 @@ void test_binary_assign_nested(
 {
     char *result, *input = "foo = bar = 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Binary\n"
         "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Binary\n"
-        "|   |   |   left: Identifier\n"
-        "|   |   |   |   id: 'bar'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '30'\n"
+        "|   |   |   id: 'bar'\n"
+        "|   |   right: Integer\n"
+        "|   |   |   value: '30'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -884,16 +844,15 @@ void test_binary_assign_add(
 {
     char *result, *input = "foo += 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_ADD'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_ADD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -904,16 +863,15 @@ void test_binary_assign_and(
 {
     char *result, *input = "foo &= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_AND'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_AND'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -924,16 +882,15 @@ void test_binary_assign_div(
 {
     char *result, *input = "foo /= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_DIV'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_DIV'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -944,16 +901,15 @@ void test_binary_assign_mod(
 {
     char *result, *input = "foo %= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_MOD'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_MOD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -964,16 +920,15 @@ void test_binary_assign_mul(
 {
     char *result, *input = "foo *= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_MUL'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_MUL'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -984,16 +939,15 @@ void test_binary_assign_or(
 {
     char *result, *input = "foo |= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_OR'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_OR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1004,16 +958,15 @@ void test_binary_assign_shiftleft(
 {
     char *result, *input = "foo <<= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_SHIFT_LEFT'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_SHIFT_LEFT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1024,16 +977,15 @@ void test_binary_assign_shiftright(
 {
     char *result, *input = "foo >>= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_SHIFT_RIGHT'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_SHIFT_RIGHT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1044,16 +996,15 @@ void test_binary_assign_sub(
 {
     char *result, *input = "foo -= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_SUB'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_SUB'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1064,16 +1015,15 @@ void test_binary_assign_xor(
 {
     char *result, *input = "foo ^= 10";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Identifier\n"
-        "|   |   |   id: 'foo'\n"
-        "|   |   right: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   operator: 'ASSIGN_XOR'\n"
+        "Binary\n"
+        "|   left: Identifier\n"
+        "|   |   id: 'foo'\n"
+        "|   right: Integer\n"
+        "|   |   value: '10'\n"
+        "|   operator: 'ASSIGN_XOR'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1085,20 +1035,19 @@ void test_binary_add_mul(
 {
     char *result, *input = "10 + 20 * 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Binary\n"
         "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '30'\n"
-        "|   |   |   operator: 'MUL'\n"
-        "|   |   operator: 'ADD'\n"
+        "|   |   |   value: '20'\n"
+        "|   |   right: Integer\n"
+        "|   |   |   value: '30'\n"
+        "|   |   operator: 'MUL'\n"
+        "|   operator: 'ADD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1109,20 +1058,19 @@ void test_binary_add_mul_paren(
 {
     char *result, *input = "(10 + 20) * 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'ADD'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
-        "|   |   operator: 'MUL'\n"
+        "|   |   |   value: '20'\n"
+        "|   |   operator: 'ADD'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'MUL'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1133,20 +1081,19 @@ void test_binary_add_shift(
 {
     char *result, *input = "10 << 20 + 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
+        "Binary\n"
+        "|   left: Integer\n"
+        "|   |   value: '10'\n"
+        "|   right: Binary\n"
         "|   |   left: Integer\n"
-        "|   |   |   value: '10'\n"
-        "|   |   right: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '30'\n"
-        "|   |   |   operator: 'ADD'\n"
-        "|   |   operator: 'SHIFT_LEFT'\n"
+        "|   |   |   value: '20'\n"
+        "|   |   right: Integer\n"
+        "|   |   |   value: '30'\n"
+        "|   |   operator: 'ADD'\n"
+        "|   operator: 'SHIFT_LEFT'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
@@ -1157,20 +1104,19 @@ void test_binary_add_shift_paren(
 {
     char *result, *input = "(10 << 20) + 30";
     char *expect =
-        "statements:\n"
-        "|   Binary\n"
-        "|   |   left: Binary\n"
-        "|   |   |   left: Integer\n"
-        "|   |   |   |   value: '10'\n"
-        "|   |   |   right: Integer\n"
-        "|   |   |   |   value: '20'\n"
-        "|   |   |   operator: 'SHIFT_LEFT'\n"
+        "Binary\n"
+        "|   left: Binary\n"
+        "|   |   left: Integer\n"
+        "|   |   |   value: '10'\n"
         "|   |   right: Integer\n"
-        "|   |   |   value: '30'\n"
-        "|   |   operator: 'ADD'\n"
+        "|   |   |   value: '20'\n"
+        "|   |   operator: 'SHIFT_LEFT'\n"
+        "|   right: Integer\n"
+        "|   |   value: '30'\n"
+        "|   operator: 'ADD'\n"
         ;
 
-    result = cortoscript_code_to_string(input);
+    result = cortoscript_expr_to_string(input);
     test_assert(result != NULL);
     test_assertstr(expect, result);
     free(result);
