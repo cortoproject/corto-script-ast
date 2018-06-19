@@ -45,3 +45,5 @@ test/suite in_declaration:/
     void tc_dot_id_shorthand()
     void tc_dot_id_composite()
     void tc_dot_id_collection()
+    void tc_in_w_declaration_newline()
+    void tc_in_w_declaration_semicolon()

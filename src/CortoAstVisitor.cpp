@@ -34,6 +34,32 @@ ast_Identifier to_identifier(CortoParser::Storage_identifierContext *idCtx) {
     return id;
 }
 
+Any CortoAstVisitor::visitProgram(CortoParser::ProgramContext *ctx) {
+    Scope block = NULL;
+    ast_Declaration declaration = NULL;
+
+    /* "IN" declaration */
+    if (ctx->declaration()) {
+        declaration =
+          safe_visit<Declaration_t>(this, ctx->declaration());
+
+        declaration->set_scope = true;
+    }
+
+    if (ctx->statements()) {
+        block = safe_visit<Scope_t>(this, ctx->statements());
+    } else {
+        block = corto::declare<Scope_t>();
+    }
+
+    if (declaration) {
+        /* Add declaration to beginning of list */
+        ast_StatementList__insert(block->statements, ast_Statement(declaration));
+    }
+
+    return (Node)block;
+}
+
 Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
     Scope block = corto::declare<Scope_t>();
 
@@ -57,33 +83,29 @@ Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
     Node node = NULL;
 
     CortoParser::Use_statementContext *use_ctx = ctx->use_statement();
-    CortoParser::In_declarationContext *in_ctx = ctx->in_declaration();
     CortoParser::DeclarationContext *decl_ctx = ctx->declaration();
 
     if (decl_ctx) {
         node = safe_visit<Node_t>(this, decl_ctx);
     } else if (use_ctx) {
         node = safe_visit<Node_t>(this, use_ctx);
-    } else if (in_ctx) {
-        node = safe_visit<Node_t>(this, in_ctx);
+    }
+
+    if (node) {
+        Statement(node)->line = ctx->start->getLine();
+        Statement(node)->column = ctx->start->getCharPositionInLine();
     }
 
     return node;
 }
 
 Any CortoAstVisitor::visitScope(CortoParser::ScopeContext *ctx) {
-    Scope block = corto::declare<Scope_t>();
+    Scope block = NULL;
 
-    vector< CortoParser::Scope_statementContext *> statementCtx =
-      ctx->scope_statement();
-
-    if (statementCtx.size()) {
-        for (unsigned int i = 0; i < statementCtx.size(); i ++) {
-            Statement statement = safe_visit<Statement_t>(this, statementCtx[i]);
-            if (statement) {
-                ast_Scope_addStatement(block, statement);
-            }
-        }
+    if (ctx->statements()) {
+        block = safe_visit<Scope_t>(this, ctx->statements());
+    } else {
+        block = corto::declare<Scope_t>();
     }
 
     return (Node)block;
@@ -106,15 +128,6 @@ Any CortoAstVisitor::visitUse_statement(CortoParser::Use_statementContext *ctx) 
     }
 
     return (Node)use;
-}
-
-Any CortoAstVisitor::visitIn_declaration(CortoParser::In_declarationContext *ctx) {
-    ast_Declaration declaration =
-      safe_visit<Declaration_t>(this, ctx->declaration());
-
-    declaration->set_scope = true;
-
-    return (Node)declaration;
 }
 
 Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {

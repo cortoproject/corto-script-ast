@@ -147,4 +147,3 @@ test/suite scope_stmts_multiline :/
     void nested_decl_composite_2()
     void nested_decl_collection_1()
     void nested_decl_collection_2()
-    

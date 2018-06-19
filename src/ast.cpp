@@ -23,6 +23,11 @@ ast_Node cortoscript_ast_parse(
     } else {
         tree = parser.program();
     }
+
+    if (parser.getNumberOfSyntaxErrors()) {
+        return NULL;
+    }
+
     CortoAstVisitor visitor;
     return visitor.visit(tree);
 }
@@ -42,6 +47,11 @@ ast_Node cortoscript_ast_parse_file(
     } else {
         tree = parser.program();
     }
+    
+    if (parser.getNumberOfSyntaxErrors()) {
+        return NULL;
+    }
+
     CortoAstVisitor visitor;
     return visitor.visit(tree);
 }

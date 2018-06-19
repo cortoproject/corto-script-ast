@@ -3,9 +3,9 @@
 
 class  CortoAstVisitor : public CortoBaseVisitor {
 public:
+    antlrcpp::Any visitProgram(CortoParser::ProgramContext *ctx) override;
     antlrcpp::Any visitScope(CortoParser::ScopeContext *ctx) override;
     antlrcpp::Any visitUse_statement(CortoParser::Use_statementContext *ctx) override;
-    antlrcpp::Any visitIn_declaration(CortoParser::In_declarationContext *ctx) override;
     antlrcpp::Any visitDeclaration(CortoParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) override;
     antlrcpp::Any visitFunction_identifier(CortoParser::Function_identifierContext *ctx) override;

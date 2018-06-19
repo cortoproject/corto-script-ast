@@ -55,6 +55,7 @@ test/suite scope_stmt_multiline:/
     void implicit_type_nested_id()
     void implicit_type_full_id()
     void implicit_type_full_nested_id()
+    void scope_on_newline()
 
 test/suite multi_scope_empty:/
     void named_type_id()
