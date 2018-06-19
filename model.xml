@@ -16,9 +16,14 @@
             </corto:scope>
         </class>
 
-        <class name="Statement" base="Node"/>
+        <class name="Statement" base="Node">
+            <corto:scope>
+                <member name="line" type="int32" modifiers="readonly"/>
+                <member name="column" type="int32" modifiers="readonly"/>
+            </corto:scope>
+        </class>
 
-        <class name="Use" base="Statement">
+        <class name="Use" base="Statement" baseAccess="hidden">
             <corto:scope>
                 <member name="package" type="string"/>
                 <member name="alias" type="string"/>
@@ -53,7 +58,7 @@
             </corto:scope>
         </class>
 
-        <class name="Expression" base="Statement">
+        <class name="Expression" base="Node">
             <corto:scope>
                 <member name="ref_kind" type="lang/ref_kind" modifiers="readonly"/>
                 <member name="is_object" type="bool" modifiers="readonly"/>
@@ -224,6 +229,8 @@
 
         <class name="Visitor">
             <corto:scope>
+                <member name="file" type="string"/>
+                <member name="errors" type="int32" modifiers="readonly"/>
                 <method name="visit(Node node)" returnType="int16"/>
                 <overridable name="visitScope(Scope node)" returnType="int16"/>
                 <overridable name="visitStatement(Statement node)" returnType="int16"/>

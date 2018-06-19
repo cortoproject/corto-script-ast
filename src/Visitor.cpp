@@ -63,6 +63,26 @@ int16_t ast_Visitor_visit(
 
     return 0;
 error:
+    if (corto_instanceof(ast_Statement_o, node)) {
+        /* If parsing a file, print errors to command line. Otherwise let errors
+         * be handled by application. */
+        if (_this->file) {
+            const char *fmt = "%v %m";
+
+            /* When debugging parser, show more information */
+            if (corto_log_verbosityGet() != CORTO_INFO) {
+                fmt = NULL;
+            }
+
+            corto_raise_ext(
+              fmt,
+              "#[bold]%s:%d:%d#[normal] ",
+              _this->file,
+              ast_Statement(node)->line,
+              ast_Statement(node)->column + 1);
+        }
+        _this->errors ++;
+    }
     return -1;
 }
 
@@ -70,18 +90,18 @@ int16_t ast_Visitor_visitScope_v(
     ast_Visitor _this,
     ast_Scope node)
 {
+    bool error = false;
     corto_debug("parser: visit scope");
 
     corto_iter it = corto_ll_iter(node->statements);
     while (corto_iter_hasNext(&it)) {
         if (ast_Visitor_visit(_this, ast_Node( corto_iter_next(&it)))) {
-            goto error;
+            /* Continue parsing, in case there are more errors */
+            error = true;
         }
     }
 
-    return 0;
-error:
-    return -1;
+    return error ? -1 : 0;
 }
 
 int16_t ast_Visitor_visitDeclaration_v(
