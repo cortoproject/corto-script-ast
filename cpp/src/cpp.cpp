@@ -1,0 +1,124 @@
+/*
+ * Extensions for C++.
+ * This file contains generated code. Do not modify!
+ */
+
+#include <corto/script/ast/cpp/cpp.h>
+
+corto_class corto::script::ast::Node_t::_o;
+corto_class corto::script::ast::Node_o;
+corto_class corto::script::ast::DeclarationIdentifier_t::_o;
+corto_class corto::script::ast::DeclarationIdentifier_o;
+corto_class corto::script::ast::Expression_t::_o;
+corto_class corto::script::ast::Expression_o;
+corto_class corto::script::ast::Binary_t::_o;
+corto_class corto::script::ast::Binary_o;
+corto_class corto::script::ast::Initializer_t::_o;
+corto_class corto::script::ast::Initializer_o;
+corto_class corto::script::ast::InitializerValue_t::_o;
+corto_class corto::script::ast::InitializerValue_o;
+corto_class corto::script::ast::Literal_t::_o;
+corto_class corto::script::ast::Literal_o;
+corto_class corto::script::ast::Boolean_t::_o;
+corto_class corto::script::ast::Boolean_o;
+corto_class corto::script::ast::Character_t::_o;
+corto_class corto::script::ast::Character_o;
+corto_class corto::script::ast::Null_t::_o;
+corto_class corto::script::ast::Null_o;
+corto_class corto::script::ast::Number_t::_o;
+corto_class corto::script::ast::Number_o;
+corto_class corto::script::ast::FloatingPoint_t::_o;
+corto_class corto::script::ast::FloatingPoint_o;
+corto_class corto::script::ast::Integer_t::_o;
+corto_class corto::script::ast::Integer_o;
+corto_class corto::script::ast::SignedInteger_t::_o;
+corto_class corto::script::ast::SignedInteger_o;
+corto_class corto::script::ast::String_t::_o;
+corto_class corto::script::ast::String_o;
+corto_class corto::script::ast::Storage_t::_o;
+corto_class corto::script::ast::Storage_o;
+corto_class corto::script::ast::Cast_t::_o;
+corto_class corto::script::ast::Cast_o;
+corto_class corto::script::ast::FunctionArgument_t::_o;
+corto_class corto::script::ast::FunctionArgument_o;
+corto_class corto::script::ast::Identifier_t::_o;
+corto_class corto::script::ast::Identifier_o;
+corto_class corto::script::ast::Member_t::_o;
+corto_class corto::script::ast::Member_o;
+corto_class corto::script::ast::StorageInitializer_t::_o;
+corto_class corto::script::ast::StorageInitializer_o;
+corto_class corto::script::ast::Unary_t::_o;
+corto_class corto::script::ast::Unary_o;
+corto_class corto::script::ast::Statement_t::_o;
+corto_class corto::script::ast::Statement_o;
+corto_class corto::script::ast::Declaration_t::_o;
+corto_class corto::script::ast::Declaration_o;
+corto_class corto::script::ast::Use_t::_o;
+corto_class corto::script::ast::Use_o;
+corto_class corto::script::ast::Scope_t::_o;
+corto_class corto::script::ast::Scope_o;
+corto_class corto::script::ast::Ternary_t::_o;
+corto_class corto::script::ast::Ternary_o;
+corto_class corto::script::ast::Visitor_t::_o;
+corto_class corto::script::ast::Visitor_o;
+
+extern "C"
+int cortomain(int argc, char* argv[]) {
+    corto::script::ast::Node_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Node"));
+    corto::script::ast::Node_t::_o = corto::script::ast::Node_o;
+    corto::script::ast::DeclarationIdentifier_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/DeclarationIdentifier"));
+    corto::script::ast::DeclarationIdentifier_t::_o = corto::script::ast::DeclarationIdentifier_o;
+    corto::script::ast::Expression_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Expression"));
+    corto::script::ast::Expression_t::_o = corto::script::ast::Expression_o;
+    corto::script::ast::Binary_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Binary"));
+    corto::script::ast::Binary_t::_o = corto::script::ast::Binary_o;
+    corto::script::ast::Initializer_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Initializer"));
+    corto::script::ast::Initializer_t::_o = corto::script::ast::Initializer_o;
+    corto::script::ast::InitializerValue_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/InitializerValue"));
+    corto::script::ast::InitializerValue_t::_o = corto::script::ast::InitializerValue_o;
+    corto::script::ast::Literal_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Literal"));
+    corto::script::ast::Literal_t::_o = corto::script::ast::Literal_o;
+    corto::script::ast::Boolean_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Boolean"));
+    corto::script::ast::Boolean_t::_o = corto::script::ast::Boolean_o;
+    corto::script::ast::Character_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Character"));
+    corto::script::ast::Character_t::_o = corto::script::ast::Character_o;
+    corto::script::ast::Null_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Null"));
+    corto::script::ast::Null_t::_o = corto::script::ast::Null_o;
+    corto::script::ast::Number_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Number"));
+    corto::script::ast::Number_t::_o = corto::script::ast::Number_o;
+    corto::script::ast::FloatingPoint_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/FloatingPoint"));
+    corto::script::ast::FloatingPoint_t::_o = corto::script::ast::FloatingPoint_o;
+    corto::script::ast::Integer_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Integer"));
+    corto::script::ast::Integer_t::_o = corto::script::ast::Integer_o;
+    corto::script::ast::SignedInteger_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/SignedInteger"));
+    corto::script::ast::SignedInteger_t::_o = corto::script::ast::SignedInteger_o;
+    corto::script::ast::String_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/String"));
+    corto::script::ast::String_t::_o = corto::script::ast::String_o;
+    corto::script::ast::Storage_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Storage"));
+    corto::script::ast::Storage_t::_o = corto::script::ast::Storage_o;
+    corto::script::ast::Cast_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Cast"));
+    corto::script::ast::Cast_t::_o = corto::script::ast::Cast_o;
+    corto::script::ast::FunctionArgument_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/FunctionArgument"));
+    corto::script::ast::FunctionArgument_t::_o = corto::script::ast::FunctionArgument_o;
+    corto::script::ast::Identifier_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Identifier"));
+    corto::script::ast::Identifier_t::_o = corto::script::ast::Identifier_o;
+    corto::script::ast::Member_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Member"));
+    corto::script::ast::Member_t::_o = corto::script::ast::Member_o;
+    corto::script::ast::StorageInitializer_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/StorageInitializer"));
+    corto::script::ast::StorageInitializer_t::_o = corto::script::ast::StorageInitializer_o;
+    corto::script::ast::Unary_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Unary"));
+    corto::script::ast::Unary_t::_o = corto::script::ast::Unary_o;
+    corto::script::ast::Statement_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Statement"));
+    corto::script::ast::Statement_t::_o = corto::script::ast::Statement_o;
+    corto::script::ast::Declaration_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Declaration"));
+    corto::script::ast::Declaration_t::_o = corto::script::ast::Declaration_o;
+    corto::script::ast::Use_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Use"));
+    corto::script::ast::Use_t::_o = corto::script::ast::Use_o;
+    corto::script::ast::Scope_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Scope"));
+    corto::script::ast::Scope_t::_o = corto::script::ast::Scope_o;
+    corto::script::ast::Ternary_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Ternary"));
+    corto::script::ast::Ternary_t::_o = corto::script::ast::Ternary_o;
+    corto::script::ast::Visitor_o = static_cast<corto_class>(corto_resolve(NULL, "/corto/script/ast/Visitor"));
+    corto::script::ast::Visitor_t::_o = corto::script::ast::Visitor_o;
+    return 0;
+}

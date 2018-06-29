@@ -1,0 +1,10 @@
+{
+    "id": "corto/script/ast/cpp",
+    "type": "package",
+    "value": {
+        "use": ["corto"],
+        "language": "c",
+        "c4cpp": true,
+        "managed": false
+    }
+}
