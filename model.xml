@@ -10,9 +10,9 @@
         <class name="Node">
             <corto:scope>
                 <member name="data" type="map{string,object}" modifiers="private"/>
-                <method name="getData(string key)" returnType="object"/>
+                <method name="getData(string key)" return_type="object"/>
                 <method name="setData(string key,object value)"/>
-                <overridable name="visit(Visitor visitor)" returnType="int16"/>
+                <overridable name="visit(Visitor visitor)" return_type="int16"/>
             </corto:scope>
         </class>
 
@@ -23,7 +23,7 @@
             </corto:scope>
         </class>
 
-        <class name="Use" base="Statement" baseAccess="hidden">
+        <class name="Use" base="Statement" base_modifiers="hidden">
             <corto:scope>
                 <member name="package" type="string"/>
                 <member name="alias" type="string"/>
@@ -40,14 +40,14 @@
             </corto:scope>
         </class>
 
-        <class name="DeclarationIdentifier" base="Node" baseAccess="hidden">
+        <class name="DeclarationIdentifier" base="Node" base_modifiers="hidden">
             <corto:scope>
                 <member name="ids" type="list{script/ast/Storage}" modifiers="not_null"/>
                 <member name="arguments" type="list{FunctionArgument}"/>
             </corto:scope>
         </class>
 
-        <class name="Declaration" base="Statement" baseAccess="hidden">
+        <class name="Declaration" base="Statement" base_modifiers="hidden">
             <corto:scope>
                 <member name="type" type="script/ast/Storage"/>
                 <member name="id" type="DeclarationIdentifier"/>
@@ -63,68 +63,68 @@
                 <member name="ref_kind" type="lang/ref_kind" modifiers="readonly"/>
                 <member name="is_object" type="bool" modifiers="readonly"/>
                 <member name="type" type="lang/type" modifiers="private"/>
-                <method name="isReference()" returnType="bool"/>
-                <method name="getType()" returnType="lang/type"/>
-                <method name="getTypeForTarget(lang/type target,ast/Expression target_expr)" returnType="lang/type"/>
+                <method name="isReference()" return_type="bool"/>
+                <method name="getType()" return_type="lang/type"/>
+                <method name="getTypeForTarget(lang/type target,ast/Expression target_expr)" return_type="lang/type"/>
                 <overridable name="setType(lang/type type)"/>
-                <overridable name="getPtr()" returnType="lang/word"/>
-                <overridable name="fold()" returnType="Expression"/>
+                <overridable name="getPtr()" return_type="lang/word"/>
+                <overridable name="fold()" return_type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="Unary" base="Expression" baseAccess="hidden">
+        <class name="Unary" base="Expression" base_modifiers="hidden">
             <corto:scope>
                 <member name="expr" type="Expression"/>
                 <member name="operator" type="operatorKind"/>
                 <member name="postfix" type="bool"/>
                 <override name="setType(lang/type type)"/>
-                <override name="fold()" returnType="Expression"/>
+                <override name="fold()" return_type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="Binary" base="Expression" baseAccess="hidden">
+        <class name="Binary" base="Expression" base_modifiers="hidden">
             <corto:scope>
                 <member name="left" type="Expression"/>
                 <member name="right" type="Expression"/>
                 <member name="operator" type="operatorKind"/>
                 <member name="operand_type" type="lang/type" modifiers="readonly"/>
-                <method name="construct()" returnType="int16"/>
+                <method name="construct()" return_type="int16"/>
                 <override name="setType(lang/type type)"/>
-                <override name="fold()" returnType="Expression"/>
+                <override name="fold()" return_type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="Ternary" base="Expression" baseAccess="hidden">
+        <class name="Ternary" base="Expression" base_modifiers="hidden">
             <corto:scope>
                 <member name="cond" type="Expression"/>
                 <member name="true" type="Expression"/>
                 <member name="false" type="Expression"/>
                 <override name="setType(lang/type type)"/>
-                <override name="fold()" returnType="Expression"/>
+                <override name="fold()" return_type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="Cast" base="Expression" baseAccess="hidden">
+        <class name="Cast" base="Expression" base_modifiers="hidden">
             <corto:scope>
                 <member name="type" type="script/ast/Storage"/>
                 <member name="expr" type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="InitializerValue" base="Node" baseAccess="hidden">
+        <class name="InitializerValue" base="Node" base_modifiers="hidden">
             <corto:scope>
                 <member name="key" type="string"/>
                 <member name="value" type="Expression"/>
             </corto:scope>
         </class>
 
-        <class name="Initializer" base="Expression" baseAccess="hidden">
+        <class name="Initializer" base="Expression" base_modifiers="hidden">
             <corto:scope>
                 <member name="collection" type="bool"/>
                 <member name="values" type="list{script/ast/InitializerValue}" modifiers="not_null"/>
-                <method name="apply(word helper)" returnType="int16"/>
-                <method name="propagateType(lang/type type)" returnType="int16"/>
-                <override name="fold()" returnType="Expression"/>
+                <method name="apply(word helper)" return_type="int16"/>
+                <method name="propagateType(lang/type type)" return_type="int16"/>
+                <override name="fold()" return_type="Expression"/>
             </corto:scope>
         </class>
 
@@ -132,8 +132,8 @@
             <corto:scope>
                 <member name="value" type="word" modifiers="local"/>
                 <method name="set_object(object obj)"/>
-                <method name="get_object()" returnType="object"/>
-                <overridable name="getPtr()" returnType="lang/word"/>
+                <method name="get_object()" return_type="object"/>
+                <overridable name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
@@ -150,7 +150,7 @@
             </corto:scope>
         </class>
 
-        <class name="Member" base="Storage" baseAccess="hidden">
+        <class name="Member" base="Storage" base_modifiers="hidden">
             <corto:scope>
                 <member name="expr" type="Storage"/>
                 <member name="key" type="string"/>
@@ -158,64 +158,64 @@
             </corto:scope>
         </class>
 
-        <class name="Literal" base="Expression" baseAccess="hidden"/>
+        <class name="Literal" base="Expression" base_modifiers="hidden"/>
 
-        <class name="Number" base="Literal" baseAccess="hidden">
+        <class name="Number" base="Literal" base_modifiers="hidden">
             <corto:scope>
                 <member name="unit" type="string"/>
             </corto:scope>
         </class>
 
-        <class name="Boolean" base="Literal" baseAccess="hidden">
+        <class name="Boolean" base="Literal" base_modifiers="hidden">
             <corto:scope>
                 <member name="value" type="bool"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
-        <class name="Character" base="Literal" baseAccess="hidden">
+        <class name="Character" base="Literal" base_modifiers="hidden">
             <corto:scope>
                 <member name="value" type="char"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
         <class name="Integer" base="Number">
             <corto:scope>
                 <member name="value" type="uint64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
         <class name="SignedInteger" base="Number">
             <corto:scope>
                 <member name="value" type="int64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
         <class name="FloatingPoint" base="Number">
             <corto:scope>
                 <member name="value" type="float64"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
-        <class name="String" base="Literal" baseAccess="readonly">
+        <class name="String" base="Literal" base_modifiers="readonly">
             <corto:scope>
                 <member name="value" type="string"/>
                 <member name="delim" type="char"/>
-                <method name="init()" returnType="int16"/>
-                <override name="getPtr()" returnType="lang/word"/>
+                <method name="init()" return_type="int16"/>
+                <override name="getPtr()" return_type="lang/word"/>
             </corto:scope>
         </class>
 
-        <class name="Null" base="Literal" baseAccess="hidden"/>
+        <class name="Null" base="Literal" base_modifiers="hidden"/>
 
         <class name="Scope" base="Node">
             <corto:scope>
@@ -223,7 +223,7 @@
                 <member name="default_type" type="Storage"/>
                 <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
                 <method name="addStatement(Statement node)"/>
-                <overridable name="visit(Visitor visitor)" returnType="int16"/>
+                <overridable name="visit(Visitor visitor)" return_type="int16"/>
             </corto:scope>
         </class>
 
@@ -231,19 +231,19 @@
             <corto:scope>
                 <member name="file" type="string"/>
                 <member name="errors" type="int32" modifiers="readonly"/>
-                <method name="visit(Node node)" returnType="int16"/>
-                <overridable name="visitScope(Scope node)" returnType="int16"/>
-                <overridable name="visitStatement(Statement node)" returnType="int16"/>
-                <overridable name="visitUse(Use node)" returnType="int16"/>
-                <overridable name="visitDeclaration(Declaration node)" returnType="int16"/>
-                <overridable name="visitExpression(Expression node)" returnType="int16"/>
-                <overridable name="visitUnary(ast/Unary node)" returnType="int16"/>
-                <overridable name="visitBinary(ast/Binary node)" returnType="int16"/>
-                <overridable name="visitTernary(ast/Ternary node)" returnType="int16"/>
-                <overridable name="visitStorage(script/ast/Storage node)" returnType="int16"/>
-                <overridable name="visitInitializer(script/ast/Initializer node)" returnType="int16"/>
-                <overridable name="visitFunctionArguments(list{FunctionArgument} arguments)" returnType="int16"/>
-                <overridable name="visitFunctionArgument(FunctionArgument argument)" returnType="int16"/>
+                <method name="visit(Node node)" return_type="int16"/>
+                <overridable name="visitScope(Scope node)" return_type="int16"/>
+                <overridable name="visitStatement(Statement node)" return_type="int16"/>
+                <overridable name="visitUse(Use node)" return_type="int16"/>
+                <overridable name="visitDeclaration(Declaration node)" return_type="int16"/>
+                <overridable name="visitExpression(Expression node)" return_type="int16"/>
+                <overridable name="visitUnary(ast/Unary node)" return_type="int16"/>
+                <overridable name="visitBinary(ast/Binary node)" return_type="int16"/>
+                <overridable name="visitTernary(ast/Ternary node)" return_type="int16"/>
+                <overridable name="visitStorage(script/ast/Storage node)" return_type="int16"/>
+                <overridable name="visitInitializer(script/ast/Initializer node)" return_type="int16"/>
+                <overridable name="visitFunctionArguments(list{FunctionArgument} arguments)" return_type="int16"/>
+                <overridable name="visitFunctionArgument(FunctionArgument argument)" return_type="int16"/>
             </corto:scope>
         </class>
 
