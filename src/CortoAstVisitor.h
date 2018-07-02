@@ -4,10 +4,16 @@
 class  CortoAstVisitor : public CortoBaseVisitor {
 public:
     antlrcpp::Any visitProgram(CortoParser::ProgramContext *ctx) override;
+    antlrcpp::Any visitIn_statement(CortoParser::In_statementContext *ctx) override;
+    antlrcpp::Any visitStatements(CortoParser::StatementsContext *ctx) override;
+    antlrcpp::Any visitStatement(CortoParser::StatementContext *ctx) override;
+    antlrcpp::Any visitSimple_statement(CortoParser::Simple_statementContext *ctx) override;
+    antlrcpp::Any visitIdentifier_statement(CortoParser::Identifier_statementContext *ctx) override;
     antlrcpp::Any visitScope(CortoParser::ScopeContext *ctx) override;
     antlrcpp::Any visitUse_statement(CortoParser::Use_statementContext *ctx) override;
     antlrcpp::Any visitDeclaration(CortoParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) override;
+    antlrcpp::Any visitDeclaration_identifier_list(CortoParser::Declaration_identifier_listContext *ctx) override;
     antlrcpp::Any visitFunction_identifier(CortoParser::Function_identifierContext *ctx) override;
     antlrcpp::Any visitStorage_expression(CortoParser::Storage_expressionContext *ctx) override;
     antlrcpp::Any visitStorage_identifier(CortoParser::Storage_identifierContext *ctx) override;
@@ -16,8 +22,6 @@ public:
     antlrcpp::Any visitInitializer_list(CortoParser::Initializer_listContext *ctx) override;
     antlrcpp::Any visitInitializer_value(CortoParser::Initializer_valueContext *ctx) override;
     antlrcpp::Any visitArgument(CortoParser::ArgumentContext *ctx) override;
-    antlrcpp::Any visitStatements(CortoParser::StatementsContext *ctx) override;
-    antlrcpp::Any visitStatement(CortoParser::StatementContext *ctx) override;
     antlrcpp::Any visitLiteral(CortoParser::LiteralContext *ctx) override;
     antlrcpp::Any visitAssignment_expression(CortoParser::Assignment_expressionContext *ctx) override;
     antlrcpp::Any visitAssignment_operator(CortoParser::Assignment_operatorContext *ctx) override;

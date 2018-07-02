@@ -38,10 +38,12 @@ Any CortoAstVisitor::visitProgram(CortoParser::ProgramContext *ctx) {
     Scope block = NULL;
     ast_Declaration declaration = NULL;
 
+    CortoParser::In_statementContext *inCtx = ctx->in_statement();
+
     /* "IN" declaration */
-    if (ctx->declaration()) {
+    if (inCtx) {
         declaration =
-          safe_visit<Declaration_t>(this, ctx->declaration());
+          safe_visit<Declaration_t>(this, inCtx);
 
         declaration->set_scope = true;
     }
@@ -60,6 +62,35 @@ Any CortoAstVisitor::visitProgram(CortoParser::ProgramContext *ctx) {
     return (Node)block;
 }
 
+Any CortoAstVisitor::visitIn_statement(CortoParser::In_statementContext *ctx) {
+    ast_Declaration declaration = corto::declare<Declaration_t>();
+
+    // Parse type of the declaration
+    CortoParser::Storage_expressionContext *typeCtx = ctx->storage_expression();
+    if (typeCtx) {
+        declaration->type = safe_visit<Storage_t>(this, typeCtx);
+    }
+
+    // Parse identifier of declaration
+    CortoParser::Storage_identifierContext* idCtx =
+        ctx->storage_identifier();
+
+    declaration->id = corto::declare<DeclarationIdentifier_t>();
+    corto_ll_append(declaration->id->ids, to_identifier(idCtx));
+
+    // Parse initializer of declaration
+    CortoParser::Initializer_assignmentContext *initializerCtx =
+        ctx->initializer_assignment();
+
+    if (initializerCtx) {
+        declaration->initializer = safe_visit<Initializer_t>(this, initializerCtx);
+    }
+
+    corto_define(declaration);
+
+    return (Node)declaration;
+}
+
 Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
     Scope block = corto::declare<Scope_t>();
 
@@ -74,12 +105,36 @@ Any CortoAstVisitor::visitStatements(CortoParser::StatementsContext *ctx) {
         }
     }
 
+    CortoParser::Simple_statementContext *simpleCtx = ctx->simple_statement();
+
+    if (simpleCtx) {
+        Statement statement = safe_visit<Statement_t>(this, simpleCtx);
+        if (statement) {
+            ast_Scope_addStatement(block, statement);
+        }
+    }
+
     corto_define(block);
 
     return (Node)block;
 }
 
 Any CortoAstVisitor::visitStatement(CortoParser::StatementContext *ctx) {
+    Node node = NULL;
+
+    CortoParser::Simple_statementContext *stmtCtx = ctx->simple_statement();
+    CortoParser::Identifier_statementContext *idCtx = ctx->identifier_statement();
+
+    if (stmtCtx) {
+        node = safe_visit<Node_t>(this, stmtCtx);
+    } else if (idCtx) {
+        node = safe_visit<Node_t>(this, idCtx);
+    }
+
+    return node;
+}
+
+Any CortoAstVisitor::visitSimple_statement(CortoParser::Simple_statementContext *ctx) {
     Node node = NULL;
 
     CortoParser::Use_statementContext *use_ctx = ctx->use_statement();
@@ -130,6 +185,21 @@ Any CortoAstVisitor::visitUse_statement(CortoParser::Use_statementContext *ctx) 
     return (Node)use;
 }
 
+Any CortoAstVisitor::visitIdentifier_statement(CortoParser::Identifier_statementContext *ctx) {
+    ast_Declaration declaration = corto::declare<Declaration_t>();
+
+    CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
+    if (idCtx) {
+        declaration->id = corto::declare<DeclarationIdentifier_t>();
+        corto_ll_append(declaration->id->ids, to_identifier(idCtx));
+        corto_define(declaration->id);
+    }
+
+    corto_define(declaration);
+
+    return (Node)declaration;
+}
+
 Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     ast_Declaration declaration = corto::declare<Declaration_t>();
 
@@ -142,15 +212,33 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     CortoParser::Declaration_identifierContext* idCtx =
         ctx->declaration_identifier();
 
+    CortoParser::Declaration_identifier_listContext* idListCtx =
+        ctx->declaration_identifier_list();
+
+    CortoParser::Storage_identifierContext* storageIdCtx =
+        ctx->storage_identifier();
+
     CortoParser::Function_identifierContext* funcCtx =
         ctx->function_identifier();
 
-    // Parse identifiers of declaration
+    // Identifier list or identifier
     if (idCtx) {
         declaration->id = safe_visit<DeclarationIdentifier_t>(this, idCtx);
     } else
 
-    // Parse function identifiers of declaration
+    // Identifier list only
+    if (idListCtx) {
+        declaration->id = safe_visit<DeclarationIdentifier_t>(this, idListCtx);
+    } else
+
+    // Identifier only
+    if (storageIdCtx) {
+        declaration->id = corto::declare<DeclarationIdentifier_t>();
+        corto_ll_append(declaration->id->ids, to_identifier(storageIdCtx));
+        corto_define(declaration->id);
+    } else
+
+    // Function identifier
     if (funcCtx) {
         declaration->id = safe_visit<DeclarationIdentifier_t>(this, funcCtx);
     }
@@ -179,7 +267,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     return (Node)declaration;
 }
 
-Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) {
+Any CortoAstVisitor::visitDeclaration_identifier_list(CortoParser::Declaration_identifier_listContext *ctx) {
     DeclarationIdentifier result = corto::declare<DeclarationIdentifier_t>();
 
     // Identifiers are identifiers without a local initializer
@@ -193,6 +281,24 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
     }
 
     corto_define(result);
+
+    return (Node)result;
+}
+
+Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identifierContext *ctx) {
+    DeclarationIdentifier result = NULL;
+
+    CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
+    if (idCtx) {
+        result = corto::declare<DeclarationIdentifier_t>();
+        corto_ll_append(result->ids, to_identifier(idCtx));
+        corto_define(result);
+    }
+
+    CortoParser::Declaration_identifier_listContext *idListCtx = ctx->declaration_identifier_list();
+    if (idListCtx) {
+        result = safe_visit<DeclarationIdentifier_t>(this, idListCtx);
+    }
 
     return (Node)result;
 }
@@ -314,7 +420,7 @@ Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContex
     InitializerValue value = NULL;
 
     // Get value, which can be either an expression or an initializer
-    CortoParser::ExpressionContext *exprCtx = ctx->expression();
+    CortoParser::Conditional_expressionContext *exprCtx = ctx->conditional_expression();
     CortoParser::Initializer_expressionContext *initializerCtx =
         ctx->initializer_expression();
 

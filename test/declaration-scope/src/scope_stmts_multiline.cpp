@@ -386,7 +386,7 @@ void test_scope_stmts_multiline_nested_fwddecl_1(
 {
     char *result, *input =
         "foo/bar hello {\n"
-        "  type stmt\n"
+        "  type stmt;\n"
         "}"
         ;
     char *expect =
@@ -421,8 +421,8 @@ void test_scope_stmts_multiline_nested_fwddecl_2(
 {
     char *result, *input =
         "foo/bar hello {\n"
-        "  type1 stmt1\n"
-        "  type2 stmt2\n"
+        "  type1 stmt1;\n"
+        "  type2 stmt2;\n"
         "}"
         ;
     char *expect =
@@ -547,7 +547,7 @@ void test_scope_stmts_multiline_nested_id_1(
 {
     char *result, *input =
         "foo/bar hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -579,8 +579,8 @@ void test_scope_stmts_multiline_nested_id_2(
 {
     char *result, *input =
         "foo/bar hello {\n"
-        "  stmt1\n"
-        "  stmt2\n"
+        "  stmt1;\n"
+        "  stmt2;\n"
         "}"
         ;
     char *expect =

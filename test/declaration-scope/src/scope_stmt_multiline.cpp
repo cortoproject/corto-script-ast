@@ -11,7 +11,7 @@ void test_scope_stmt_multiline_anonymous_type_full_id(
 {
     char *result, *input =
         "foo[bar] /hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -50,7 +50,7 @@ void test_scope_stmt_multiline_anonymous_type_full_nested_id(
 {
     char *result, *input =
         "foo[bar] /hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -89,7 +89,7 @@ void test_scope_stmt_multiline_anonymous_type_id(
 {
     char *result, *input =
         "foo[bar] /hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -128,7 +128,7 @@ void test_scope_stmt_multiline_anonymous_type_nested_id(
 {
     char *result, *input =
         "foo[bar] hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -167,7 +167,7 @@ void test_scope_stmt_multiline_implicit_type_full_id(
 {
     char *result, *input =
         "/hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -198,7 +198,7 @@ void test_scope_stmt_multiline_implicit_type_full_nested_id(
 {
     char *result, *input =
         "hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -229,7 +229,7 @@ void test_scope_stmt_multiline_implicit_type_id(
 {
     char *result, *input =
         "hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -260,7 +260,7 @@ void test_scope_stmt_multiline_implicit_type_nested_id(
 {
     char *result, *input =
         "hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -291,7 +291,7 @@ void test_scope_stmt_multiline_named_type_full_id(
 {
     char *result, *input =
         "foo /hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -324,7 +324,7 @@ void test_scope_stmt_multiline_named_type_full_nested_id(
 {
     char *result, *input =
         "foo hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -357,7 +357,7 @@ void test_scope_stmt_multiline_named_type_id(
 {
     char *result, *input =
         "foo hello {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =
@@ -390,7 +390,7 @@ void test_scope_stmt_multiline_named_type_nested_id(
 {
     char *result, *input =
         "foo hello/world {\n"
-        "  stmt\n"
+        "  stmt;\n"
         "}"
         ;
     char *expect =

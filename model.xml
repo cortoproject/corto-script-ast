@@ -220,7 +220,6 @@
         <class name="Scope" base="Node">
             <corto:scope>
                 <member name="parent" type="Scope"/>
-                <member name="default_type" type="Storage"/>
                 <member name="statements" type="list{script/ast/Statement}" modifiers="readonly|not_null"/>
                 <method name="addStatement(Statement node)"/>
                 <overridable name="visit(Visitor visitor)" return_type="int16"/>
