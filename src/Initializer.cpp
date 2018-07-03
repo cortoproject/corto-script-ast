@@ -105,13 +105,17 @@ error:
 }
 
 int16_t ast_Initializer_propagateType(
-    ast_Initializer _this,
-    corto_type type)
+    ast_Initializer _this)
 {
-    safe_ast_Expression_setType_v(_this, type);
+    corto_rw rw;
+    corto_type type = safe_ast_Expression_getType(_this);
+    if (!type) {
+        corto_throw("missing type for initializer");
+        goto error;
+    }
 
     /* Create reader/writer to determine type of the initializer */
-    corto_rw rw = corto_rw_init(type, NULL);
+    rw = corto_rw_init(type, NULL);
 
     /* If initializer is collection or composite, do initial push */
     if (type->kind == CORTO_COMPOSITE || type->kind == CORTO_COLLECTION) {
