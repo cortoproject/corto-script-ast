@@ -1018,6 +1018,9 @@ Any CortoAstVisitor::visitLiteral(CortoParser::LiteralContext *ctx) {
         result = (Node)ast_FloatingPoint__create(NULL, NULL, ptr, value);
         free(str);
     } else
+    if ((node = ctx->NAN_LITERAL())) {
+        result = (Node)ast_FloatingPoint__create(NULL, NULL, NULL, NAN);
+    } else
     if ((node = ctx->STRING())) {
         char *str = strdup(node->getText().c_str());
         char *value = (char*)malloc(strlen(str) - 2 + 1);
