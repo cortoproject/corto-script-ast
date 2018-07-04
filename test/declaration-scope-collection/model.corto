@@ -1,0 +1,155 @@
+in test
+
+test/suite scope_empty {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite scope_empty_multiline {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite scope_stmt {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite scope_stmt_multiline {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite multi_scope_empty {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite multi_scope_empty_multiline {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite multi_scope_stmt {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite multi_scope_stmt_multiline {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    implicit_type_id()
+    implicit_type_nested_id()
+    implicit_type_full_id()
+    implicit_type_full_nested_id()
+}
+
+test/suite scope_stmts  {
+    nested_id_1()
+    nested_id_2()
+    nested_fwddecl_1()
+    nested_fwddecl_2()
+    nested_fwddecl_multi_1()
+    nested_fwddecl_multi_2()
+    nested_decl_shorthand_1()
+    nested_decl_shorthand_2()
+    nested_decl_shorthand_multi_1()
+    nested_decl_shorthand_multi_2()
+    nested_decl_composite_1()
+    nested_decl_composite_2()
+    nested_decl_collection_1()
+    nested_decl_collection_2()
+}
+
+test/suite scope_stmts_multiline  {
+    nested_id_1()
+    nested_id_2()
+    nested_fwddecl_1()
+    nested_fwddecl_2()
+    nested_fwddecl_multi_1()
+    nested_fwddecl_multi_2()
+    nested_decl_shorthand_1()
+    nested_decl_shorthand_2()
+    nested_decl_shorthand_multi_1()
+    nested_decl_shorthand_multi_2()
+    nested_decl_composite_1()
+    nested_decl_composite_2()
+    nested_decl_collection_1()
+    nested_decl_collection_2()
+}

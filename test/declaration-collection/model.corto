@@ -1,0 +1,103 @@
+in test
+
+test/suite collection_0 {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_1 {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_1_composite {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_1_collection {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_1_multi {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+}
+
+test/suite collection_2 {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_2_composite {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
+
+test/suite collection_2_collection {
+    named_type_id()
+    named_type_nested_id()
+    named_type_full_id()
+    named_type_full_nested_id()
+    named_type_root_id()
+    anonymous_type_id()
+    anonymous_type_nested_id()
+    anonymous_type_full_id()
+    anonymous_type_full_nested_id()
+    anonymous_type_root_id()
+}
