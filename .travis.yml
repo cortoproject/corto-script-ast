@@ -1,0 +1,9 @@
+language: c
+
+sudo: true
+
+install:
+  - curl https://corto.io/ci-dev | sh
+
+script:
+  - corto test
