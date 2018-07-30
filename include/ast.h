@@ -33,21 +33,26 @@
 extern "C" {
 #endif
 
+CORTO_SCRIPT_AST_EXPORT
 ast_Node cortoscript_ast_parse(
     const char * string,
     bool as_expression);
 
+CORTO_SCRIPT_AST_EXPORT
 ast_Node cortoscript_ast_parse_file(
     const char * file,
     bool as_expression);
 
+CORTO_SCRIPT_AST_EXPORT
 void cortoscript_ast_visit(
     ast_Node node,
     void *ctx);
 
+CORTO_SCRIPT_AST_EXPORT
 ast_Expression cortoscript_ast_from_value(
     corto_value *value);
 
+CORTO_SCRIPT_AST_EXPORT
 int16_t cortoscript_ast_to_value(
     ast_Node root,
     corto_value *value_out);

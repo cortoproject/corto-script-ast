@@ -47,7 +47,7 @@ ast_Node cortoscript_ast_parse_file(
     } else {
         tree = parser.program();
     }
-    
+
     if (parser.getNumberOfSyntaxErrors()) {
         return NULL;
     }

@@ -115,7 +115,7 @@ int16_t ast_Initializer_propagateType(
     }
 
     /* Create reader/writer to determine type of the initializer */
-    rw = corto_rw_init(type, NULL);
+    rw = corto_rw_init(NULL, type);
 
     /* If initializer is collection or composite, do initial push */
     if (type->kind == CORTO_COMPOSITE || type->kind == CORTO_COLLECTION) {
