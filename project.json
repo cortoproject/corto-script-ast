@@ -9,6 +9,9 @@
         "c4cpp": true,
         "use_generated_api": true,
         "keep_binary": true,
+        "${os linux}": {
+            "ldflags": ["-static-libstdc++", "-static-libgcc"]
+        },
         "use_private": [
             "corto/script/parser",
             "antlr4/cpp"

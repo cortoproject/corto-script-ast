@@ -11,7 +11,6 @@
 #include <corto/script/ast/c/c.h>
 #include <corto/test/c/c.h>
 #include <corto/c/c.h>
-#include <antlr4/cpp/cpp.h>
 #include <corto/script/ast/print/print.h>
 #include <corto/script/ast/ast.h>
 #include <corto/test/test.h>
