@@ -1,4 +1,4 @@
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
-extern corto_tls ast_PARSER_KEY;
+extern ut_tls ast_PARSER_KEY;

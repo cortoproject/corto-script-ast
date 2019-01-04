@@ -1,5 +1,5 @@
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 #include "CortoAstVisitor.h"
 #include "ast.h"
 
@@ -20,7 +20,7 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_BOOLEAN: {
                 bool val;
                 if (corto_value_to_boolean(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_Boolean__create(NULL, NULL, val));
@@ -29,7 +29,7 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_CHARACTER: {
                 char val;
                 if (corto_value_to_character(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_Character__create(NULL, NULL, val));
@@ -40,7 +40,7 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_UINTEGER: {
                 uint64_t val;
                 if (corto_value_to_uint(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_Integer__create(NULL, NULL, NULL, val));
@@ -50,7 +50,7 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_INTEGER: {
                 int64_t val;
                 if (corto_value_to_int(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_SignedInteger__create(NULL, NULL, NULL, val));
@@ -59,7 +59,7 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_FLOAT: {
                 double val;
                 if (corto_value_to_float(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_FloatingPoint__create(NULL, NULL, NULL, val));
@@ -68,14 +68,14 @@ ast_Expression cortoscript_ast_from_value(
             case CORTO_TEXT: {
                 char* val = NULL;
                 if (corto_value_to_string(value, &val)) {
-                    corto_throw(NULL);
+                    ut_throw(NULL);
                     goto error;
                 }
                 result = ast_Expression(ast_String__create(NULL, NULL, val, '"'));
                 break;
             }
             default:
-                corto_throw(
+                ut_throw(
                     "cannot convert value to expression: unknown primitive type");
                 goto error;
             }
@@ -113,7 +113,7 @@ int16_t cortoscript_ast_literal_to_value(
     if (corto_instanceof(ast_Null_o, literal)) {
         *out = corto_value_null();
     } else {
-        corto_throw("unknown literal of type '%s'",
+        ut_throw("unknown literal of type '%s'",
             corto_fullpath(NULL, corto_typeof(literal)));
         goto error;
     }
@@ -139,7 +139,7 @@ int16_t cortoscript_ast_storage_to_value(
     {
         corto_object o = (corto_object)ast_Storage_getPtr(storage);
         if (!o) {
-            corto_throw(
+            ut_throw(
                 "cannot convert unresolved object in storage of type '%s'",
                 corto_fullpath(NULL, corto_typeof(storage)));
             goto error;
@@ -157,7 +157,7 @@ int16_t cortoscript_ast_storage_to_value(
         if (!corto_instanceof(ast_Identifier_o, base_member_expr) ||
             !corto_instanceof(ast_StorageInitializer_o, base_member_expr))
         {
-            corto_throw(
+            ut_throw(
                 "cannot resolve member expression: base is not an object");
             goto error;
         }
@@ -165,14 +165,14 @@ int16_t cortoscript_ast_storage_to_value(
         /* Get base object */
         o = (corto_object)ast_Storage_getPtr(base_member_expr);
         if (!o) {
-            corto_throw(
+            ut_throw(
                 "cannot convert unresolved object in storage of type '%s'",
                 corto_fullpath(NULL, corto_typeof(storage)));
             goto error;
         }
 
         if (!ast_Member(storage)->member) {
-            corto_throw(
+            ut_throw(
                 "cannot convert unresolved member expression of type %s",
                 corto_fullpath(NULL, corto_typeof(storage)));
             goto error;
@@ -181,7 +181,7 @@ int16_t cortoscript_ast_storage_to_value(
         /* Get pointer to member value */
         ptr = (void*)ast_Storage_getPtr(storage);
         if (!ptr) {
-            corto_throw(
+            ut_throw(
                 "cannot convert unresolved member in storage of type '%s'",
                 corto_fullpath(NULL, corto_typeof(storage)));
             goto error;
@@ -209,7 +209,7 @@ int16_t cortoscript_ast_expr_to_value(
             goto error;
         }
     } else {
-        corto_throw("cannot convert expression of type '%s' to value",
+        ut_throw("cannot convert expression of type '%s' to value",
             corto_fullpath(NULL, corto_typeof(expr)));
         goto error;
     }
@@ -231,16 +231,16 @@ int16_t cortoscript_ast_to_value(
         expr = ast_Expression(root);
     } else if (corto_instanceof(ast_Scope_o, root)) {
         ast_Node last_node = ast_Node(
-            corto_ll_last(ast_Scope(root)->statements));
+            ut_ll_last(ast_Scope(root)->statements));
 
         if (corto_instanceof(ast_Expression_o, last_node)) {
             expr = ast_Expression(last_node);
         } else {
-            corto_throw("last statement is not an expression");
+            ut_throw("last statement is not an expression");
             goto error;
         }
     } else {
-        corto_throw("node does not contain a valid expression");
+        ut_throw("node does not contain a valid expression");
         goto error;
     }
 

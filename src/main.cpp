@@ -1,10 +1,10 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 #include "CortoAstVisitor.h"
 #include "ast.h"
 
-corto_tls ast_PARSER_KEY;
+ut_tls ast_PARSER_KEY;
 
 using namespace antlr4;
 

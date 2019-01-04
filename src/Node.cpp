@@ -1,6 +1,6 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 int16_t ast_Node_visit_v(
     ast_Node _this,
@@ -13,7 +13,7 @@ corto_object ast_Node_getData(
     ast_Node _this,
     const char *key)
 {
-    return corto_rb_find(_this->data, key);
+    return ut_rb_find(_this->data, key);
 }
 
 void ast_Node_setData(
@@ -21,5 +21,5 @@ void ast_Node_setData(
     const char *key,
     corto_object value)
 {
-    corto_rb_set(_this->data, key, value);
+    ut_rb_set(_this->data, key, value);
 }

@@ -1,5 +1,5 @@
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 class  CortoAstVisitor : public CortoBaseVisitor {
 public:
@@ -21,6 +21,7 @@ public:
     antlrcpp::Any visitInitializer_collection(CortoParser::Initializer_collectionContext *ctx) override;
     antlrcpp::Any visitInitializer_list(CortoParser::Initializer_listContext *ctx) override;
     antlrcpp::Any visitInitializer_value(CortoParser::Initializer_valueContext *ctx) override;
+    antlrcpp::Any visitInitializer_value_expression(CortoParser::Initializer_value_expressionContext *ctx) override;
     antlrcpp::Any visitArgument(CortoParser::ArgumentContext *ctx) override;
     antlrcpp::Any visitLiteral(CortoParser::LiteralContext *ctx) override;
     antlrcpp::Any visitAssignment_expression(CortoParser::Assignment_expressionContext *ctx) override;
