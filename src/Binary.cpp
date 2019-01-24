@@ -1,6 +1,6 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 ast_Expression ast_Binary_fold(
     ast_Binary _this)
@@ -16,14 +16,14 @@ ast_Expression ast_Binary_fold(
     /* Fold left operand to handle nested expressions */
     corto_set_ref(&_this->left, ast_Expression_fold(_this->left));
     if (!_this->left) {
-        corto_throw(NULL);
+        ut_throw(NULL);
         goto error;
     }
 
     /* Fold right operand to handle nested expressions */
     corto_set_ref(&_this->right, ast_Expression_fold(_this->right));
     if (!_this->right) {
-        corto_throw(NULL);
+        ut_throw(NULL);
         goto error;
     }
 
@@ -31,7 +31,7 @@ ast_Expression ast_Binary_fold(
     left_isnull = corto_instanceof(ast_Null_o, _this->left);
     left_offset = ast_Expression_getPtr(_this->left);
     if (!left_offset && !left_isnull) {
-        corto_throw("value of left operand (%s) cannot be statically derived",
+        ut_throw("value of left operand (%s) cannot be statically derived",
             corto_idof(corto_typeof(_this->left)));
         goto error;
     }
@@ -40,7 +40,7 @@ ast_Expression ast_Binary_fold(
     right_isnull = corto_instanceof(ast_Null_o, _this->right);
     right_offset = ast_Expression_getPtr(_this->right);
     if (!right_offset && !right_isnull) {
-        corto_throw("value of right operand (%s) cannot be statically derived",
+        ut_throw("value of right operand (%s) cannot be statically derived",
             corto_idof(corto_typeof(_this->right)));
         goto error;
     }
@@ -49,12 +49,12 @@ ast_Expression ast_Binary_fold(
     right_type = safe_ast_Expression_getTypeForTarget(_this->right, type, _this);
 
     if (!left_type && !left_isnull) {
-        corto_throw("cannot determine type of left operand");
+        ut_throw("cannot determine type of left operand");
         goto error;
     }
 
     if (!right_type && !right_isnull) {
-        corto_throw("cannot determine type of right operand");
+        ut_throw("cannot determine type of right operand");
         goto error;
     }
 
@@ -63,13 +63,13 @@ ast_Expression ast_Binary_fold(
     result_value = corto_value_init();
 
     if (corto_value_binaryOp(_this->_operator, &left, &right, &result_value)) {
-        corto_throw("folding of binary expression failed");
+        ut_throw("folding of binary expression failed");
         goto error;
     }
 
     result = cortoscript_ast_from_value(&result_value);
     if (!result) {
-        corto_throw(NULL);
+        ut_throw(NULL);
     }
 
     return result;
@@ -93,7 +93,7 @@ int16_t ast_Binary_construct(
         &operand_type,
         &expr_type))
     {
-        corto_throw("incompatible operands for binary expression");
+        ut_throw("incompatible operands for binary expression");
         goto error;
     }
 

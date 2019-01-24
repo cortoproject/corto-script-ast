@@ -6,26 +6,21 @@
 #ifndef CORTO_SCRIPT_AST_H
 #define CORTO_SCRIPT_AST_H
 
-#include <corto/corto.h>
-#include <corto/script/ast/_project.h>
-#include <corto/c/c.h>
+#include "bake_config.h"
 
-/* Private dependencies */
-#ifdef CORTO_SCRIPT_AST_IMPL
-#include <antlr4/cpp/cpp.h>
-#include <corto/script/parser/parser.h>
-#endif
+#define CORTO_SCRIPT_AST_ETC ut_locate("corto.script.ast", NULL, UT_LOCATE_ETC)
 
 /* $header() */
 /* $end */
 
-#include <corto/script/ast/_type.h>
-#include <corto/script/ast/_interface.h>
-#include <corto/script/ast/_load.h>
-#include <corto/script/ast/_binding.h>
-#include <corto/script/ast/c/_api.h>
+#include "_type.h"
+#include "_interface.h"
+#include "_load.h"
+#include "_binding.h"
+
+#include <corto.script.ast.c>
 #ifdef __cplusplus
-#include <corto/script/ast/cpp/cpp.h>
+#include <corto.script.ast.cpp>
 #endif
 
 /* $body() */

@@ -1,6 +1,6 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 ast_Expression ast_Unary_fold(
     ast_Unary _this)
@@ -14,7 +14,7 @@ ast_Expression ast_Unary_fold(
     /* First fold nested expression, in case it is not a literal */
     corto_set_ref(&_this->expr, ast_Expression_fold(_this->expr));
     if (!_this->expr) {
-        corto_throw(NULL);
+        ut_throw(NULL);
         goto error;
     }
 
@@ -33,14 +33,14 @@ ast_Expression ast_Unary_fold(
         /* Get pointer to value */
         ptr = ast_Expression_getPtr(_this->expr);
         if (!ptr && !expr_isnull) {
-            corto_throw("value of left operand cannot be statically derived");
+            ut_throw("value of left operand cannot be statically derived");
             goto error;
         }
 
         /* Get type of expression */
         expr_type = safe_ast_Expression_getTypeForTarget(_this->expr, type, _this);
         if (!expr_type && !expr_isnull) {
-            corto_throw("cannot determine type of operand");
+            ut_throw("cannot determine type of operand");
             goto error;
         }
 
@@ -48,13 +48,13 @@ ast_Expression ast_Unary_fold(
         result_value = corto_value_init();
 
         if (corto_value_unaryOp(_this->_operator, &expr, &result_value)) {
-            corto_throw("folding of unary expression failed");
+            ut_throw("folding of unary expression failed");
             goto error;
         }
 
         result = cortoscript_ast_from_value(&result_value);
         if (!result) {
-            corto_throw(NULL);
+            ut_throw(NULL);
         }
     }
 

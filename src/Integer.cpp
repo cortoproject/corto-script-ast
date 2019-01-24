@@ -1,6 +1,6 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 uintptr_t ast_Integer_getPtr(
     ast_Integer _this)
 {

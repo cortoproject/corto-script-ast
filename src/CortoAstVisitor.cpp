@@ -1,4 +1,4 @@
-#include "corto/script/ast/ast.h"
+#include <corto.script.ast>
 #include "CortoAstVisitor.h"
 
 using namespace std;
@@ -13,7 +13,7 @@ typename T::_ref safe_visit(CortoAstVisitor *visitor, antlr4::ParserRuleContext 
         Node node = a; // can't assign directly to result because any is strict
         result = node;
         if (result && !corto_instanceof(T::_o, result)) {
-            corto_error("object '%s' is not of type '%s'",
+            ut_error("object '%s' is not of type '%s'",
                 corto_fullpath(NULL, result),
                 corto_fullpath(NULL, T::_o));
             return NULL;
@@ -28,7 +28,15 @@ ast_Identifier to_identifier(CortoParser::Storage_identifierContext *idCtx) {
     if (id_str == "root/") {
         corto_set_str(&id->id, "/");
     } else {
-        corto_set_str(&id->id, idCtx->getText().c_str());
+        if (id_str[0] == '<') {
+            char *c_str = strdup(idCtx->getText().c_str());
+            int len = strlen(c_str);
+            c_str[len - 1] = '\0'; // Strip '>' at the end
+            corto_set_str(&id->id, c_str + 1); // Skip '<' at the start
+            free(c_str);
+        } else {
+            corto_set_str(&id->id, idCtx->getText().c_str());
+        }
     }
     corto_define(id);
     return id;
@@ -76,7 +84,7 @@ Any CortoAstVisitor::visitIn_statement(CortoParser::In_statementContext *ctx) {
         ctx->storage_identifier();
 
     declaration->id = corto::declare<DeclarationIdentifier_t>();
-    corto_ll_append(declaration->id->ids, to_identifier(idCtx));
+    ut_ll_append(declaration->id->ids, to_identifier(idCtx));
 
     // Parse initializer of declaration
     CortoParser::Initializer_assignmentContext *initializerCtx =
@@ -191,7 +199,7 @@ Any CortoAstVisitor::visitIdentifier_statement(CortoParser::Identifier_statement
     CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
     if (idCtx) {
         declaration->id = corto::declare<DeclarationIdentifier_t>();
-        corto_ll_append(declaration->id->ids, to_identifier(idCtx));
+        ut_ll_append(declaration->id->ids, to_identifier(idCtx));
         corto_define(declaration->id);
     }
 
@@ -234,7 +242,7 @@ Any CortoAstVisitor::visitDeclaration(CortoParser::DeclarationContext *ctx) {
     // Identifier only
     if (storageIdCtx) {
         declaration->id = corto::declare<DeclarationIdentifier_t>();
-        corto_ll_append(declaration->id->ids, to_identifier(storageIdCtx));
+        ut_ll_append(declaration->id->ids, to_identifier(storageIdCtx));
         corto_define(declaration->id);
     } else
 
@@ -276,7 +284,7 @@ Any CortoAstVisitor::visitDeclaration_identifier_list(CortoParser::Declaration_i
     if (idCtx.size()) {
         for (unsigned int i = 0; i < idCtx.size(); i ++) {
             Identifier id_node = to_identifier(idCtx[i]);
-            corto_ll_append(result->ids, id_node);
+            ut_ll_append(result->ids, id_node);
         }
     }
 
@@ -291,7 +299,7 @@ Any CortoAstVisitor::visitDeclaration_identifier(CortoParser::Declaration_identi
     CortoParser::Storage_identifierContext *idCtx = ctx->storage_identifier();
     if (idCtx) {
         result = corto::declare<DeclarationIdentifier_t>();
-        corto_ll_append(result->ids, to_identifier(idCtx));
+        ut_ll_append(result->ids, to_identifier(idCtx));
         corto_define(result);
     }
 
@@ -311,7 +319,7 @@ Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierCo
         ctx->storage_identifier();
     if (idCtx) {
         Identifier id_node = to_identifier(idCtx);
-        corto_ll_append(result->ids, id_node);
+        ut_ll_append(result->ids, id_node);
     }
 
     // Parse argument list, if specified
@@ -321,11 +329,11 @@ Any CortoAstVisitor::visitFunction_identifier(CortoParser::Function_identifierCo
         vector<CortoParser::ArgumentContext*> argumentCtx =
             argumentsCtx->argument();
         if (!result->arguments) {
-            result->arguments = corto_ll_new();
+            result->arguments = ut_ll_new();
         }
         for (unsigned int i = 0; i < argumentCtx.size(); i ++) {
             FunctionArgument argument = safe_visit<FunctionArgument_t>(this, argumentCtx[i]);
-            corto_ll_append(result->arguments, argument);
+            ut_ll_append(result->arguments, argument);
         }
     }
 
@@ -406,7 +414,7 @@ Any CortoAstVisitor::visitInitializer_list(CortoParser::Initializer_listContext 
         for (unsigned int i = 0; i < valueCtx.size(); i ++) {
             InitializerValue value = safe_visit<InitializerValue_t>(this, valueCtx[i]);
             if (value) {
-                corto_ll_append(result->values, value);
+                ut_ll_append(result->values, value);
             }
         }
     }
@@ -420,7 +428,7 @@ Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContex
     InitializerValue value = NULL;
 
     // Get value, which can be either an expression or an initializer
-    CortoParser::Conditional_expressionContext *exprCtx = ctx->conditional_expression();
+    CortoParser::Initializer_value_expressionContext *exprCtx = ctx->initializer_value_expression();
     CortoParser::Initializer_expressionContext *initializerCtx =
         ctx->initializer_expression();
 
@@ -442,6 +450,22 @@ Any CortoAstVisitor::visitInitializer_value(CortoParser::Initializer_valueContex
     }
 
     return (Node)value;
+}
+
+Any CortoAstVisitor::visitInitializer_value_expression(CortoParser::Initializer_value_expressionContext *ctx) {
+    Expression result = NULL;
+
+    CortoParser::Conditional_expressionContext *exprCtx = ctx->conditional_expression();
+    if (exprCtx) {
+        result = safe_visit<Expression_t>(this, exprCtx);
+    } else {
+        Identifier id = corto::declare<Identifier_t>();
+        corto_set_str(&id->id, ctx->getText().c_str());
+        corto_define(id);
+        result = (Expression)id;
+    }
+
+    return (Node)result;
 }
 
 Any CortoAstVisitor::visitArgument(CortoParser::ArgumentContext *ctx) {
@@ -540,7 +564,7 @@ Any CortoAstVisitor::visitAssignment_operator(CortoParser::Assignment_operatorCo
     if (oper == "|=") {
         result = CORTO_ASSIGN_OR;
     } else {
-        corto_error("not an assignment operator '%s'", oper.c_str());
+        ut_error("not an assignment operator '%s'", oper.c_str());
     }
 
     return result;
@@ -1031,7 +1055,7 @@ Any CortoAstVisitor::visitLiteral(CortoParser::LiteralContext *ctx) {
         while((ch = *in_ptr) && (ch != str[0])) {
             in_ptr = chrparse(in_ptr, out_ptr);
             if(!in_ptr) {
-                corto_raise();
+                ut_raise();
             }
             out_ptr++;
         }

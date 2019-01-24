@@ -1,6 +1,6 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 uintptr_t ast_Expression_getPtr_v(
     ast_Expression _this)
@@ -28,7 +28,7 @@ corto_type ast_Expression_getTypeForTarget(
     if (corto_instanceof(ast_Initializer_o, _this)) {
         result = target;
     } else {
-        corto_try(corto_expr_typeof(
+        ut_try(corto_expr_typeof(
             result,
             target,
             ast_Expression_isReference(_this),
@@ -38,7 +38,7 @@ corto_type ast_Expression_getTypeForTarget(
 
     return result;
 error:
-    corto_raise();
+    ut_raise();
     return NULL;
 }
 
@@ -75,11 +75,11 @@ bool ast_Expression_isReference(
 
     bool result = false;
 
-    corto_try(
+    ut_try(
       corto_expr_is_ref(kind, _this->ref_kind, _this->type, &result), NULL);
 
     return result;
 error:
-    corto_raise();
+    ut_raise();
     return false;
 }

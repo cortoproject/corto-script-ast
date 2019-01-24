@@ -1,13 +1,13 @@
 /* This is a managed file. Do not delete this comment. */
 
-#include <corto/script/ast/ast.h>
+#include <corto.script.ast>
 
 int16_t ast_Visitor_visit(
     ast_Visitor _this,
     ast_Node node)
 {
     if (!node) {
-        corto_throw("NULL passed to ast_Visitor_visit");
+        ut_throw("NULL passed to ast_Visitor_visit");
         goto error;
     }
     if (corto_instanceof(ast_Scope_o, node)) {
@@ -70,11 +70,11 @@ error:
             const char *fmt = "%v %m";
 
             /* When debugging parser, show more information */
-            if (corto_log_verbosityGet() != CORTO_INFO) {
+            if (ut_log_verbosityGet() != UT_INFO) {
                 fmt = NULL;
             }
 
-            corto_raise_ext(
+            ut_raise_ext(
               fmt,
               "#[bold]%s:%d:%d#[normal] ",
               _this->file,
@@ -91,11 +91,11 @@ int16_t ast_Visitor_visitScope_v(
     ast_Scope node)
 {
     bool error = false;
-    corto_debug("parser: visit scope");
+    ut_debug("parser: visit scope");
 
-    corto_iter it = corto_ll_iter(node->statements);
-    while (corto_iter_hasNext(&it)) {
-        if (ast_Visitor_visit(_this, ast_Node( corto_iter_next(&it)))) {
+    ut_iter it = ut_ll_iter(node->statements);
+    while (ut_iter_hasNext(&it)) {
+        if (ast_Visitor_visit(_this, ast_Node( ut_iter_next(&it)))) {
             /* Continue parsing, in case there are more errors */
             error = true;
         }
@@ -108,8 +108,8 @@ int16_t ast_Visitor_visitDeclaration_v(
     ast_Visitor _this,
     ast_Declaration node)
 {
-    corto_iter it;
-    corto_debug("parser: visit declaration");
+    ut_iter it;
+    ut_debug("parser: visit declaration");
 
     if (node->type) {
         if (safe_ast_Visitor_visit(_this, node->type)) {
@@ -118,13 +118,13 @@ int16_t ast_Visitor_visitDeclaration_v(
     }
 
     if (node->id->arguments) {
-        corto_try(
+        ut_try(
           ast_Visitor_visitFunctionArguments(_this, node->id->arguments), NULL);
     }
 
-    it = corto_ll_iter(node->id->ids);
-    while (corto_iter_hasNext(&it)) {
-        ast_Storage storage = ast_Storage(corto_iter_next(&it));
+    it = ut_ll_iter(node->id->ids);
+    while (ut_iter_hasNext(&it)) {
+        ast_Storage storage = ast_Storage(ut_iter_next(&it));
         if (safe_ast_Visitor_visit(_this, storage)) {
             goto error;
         }
@@ -151,7 +151,7 @@ int16_t ast_Visitor_visitExpression_v(
     ast_Visitor _this,
     ast_Expression node)
 {
-    corto_debug("parser: visit expression");
+    ut_debug("parser: visit expression");
     return 0;
 }
 
@@ -160,7 +160,7 @@ int16_t ast_Visitor_visitUnary_v(
     ast_Unary node)
 {
     if (node->expr) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->expr)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->expr)), NULL);
     }
 
     return 0;
@@ -173,10 +173,10 @@ int16_t ast_Visitor_visitBinary_v(
     ast_Binary node)
 {
     if (node->left) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->left)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->left)), NULL);
     }
     if (node->right) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->right)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->right)), NULL);
     }
 
     return 0;
@@ -189,13 +189,13 @@ int16_t ast_Visitor_visitTernary_v(
     ast_Ternary node)
 {
     if (node->cond) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->cond)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->cond)), NULL);
     }
     if (node->_true) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->_true)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->_true)), NULL);
     }
     if (node->_false) {
-        corto_try (ast_Visitor_visit(_this, ast_Node(node->_false)), NULL);
+        ut_try (ast_Visitor_visit(_this, ast_Node(node->_false)), NULL);
     }
 
     return 0;
@@ -207,7 +207,7 @@ int16_t ast_Visitor_visitId_v(
     ast_Visitor _this,
     ast_Storage node)
 {
-    corto_debug("parser: visit id");
+    ut_debug("parser: visit id");
     return 0;
 }
 
@@ -215,7 +215,7 @@ int16_t ast_Visitor_visitStatement_v(
     ast_Visitor _this,
     ast_Statement node)
 {
-    corto_debug("parser: visit statement");
+    ut_debug("parser: visit statement");
     return 0;
 }
 
@@ -223,7 +223,7 @@ int16_t ast_Visitor_visitStorage_v(
     ast_Visitor _this,
     ast_Storage node)
 {
-    corto_debug("parser: visit object");
+    ut_debug("parser: visit object");
 
     if (corto_instanceof(ast_StorageInitializer_o, node)) {
         ast_StorageInitializer s = ast_StorageInitializer(node);
@@ -244,13 +244,13 @@ int16_t ast_Visitor_visitInitializer_v(
     ast_Visitor _this,
     ast_Initializer node)
 {
-    corto_debug("parser: visit initializer");
+    ut_debug("parser: visit initializer");
 
-    corto_iter it = corto_ll_iter(node->values);
+    ut_iter it = ut_ll_iter(node->values);
 
     /* Visit the values in the initializer, pre-set their type */
-    while (corto_iter_hasNext(&it)) {
-        ast_InitializerValue arg = (ast_InitializerValue)corto_iter_next(&it);
+    while (ut_iter_hasNext(&it)) {
+        ast_InitializerValue arg = (ast_InitializerValue)ut_iter_next(&it);
 
         if (ast_Visitor_visit(_this, ast_Node(arg->value))) {
             goto error;
@@ -266,7 +266,7 @@ int16_t ast_Visitor_visitFunctionArgument_v(
     ast_Visitor _this,
     ast_FunctionArgument argument)
 {
-    corto_try(safe_ast_Visitor_visit(_this, argument->type), NULL);
+    ut_try(safe_ast_Visitor_visit(_this, argument->type), NULL);
     return 0;
 error:
     return -1;
@@ -276,11 +276,11 @@ int16_t ast_Visitor_visitFunctionArguments_v(
     ast_Visitor _this,
     ast_FunctionArgumentList arguments)
 {
-    corto_iter it = corto_ll_iter(arguments);
+    ut_iter it = ut_ll_iter(arguments);
 
-    while (corto_iter_hasNext(&it)) {
-        ast_FunctionArgument arg = ast_FunctionArgument(corto_iter_next(&it));
-        corto_try (safe_ast_Visitor_visit(_this, arg), NULL);
+    while (ut_iter_hasNext(&it)) {
+        ast_FunctionArgument arg = ast_FunctionArgument(ut_iter_next(&it));
+        ut_try (safe_ast_Visitor_visit(_this, arg), NULL);
     }
 
     return 0;
