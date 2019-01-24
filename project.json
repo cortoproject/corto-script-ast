@@ -5,7 +5,7 @@
         "description": "Create cortoscript AST from script-parser tree",
         "author": "Sander Mertens",
         "version": "1.0.0",
-        "keep-artefact": true,
+        "keep-binary": true,
         "language": "c++",
         "use-private": [
             "corto.script.parser",

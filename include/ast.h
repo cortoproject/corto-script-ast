@@ -8,6 +8,8 @@
 
 #include "bake_config.h"
 
+#define CORTO_SCRIPT_AST_ETC ut_locate("corto.script.ast", NULL, UT_LOCATE_ETC)
+
 /* $header() */
 /* $end */
 
